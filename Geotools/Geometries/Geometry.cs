@@ -935,7 +935,8 @@ namespace Geotools.Geometries
 		///<param name="a"> a Collection of Coordinates </param>
 		///<param name="b"> a Collection of Coordinates </param>
 		///<returns> the first non-zero compareTo result, if any;  otherwise, zero</returns>
-		protected virtual int Compare(Coordinates a, Coordinates b)	
+
+		protected virtual int Compare(Coordinates a, Coordinates b)
 		{
 			Coordinate coordA = new Coordinate();
 			Coordinate coordB = new Coordinate();
