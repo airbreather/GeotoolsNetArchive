@@ -543,6 +543,244 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "Geometries\Coordinate.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Coordinates.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Dimension.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Envelope.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Geometry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\GeometryCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\GeometryFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\GeometryTypes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\ICoordinateFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\IGeometryComponentFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\IGeometryFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\IntersectionMatrix.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\LinearRing.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\LineSegment.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\LineString.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Location.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\MultiLineString.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\MultiPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\MultiPolygon.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Point.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Polygon.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\PrecisionModel.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\TopologyException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\CVS\Entries"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\CVS\Entries.Log"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\CVS\Repository"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\CVS\Root"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\Filters\FlipYFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Filters\ProjectionFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\Filters\vssver.scc"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\Filters\CVS\Entries"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\Filters\CVS\Repository"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\Filters\CVS\Root"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\SFS\ICurve.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IGeometry.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IGeometryCollection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\ILinearRing.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\ILineString.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IMultiCurve.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IMultiLineString.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IMultiPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IMultiPolygon.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IMultiSurface.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\IPolygon.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\ISurface.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Geometries\SFS\vssver.scc"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\SFS\CVS\Entries"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\SFS\CVS\Repository"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "Geometries\SFS\CVS\Root"
+                    BuildAction = "None"
+                />
+                <File
                     RelPath = "Graph\Depth.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1176,194 +1414,6 @@
                     RelPath = "Positioning\Matrix.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Coordinate.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Coordinates.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Dimension.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Envelope.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Geometry.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\GeometryCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\GeometryFactory.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\GeometryTypes.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\ICoordinateFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\IGeometryComponentFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\IGeometryFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\IntersectionMatrix.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\LinearRing.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\LineSegment.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\LineString.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Location.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\MultiLineString.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\MultiPoint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\MultiPolygon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Point.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\Polygon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\PrecisionModel.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\TopologyException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\ICurve.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IGeometry.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IGeometryCollection.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\ILinearRing.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\ILineString.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IMultiCurve.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IMultiLineString.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IMultiPoint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IMultiPolygon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IMultiSurface.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IPoint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\IPolygon.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\ISurface.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SimpleFeatures\SFS\vssver.scc"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Utilities\CoordinateArrayFilter.cs"
