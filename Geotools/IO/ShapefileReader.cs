@@ -40,7 +40,7 @@ namespace Geotools.IO
 		/// <summary>
 		/// Summary description for ShapefileEnumerator.
 		/// </summary>
-		private class ShapefileEnumerator : IEnumerator
+		private class ShapefileEnumerator : IEnumerator, IDisposable
 		{
 			private ShapefileReader _parent;
 			private Geometry _geometry;
@@ -72,6 +72,14 @@ namespace Geotools.IO
 				}
 			}
 			#endregion
+
+			public void Dispose()
+			{
+				if (_shpBinaryReader!=null)
+				{
+					_shpBinaryReader.Close();
+				}
+			}
 
 			#region Implementation of IEnumerator
 			public void Reset()
