@@ -264,7 +264,7 @@ namespace Geotools.Geometries
 		}
 	
 
-		/// <summary>
+		/*/// <summary>
 		/// Computes the centroid of a heterogenous GeometryCollection.
 		/// </summary>
 		/// <remarks>
@@ -273,7 +273,7 @@ namespace Geotools.Geometries
 		/// "weight" to the centroid)
 		/// </remarks>
 		/// <returns></returns>
-		public Point getCentroid()
+		public Point GetCentroid()
 		{
 			Coordinate centPt = null;
 			int dim = GetDimension();
@@ -296,7 +296,7 @@ namespace Geotools.Geometries
 				centPt = cent.GetCentroid();
 			}
 			return GeometryFactory.CreatePointFromInternalCoord(centPt, this);
-		}
+		}*/
 
 		///<summary>
 		/// Returns true if the two Geometrys have the same class and if the data which they store

@@ -167,6 +167,10 @@ namespace Geotools.Geometries
 		/// <returns>The List in array format.</returns>
 		public static Geometry[] ToGeometryArray(ArrayList geometrys) 
 		{
+			if (geometrys==null)
+			{
+				return null;
+			}
 			Geometry[] geometryArray = new Geometry[geometrys.Count];
 			return (Geometry[]) geometrys.ToArray(typeof(Geometry));
 		}
