@@ -53,7 +53,7 @@ namespace Geotools.Algorithms
 		/// <param name="p2">Coordinate of line p1-p2.</param>
 		public override void ComputeIntersection(Coordinate p, Coordinate p1, Coordinate p2) 
 		{
-			_isProper = false;
+			/*_isProper = false;
 			if ( (RobustCGAlgorithms.OrientationIndex(p1, p2, p) == 0)
 				&& (RobustCGAlgorithms.OrientationIndex(p2, p1, p) == 0) ) 
 			{
@@ -76,7 +76,26 @@ namespace Geotools.Algorithms
 			else 
 			{
 				_result = DONT_INTERSECT;
+			}*/
+			
+			_isProper = false;
+			// do between check first, since it is faster than the orientation test
+			if (Envelope.Intersects(p1, p2, p)) 
+			{
+				if ((RobustCGAlgorithms.OrientationIndex(p1, p2, p) == 0)
+					&& (RobustCGAlgorithms.OrientationIndex(p2, p1, p) == 0)) 
+				{
+					_isProper = true;
+					if (p.Equals(p1) || p.Equals(p2)) 
+					{
+						_isProper = false;
+					}
+					_result = DO_INTERSECT;
+					return;
+				}
 			}
+			_result = DONT_INTERSECT;
+			
 		} // public override void ComputeIntersection(Coordinate p, Coordinate p1, Coordinate p2)
 
 		/// <summary>
@@ -90,42 +109,49 @@ namespace Geotools.Algorithms
 		protected override int ComputeIntersect(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
 		{
 			_isProper = false;
+
+			// first try a fast test to see if the envelopes of the lines intersect
+			if (! Envelope.Intersects(p1, p2, q1, q2))
+			{
+				return DONT_INTERSECT;
+			}
+
 			// for each endpoint, compute which side of the other segment it lies
+			// if both endpoints lie on the same side of the other segment,
+			// the segments do not intersect
 			int Pq1 = RobustCGAlgorithms.OrientationIndex(p1, p2, q1);
 			int Pq2 = RobustCGAlgorithms.OrientationIndex(p1, p2, q2);
-			int Qp1 = RobustCGAlgorithms.OrientationIndex(q1, q2, p1);
-			int Qp2 = RobustCGAlgorithms.OrientationIndex(q1, q2, p2);
-			// if both endpoints lie on the same side of the other segment, the segments do not intersect
-			if (Pq1 > 0 && Pq2 > 0) 
+
+			if ((Pq1>0 && Pq2>0) || (Pq1<0 && Pq2<0)) 
 			{
 				return DONT_INTERSECT;
 			}
-			if (Qp1 > 0 && Qp2 > 0) 
+
+			int Qp1 = RobustCGAlgorithms.orientationIndex(q1, q2, p1);
+			int Qp2 = RobustCGAlgorithms.orientationIndex(q1, q2, p2);
+
+			if ((Qp1>0 && Qp2>0) || (Qp1<0 && Qp2<0)) 
 			{
 				return DONT_INTERSECT;
 			}
-			if (Pq1 < 0 && Pq2 < 0) 
-			{
-				return DONT_INTERSECT;
-			}
-			if (Qp1 < 0 && Qp2 < 0) 
-			{
-				return DONT_INTERSECT;
-			}
-			bool isCollinear = ( (Pq1 == 0) && (Pq2 == 0) && (Qp1 == 0) && (Qp2 == 0) );
-			if ( isCollinear ) 
+
+			boolean collinear = Pq1 == 0
+				&& Pq2 == 0
+				&& Qp1 == 0
+				&& Qp2 == 0;
+			if (collinear) 
 			{
 				return ComputeCollinearIntersection(p1, p2, q1, q2);
 			}
-			//
-			//  Check if the intersection is an endpoint. If it is, copy the endpoint as
-			//  the intersection point. Copying the point rather than computing it
-			//  ensures the point has the exact value, which is important for
-			//  robustness. It is sufficient to simply check for an endpoint which is on
-			//  the other line, since at this point we know that the inputLines must
-			//  intersect.
-			//
-			if ( Pq1 == 0 || Pq2 == 0 || Qp1 == 0 || Qp2 == 0 ) 
+			/**
+			 *  Check if the intersection is an endpoint. If it is, copy the endpoint as
+			 *  the intersection point. Copying the point rather than computing it
+			 *  ensures the point has the exact value, which is important for
+			 *  robustness. It is sufficient to simply check for an endpoint which is on
+			 *  the other line, since at this point we know that the inputLines must
+			 *  intersect.
+			 */
+			if (Pq1 == 0 || Pq2 == 0 || Qp1 == 0 || Qp2 == 0) 
 			{
 				_isProper = false;
 				if (Pq1 == 0) 
@@ -175,10 +201,10 @@ namespace Geotools.Algorithms
 
 		private int ComputeCollinearIntersection(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
 		{
-			bool p1q1p2 = Between(p1, p2, q1);
-			bool p1q2p2 = Between(p1, p2, q2);
-			bool q1p1q2 = Between(q1, q2, p1);
-			bool q1p2q2 = Between(q1, q2, p2);
+			bool p1q1p2 = Envelope.Intersects(p1, p2, q1);
+			bool p1q2p2 = Envelope.Intersects(p1, p2, q2);
+			bool q1p1q2 = Envelope.Intersects(q1, q2, p1);
+			bool q1p2q2 = Envelope.Intersects(q1, q2, p2);
 
 			if (p1q1p2 && p1q2p2) 
 			{
@@ -249,9 +275,9 @@ namespace Geotools.Algorithms
 			intPt.X += normPt.X;
 			intPt.Y += normPt.Y;
 
-			if (_makePrecise) 
+			if (this.PrecisionModel != null) 
 			{
-				intPt.MakePrecise();
+				this.PrecisionModel.MakePrecise(intPt);
 			}
 			return intPt;
 		}

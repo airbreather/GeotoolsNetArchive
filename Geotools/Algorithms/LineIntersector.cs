@@ -55,11 +55,6 @@ namespace Geotools.Algorithms
 		/// Collinear lines.
 		/// </summary>
 		public const int COLLINEAR = 2;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		protected bool _makePrecise = false;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -85,9 +80,13 @@ namespace Geotools.Algorithms
 		/// </summary>
 		protected Coordinate[] _intPt = new Coordinate[2];
 		/// <summary>
-		/// 
+		/// The indexes of the endpoints of the intersection lines, in order along the corresponding line
 		/// </summary>
 		protected int[,] _intLineIndex = null;
+
+		protected Coordinate _pa;
+		protected Coordinate _pb;
+		protected PrecisionModel _precisionModel;
 		#endregion
 		#region Constructor
 
@@ -154,15 +153,15 @@ namespace Geotools.Algorithms
 		/// <summary>
 		/// Option used to determine if coordinates will be convert to Fixed.
 		/// </summary>
-		public bool MakePrecise
+		public PrecisionModel PrecisionModel
 		{
 			get
 			{
-				return _makePrecise;
+				return _precisionModel;
 			}
 			set
 			{
-				_makePrecise = value;
+				_precisionModel = value;
 			}
 		} // public bool MakePrecise
 
@@ -255,6 +254,10 @@ namespace Geotools.Algorithms
 		/// <summary>
 		///	Abstract method to compute the intersection of a p and the line p1-p2
 		/// </summary>
+		/// <remarks>
+		/// This function computes both the boolean value of the hasIntersection test
+		/// and the (approximate) value of the intersection point itself (if there is one).
+		/// </remarks>
 		/// <param name="p">Point with which to compute intersection.</param>
 		/// <param name="p1">Point 1 of line to compute intersection with p.</param>
 		/// <param name="p2">Point 2 of line to compute intersection with p.</param>
@@ -272,6 +275,10 @@ namespace Geotools.Algorithms
 		/// <summary>
 		///		Computes the intersection of the lines p1-p2 and p3-p4
 		/// </summary>
+		/// <remarks>
+		/// This function computes both the boolean value of the hasIntersection test
+		/// and the (approximate) value of the intersection point itself (if there is one).
+		/// </remarks>
 		/// <param name="p1"></param>
 		/// <param name="p2"></param>
 		/// <param name="p3"></param>

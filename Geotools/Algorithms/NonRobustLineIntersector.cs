@@ -233,9 +233,9 @@ namespace Geotools.Algorithms
 
 			// truncate computed point to precision grid
 			// TESTING - don't force coord to be precise
-			if ( MakePrecise ) 
+			if ( this.PrecisionModel != null) 
 			{
-				_pA.MakePrecise();
+				this.PrecisionModel.MakePrecise( _pA );
 			}
 			return DO_INTERSECT;
 		}
