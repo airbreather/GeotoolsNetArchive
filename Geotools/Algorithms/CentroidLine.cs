@@ -5,13 +5,13 @@ using Geotools.Geometries;
 namespace Geotools.Algorithms
 {
 
-
-	/**
-	 * Computes the centroid of a linear geometry.
-	 * <h2>Algorithm</h2>
-	 * Compute the average of the midpoints
-	 * of all line segments weighted by the segment length.
-	 */
+	/// <summary>
+	/// Computes the centroid of a linear geometry.
+	/// </summary>
+	/// <remarks>
+	/// Compute the average of the midpoints
+	/// of all line segments weighted by the segment length.
+	/// </remarks>
 	public class CentroidLine
 	{
 		private Coordinate _centSum = new Coordinate();
@@ -21,11 +21,11 @@ namespace Geotools.Algorithms
 		{
 		}
 
-		/**
-		 * Adds the linestring(s) defined by a Geometry to the centroid total.
-		 * If the geometry is not linear it does not contribute to the centroid
-		 * @param geom the geometry to add
-		 */
+		/// <summary>
+		/// Adds the linestring(s) defined by a Geometry to the centroid total.
+		/// If the geometry is not linear it does not contribute to the centroid
+		/// </summary>
+		/// <param name="geom">geom the geometry to add.</param>
 		public void Add(Geometry geom)
 		{
 			if (geom is LineString) 
@@ -42,10 +42,10 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		/**
-		 * Adds the length defined by an array of coordinates.
-		 * @param pts an array of {@link Coordinate}s
-		 */
+		/// <summary>
+		/// Adds the length defined by an array of coordinates.
+		/// </summary>
+		/// <param name="pts">pts an array of {@link Coordinate}s</param>
 		public void Add(CoordinateCollection pts)
 		{
 			for (int i = 0; i < pts.Count - 1; i++) 

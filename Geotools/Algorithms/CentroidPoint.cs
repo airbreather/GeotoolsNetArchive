@@ -5,11 +5,12 @@ using Geotools.Geometries;
 namespace Geotools.Algorithms
 {
 
-	/**
-	 * Computes the centroid of a point geometry.
-	 * <h2>Algorithm</h2>
-	 * Compute the average of all points.
-	 */
+	/// <summary>
+	/// Computes the centroid of a point geometry.
+	/// </summary>
+	/// <remarks>
+	///  Compute the average of all points.
+	/// </remarks>
 	public class CentroidPoint
 	{
 		private int _ptCount = 0;
@@ -19,11 +20,14 @@ namespace Geotools.Algorithms
 		{
 		}
 
-		/**
-		 * Adds the point(s) defined by a Geometry to the centroid total.
-		 * If the geometry is not of dimension 0 it does not contribute to the centroid.
-		 * @param geom the geometry to add
-		 */
+
+		/// <summary>
+		/// Adds the point(s) defined by a Geometry to the centroid total.
+		/// </summary>
+		/// <remarks>
+		/// If the geometry is not of dimension 0 it does not contribute to the centroid.
+		/// </remarks>
+		/// <param name="geom">geom the geometry to add.</param>
 		public void Add(Geometry geom)
 		{
 			if (geom is Point) 
@@ -40,10 +44,10 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		/**
-		 * Adds the length defined by an array of coordinates.
-		 * @param pts an array of {@link Coordinate}s
-		 */
+		/// <summary>
+		/// Adds the length defined by an array of coordinates.
+		/// </summary>
+		/// <param name="pt">pts an array of {@link Coordinate}s</param>
 		public void Add(Coordinate pt)
 		{
 			_ptCount += 1;
