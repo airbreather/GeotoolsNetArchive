@@ -238,7 +238,7 @@ namespace Geotools.CoordinateReferenceSystems
 					projection = new AlbersProjection(parameterList);
 					break;
 				default:
-					throw new NotImplementedException(String.Format("The {0} projection is not supported",wktProjectionClass));
+					throw new NotImplementedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "The {0} projection is not supported",wktProjectionClass));
 			}
 			return projection;
 		}
