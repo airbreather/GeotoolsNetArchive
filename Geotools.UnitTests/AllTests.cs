@@ -33,6 +33,8 @@ namespace Geotools.UnitTests
 				// we are in the Construction directory.
 			}
 			//return @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.UnitTests";
+			// need to determine working directory.
+			Console.WriteLine("awc: startdir:"+Directory.GetCurrentDirectory());
 			return @"C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\Geotools.UnitTests";
 		}
 	}

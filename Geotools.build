@@ -63,11 +63,11 @@
 		<!-- need to log to Xml file so results can be seen in the web page -->
 		<property name="nunit.output" value="Xml"/>
 		
-		
+		<!-- set the directory where -->
+		<property name="unittest.dir" value="C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\"/>
 		
 		<call target="Debug"/>
 		<call target="unittest2"/>
-		<call target="Release"/>
 	
     </target>
     
