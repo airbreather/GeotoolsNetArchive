@@ -32,7 +32,8 @@ namespace Geotools.UnitTests
 			{
 				// we are in the Construction directory.
 			}
-			return @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.UnitTests";
+			//return @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.UnitTests";
+			return @"C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\Geotools.UnitTests";
 		}
 	}
 	// This class bundles all tests into a single suite.
