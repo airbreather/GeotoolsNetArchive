@@ -51,9 +51,15 @@
     
    
     
-    <target name="unittest2"  description="runs unit tests">
-    	<nunit2  haltonerror="false" haltonfailure="false" failonerror="false" >
+    <target name="unittest"  description="runs unit tests">
+    	<nunit2  haltonerror="false"  >
       		<test assemblyname="${unittest.dir}Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll" fork="true" type="${nunit.output}"/> 
+      	</nunit2>
+   </target>
+   
+   <target name="systemtest"  description="runs unit tests">
+    	<nunit2  haltonerror="false"  >
+      		<test assemblyname="${unittest.dir}Geotools.SystemTests\bin\Debug\Geotools.SystemTests.dll" fork="true" type="${nunit.output}"/> 
       	</nunit2>
    </target>
   
@@ -67,7 +73,7 @@
 		<property name="unittest.dir" value="C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\"/>
 		
 		<call target="Debug"/>
-		<call target="unittest2"/>
+		<call target="unittest"/>
 	
     </target>
     
