@@ -92,11 +92,11 @@ namespace Geotools.CoordinateReferenceSystems
 								"WHERE COORD_REF_SYS_CODE = {0}";
 
 			
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
 			};
 
 			string coordSysCode = reader["COORD_SYS_CODE"].ToString().ToLower();
@@ -160,7 +160,7 @@ namespace Geotools.CoordinateReferenceSystems
 				"WHERE COORD_REF_SYS_CODE = {0}";
 
 			
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
@@ -181,7 +181,7 @@ namespace Geotools.CoordinateReferenceSystems
 			Database.CheckOneRow(reader,code,"Copound CRS code");
 			if (coordRefKind.ToLower() != "compound")
 			{
-				throw new ArgumentException(String.Format("CRS code {0} is not a projected coordinate system but a {1}.",code,coordRefKind));
+				throw new ArgumentException( String.Format(System.Globalization.CultureInfo.InvariantCulture, "CRS code {0} is not a projected coordinate system but a {1}.",code,coordRefKind));
 			}
 		
 			ICoordinateSystem   headCRS = this.CreateCoordinateSystem( horizontalCRSCode);
@@ -210,20 +210,20 @@ namespace Geotools.CoordinateReferenceSystems
 				"FROM [Unit of Measure]"+
 				"WHERE UOM_CODE={0}";
 
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			ILinearUnit linearUnit = null;
 			bool recordFound = reader.Read();
 			if (!recordFound)
 			{
-				throw new ArgumentOutOfRangeException(String.Format("Linear unit with a code of '{0}' was not found in the database.",code));
+				throw new ArgumentOutOfRangeException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Linear unit with a code of '{0}' was not found in the database.",code));
 			}
 		
 			
 			string unitOfMeasureType = reader["UNIT_OF_MEAS_TYPE"].ToString();
 			if (unitOfMeasureType.ToLower()!="length")
 			{
-				throw new ArgumentException(String.Format("Requested unit ({0}) is not a linear unit.",unitOfMeasureType));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Requested unit ({0}) is not a linear unit.",unitOfMeasureType));
 			}	
 			double metersPerUnit = (double)reader["FACTOR_B"];
 			double factor = (double)reader["FACTOR_C"];
@@ -264,11 +264,11 @@ namespace Geotools.CoordinateReferenceSystems
 				"WHERE COORD_REF_SYS_CODE = {0}";
 
 			
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
 			}
 
 			
@@ -284,7 +284,7 @@ namespace Geotools.CoordinateReferenceSystems
 			Database.CheckOneRow(reader,code,"Coordinate Reference System");
 			if (coordRefKind.ToLower() != "vertical")
 			{
-				throw new ArgumentException(String.Format("CRS code {0} is not a projected coordinate system but a {1}.",code,coordRefKind));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "CRS code {0} is not a projected coordinate system but a {1}.",code,coordRefKind));
 			}
 			
 			IVerticalDatum verticalDatum = this.CreateVerticalDatum(verticalDatumCode);
@@ -310,11 +310,11 @@ namespace Geotools.CoordinateReferenceSystems
 				"WHERE COORD_REF_SYS_CODE = {0}";
 
 			
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
 			}
 
 			
@@ -332,7 +332,7 @@ namespace Geotools.CoordinateReferenceSystems
 			Database.CheckOneRow(reader,code,"Geographic CRC code");
 			if (coordRefKind.ToLower() != "projected")
 			{
-				throw new ArgumentException(String.Format("CRS code {0} is not a projected coordinate system but a {1}.",code,coordRefKind));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "CRS code {0} is not a projected coordinate system but a {1}.",code,coordRefKind));
 			}
 
 			string primeMeridianCode = "";
@@ -390,20 +390,20 @@ namespace Geotools.CoordinateReferenceSystems
 				"FROM [Unit of Measure]"+
 				"WHERE UOM_CODE={0}";
 
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			IAngularUnit angularUnit = null;
 			bool recordFound = reader.Read();
 			if (!recordFound)
 			{
-				throw new ArgumentOutOfRangeException(String.Format("Angular unit with a code of '{0}' was not found in the database.",code));
+				throw new ArgumentOutOfRangeException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Angular unit with a code of '{0}' was not found in the database.",code));
 			}
 
 	
 			string unitOfMeasureType = reader["UNIT_OF_MEAS_TYPE"].ToString();
 			if (unitOfMeasureType.ToLower()!="angle")
 			{
-				throw new ArgumentException(String.Format("Requested unit ({0}) is not a angular unit.",unitOfMeasureType));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Requested unit ({0}) is not a angular unit.",unitOfMeasureType));
 			}	
 			string remarks = reader["REMARKS"].ToString();
 			string name = reader["UNIT_OF_MEAS_NAME"].ToString();
@@ -444,7 +444,7 @@ namespace Geotools.CoordinateReferenceSystems
 				"FROM  Datum "+
 				"WHERE DATUM_CODE={0}";
 
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
@@ -499,11 +499,11 @@ namespace Geotools.CoordinateReferenceSystems
 				"FROM  Datum "+
 				"WHERE DATUM_CODE={0}";
 
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Could not find datum {0}.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Could not find datum {0}.",code));
 			};
 			string datumtype= reader["DATUM_TYPE"].ToString();			
 			string name = reader["DATUM_NAME"].ToString();
@@ -514,7 +514,7 @@ namespace Geotools.CoordinateReferenceSystems
 
 			if (datumtype.ToLower()!="vertical")
 			{
-				throw new ArgumentException(String.Format("Requested datum ({0}) is not a vertical datum.", code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Requested datum ({0}) is not a vertical datum.", code));
 			}
 			IVerticalDatum verticalDatum = new VerticalDatum(DatumType.IVD_GeoidModelDerived, remarks, code,"EPSG",name,"","");
 			return verticalDatum;
@@ -550,13 +550,13 @@ namespace Geotools.CoordinateReferenceSystems
 				"FROM  [Prime Meridian]"+
 				"WHERE PRIME_MERIDIAN_CODE={0}";
 
-			sqlQuery = String.Format(sqlQuery, code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery, code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			IPrimeMeridian primeMeridian = null;
 			bool recordFound = reader.Read();
 			if (!recordFound)
 			{
-				throw new ArgumentOutOfRangeException(String.Format("Prime meridian with a code of '{0}' was not found in the database.",code));
+				throw new ArgumentOutOfRangeException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Prime meridian with a code of '{0}' was not found in the database.",code));
 			}
 		
 			double degreesFromGreenwich = (double)reader["GREENWICH_LONGITUDE"];
@@ -590,13 +590,13 @@ namespace Geotools.CoordinateReferenceSystems
 				"FROM Ellipsoid "+
 				"WHERE ELLIPSOID_CODE={0}";
 
-			sqlQuery = String.Format(sqlQuery, code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery, code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			IEllipsoid ellipsoid = null;
 			bool recordFound = reader.Read();
 			if (!recordFound)
 			{
-				throw new ArgumentOutOfRangeException(String.Format("Ellipsoid with a code of '{0}' was not found in the database.",code));
+				throw new ArgumentOutOfRangeException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Ellipsoid with a code of '{0}' was not found in the database.",code));
 			}
 
 			int semiMinorAxisIndex = reader.GetOrdinal("SEMI_MINOR_AXIS");
@@ -644,11 +644,11 @@ namespace Geotools.CoordinateReferenceSystems
 				"WHERE COORD_REF_SYS_CODE = {0}";
 
 			
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Geographic Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
 			}
 
 			
@@ -664,7 +664,7 @@ namespace Geotools.CoordinateReferenceSystems
 			Database.CheckOneRow(reader,code,"Coordinate Reference System");
 			if (coordRefKind.ToLower() != "horizontal")
 			{
-				throw new ArgumentException(String.Format("CRS code {0} is not a horizontal coordinate system but a {1}.",code,coordRefKind));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "CRS code {0} is not a horizontal coordinate system but a {1}.",code,coordRefKind));
 			}
 			IAxisInfo[] axisInfos = GetAxisInfo(coordSysCode);
 			IHorizontalDatum horizontalDatum = this.CreateHorizontalDatum(datumCode);
@@ -712,11 +712,11 @@ namespace Geotools.CoordinateReferenceSystems
 			string sqlQuery =	"SELECT COORD_REF_SYS_KIND "+
 								"FROM  [Coordinate Reference System] "+
 								"WHERE COORD_REF_SYS_CODE = {0}";
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Coordinate System with a code {0} not found in the CRS table in the EPSG database.",code));
 			}
 
 			string coordRefKind = reader["COORD_REF_SYS_KIND"].ToString().ToLower();
@@ -738,7 +738,7 @@ namespace Geotools.CoordinateReferenceSystems
 					coordinateSystem = this.CreateHorizontalCoordinateSystem(code);
 					break;
 				default:
-					throw new ArgumentException(String.Format("Coordinate system '{0}' (code='{1}') is not supported.",coordRefKind,code)); 
+					throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Coordinate system '{0}' (code='{1}') is not supported.",coordRefKind,code)); 
 			}
 			return coordinateSystem;
 
@@ -760,7 +760,7 @@ namespace Geotools.CoordinateReferenceSystems
 				"from [Coordinate Reference System] "+
 				"where COORD_REF_SYS_CODE = {0}";
 
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 
 			reader.Read();
@@ -796,7 +796,7 @@ namespace Geotools.CoordinateReferenceSystems
 			 * some comments in the SeaGIS Java code, but they were in Frnech.
 			 */
 
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 
 			int i=0;
@@ -810,7 +810,7 @@ namespace Geotools.CoordinateReferenceSystems
 			reader.Close();
 			if (i==0)
 			{
-				throw new ArgumentException(String.Format("Could not find axis with a code of {0}",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Could not find axis with a code of {0}",code));
 			}
 			IAxisInfo[] infolist = (IAxisInfo[])axisList.ToArray(typeof(IAxisInfo));
 			return infolist;
@@ -850,7 +850,7 @@ namespace Geotools.CoordinateReferenceSystems
 					orientation = AxisOrientation.Down;
 					break;
 				default:
-					throw new NotSupportedException(String.Format("The axis orientation '{0}' is not supported.",code));
+					throw new NotSupportedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "The axis orientation '{0}' is not supported.",code));
 			}
 			return orientation;
 		}
@@ -891,7 +891,7 @@ namespace Geotools.CoordinateReferenceSystems
 							"	paramValue.PARAMETER_CODE = param.PARAMETER_CODE AND "+
 							"   (paramValue.COORD_OP_CODE = {0})";
 			//sqlQuery = String.Format(sqlQuery,coordOperationMethod, projectionConversionCode);
-			sqlQuery = String.Format(sqlQuery, projectionConversionCode);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery, projectionConversionCode);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 
 			ParameterList parameters = new ParameterList();
@@ -904,7 +904,7 @@ namespace Geotools.CoordinateReferenceSystems
 				double paramValue = 0.0;
 				if (paramValueString!="" && paramValueString!=null)
 				{
-					paramValue = double.Parse(paramValueString);
+					paramValue = double.Parse(paramValueString, System.Globalization.CultureInfo.InvariantCulture);
 				}
 				string reverse =reader[2].ToString();
 
@@ -956,11 +956,11 @@ namespace Geotools.CoordinateReferenceSystems
 			string sqlQuery="SELECT PRIME_MERIDIAN_CODE "+
 							"FROM  Datum "+
 							"WHERE DATUM_CODE ={0}";
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection,sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("A Datum with a code of {0} could not be found.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "A Datum with a code of {0} could not be found.",code));
 			}
 		
 			string primeMeridianCode=reader["PRIME_MERIDIAN_CODE"].ToString();
@@ -973,12 +973,12 @@ namespace Geotools.CoordinateReferenceSystems
 			string sqlQuery = "SELECT TOP 1 COORD_OP_CODE, COORD_OP_METHOD_CODE "+
 				"FROM [Coordinate_Operation Parameter Value] "+
 				"WHERE COORD_OP_CODE={0}";
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection,sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("A coordinate operation with a code of {0} could not be found.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "A coordinate operation with a code of {0} could not be found.",code));
 			}
 			string methodOp = reader["COORD_OP_METHOD_CODE"].ToString();
 			Database.CheckOneRow(reader,code,"COORD_OP_CODE");
@@ -991,12 +991,12 @@ namespace Geotools.CoordinateReferenceSystems
 			string sqlQuery = "SELECT COORD_OP_METHOD_NAME, REVERSE_OP, REMARKS "+
 							"FROM [Coordinate_Operation Method] "+
 							"WHERE COORD_OP_METHOD_CODE={0}";
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection,sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("A coordinate operation with a code of {0} could not be found.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "A coordinate operation with a code of {0} could not be found.",code));
 			}
 			string name = reader["COORD_OP_METHOD_NAME"].ToString();
 			string remarks = reader["REMARKS"].ToString();
