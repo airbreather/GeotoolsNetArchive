@@ -41,12 +41,14 @@ namespace Geotools.IO
 	/// To create a ShapefileDataReader, use the static methods on the Shapefile class.
 	/// </para>
 	/// </remarks>
-	public class ShapefileDataReader : IDataReader, IDataRecord, IEnumerable
+	public class ShapefileDataReader : IGeometryDataReader
 	{
 		
 		internal class ShapefileDataReaderEnumerator : IEnumerator
 		{
 			ShapefileDataReader _parent;
+			
+
 			public ShapefileDataReaderEnumerator(ShapefileDataReader parent)
 			{
 				_parent = parent;
@@ -205,7 +207,9 @@ namespace Geotools.IO
 			
 			//Debug.Assert(moreDbfRecords!=moreShpRecords,"Number of records in .dbf and .shp do not match.");
 
-			return (moreDbfRecords && moreDbfRecords);
+			
+			return _moreRecords;
+			
 		}
 
 		/// <summary>
@@ -449,6 +453,14 @@ namespace Geotools.IO
 			return new ShapefileDataReaderEnumerator(this);
 		}
 		#endregion
+
+		#region Implemention of IGeometryReader
+		public Geometry GetGeometry()
+		{
+			return this._shpRecord;
+		}
+		#endregion
+
 		
 		/// <summary>
 		/// Gets the header for the Shapefile.
