@@ -51,7 +51,7 @@ namespace Geotools.Graph
 	internal class PlanarGraph : System.Collections.IEnumerable 
 	{
 		public static CGAlgorithms _cga = new RobustCGAlgorithms();
-		public static LineIntersector _li = new RobustLineIntersector();
+		//public static LineIntersector _li = new RobustLineIntersector();
 		protected ArrayList _edges        = new ArrayList();
 		protected NodeMap _nodes;
 		protected ArrayList _edgeEndList  = new ArrayList();

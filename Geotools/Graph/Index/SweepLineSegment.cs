@@ -34,17 +34,15 @@ namespace Geotools.Graph.Index
 		Edge _edge;
 		CoordinateCollection _pts;
 		int _ptIndex;
-		int _geomIndex;
 
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the SweepLineSegment class.
 		/// </summary>
-		public SweepLineSegment( Edge edge,  int ptIndex, int geomIndex ) 
+		public SweepLineSegment( Edge edge,  int ptIndex ) 
 		{
 			_edge = edge;
 			_ptIndex = ptIndex;
-			_geomIndex = geomIndex;
 			_pts = edge.Coordinates;
 		}
 		#endregion

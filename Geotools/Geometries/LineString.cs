@@ -455,8 +455,33 @@ namespace Geotools.Geometries
 		/// greater than, equal to, or less than obj.</returns>
 		public override int CompareToSameClass(object obj)
 		{
-			Geometry other = obj as Geometry;   
-			return Compare( this.GetCoordinates(), other.GetCoordinates() );
+			LineString line = (LineString) obj;
+			// MD - optimized implementation
+			int i = 0;
+			int j = 0;
+			while (i < _points.Count && j < line._points.Count) 
+			{
+				int comparison = _points[i].CompareTo(line._points[j]);
+				if (comparison != 0) 
+				{
+					return comparison;
+				}
+				i++;
+				j++;
+			}
+			if (i < _points.Count) 
+			{
+				return 1;
+			}
+			if (j < line._points.Count) 
+			{
+				return -1;
+			}
+			return 0;
+
+			//Geometry other = obj as Geometry;   
+			//return Compare( this.GetCoordinates(), other.GetCoordinates() );
+
 		}
 
 		/// <summary>

@@ -28,6 +28,7 @@ namespace Geotools.Geometries
 	/// <summary>
 	/// A LineSegment represents a two-point line..
 	/// </summary>
+	[Serializable]
 	public class LineSegment : IComparable
 	{
 		protected Coordinate _p0;

@@ -84,7 +84,7 @@ namespace Geotools.Graph.Index
 			Add(edges0, edges0);
 			Add(edges1, edges1);
 			ComputeIntersections(si);
-		}
+		}	
 
 		
 		private void Add(ArrayList edges)

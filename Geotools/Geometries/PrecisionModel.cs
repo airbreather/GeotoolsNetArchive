@@ -315,7 +315,7 @@ namespace Geotools.Geometries
 		[Obsolete("ToExternal(internalCoordinate) was depreciated in JTS 1.3")]
 		public Coordinate ToExternal(Coordinate internalCoordinate) 
 		{
-			Coordinate externalCoordinate = new Coordinate();
+			Coordinate externalCoordinate = new Coordinate(); 
 			ToExternal(internalCoordinate, externalCoordinate);
 			return externalCoordinate;
 		}
@@ -394,9 +394,13 @@ namespace Geotools.Geometries
 		/// <returns>Returns unique integer value for this object.</returns>
 		public override int GetHashCode()
 		{
-			return base.GetHashCode();
+			return		this._maximumPreciseValue.GetHashCode() ^
+						this._modelType.GetHashCode()^
+						this._offsetX.GetHashCode() ^
+						this._offsetY.GetHashCode() ^
+						this._scale.GetHashCode();
 		}
-
+ 
 	#endregion
 
 	#region JTS1.3

@@ -61,7 +61,7 @@ namespace Geotools.Index.Quadtree
 
 			double maxAbs = Math.Max(Math.Abs(min), Math.Abs(max));
 			double scaledInterval = width / maxAbs;
-			int level = BinaryPower.Exponent(scaledInterval);
+			int level = DoubleBits.Exponent(scaledInterval);
 			return level <= MIN_BINARY_EXPONENT;
 		}
 	}

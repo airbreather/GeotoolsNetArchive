@@ -305,6 +305,8 @@ namespace Geotools.Graph
 				//Trace.WriteLine("next pt: " + nextPt);
 				if ( intPt.Equals( nextPt ) ) 
 				{
+					// Normalize segment index if intPt falls on vertex
+					// The check for point equality is 2D only - Z values are ignored
 					//Trace.WriteLine("normalized distance");
 					normalizedSegmentIndex = nextSegIndex;
 					dist = 0.0;
