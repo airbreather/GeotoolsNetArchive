@@ -101,7 +101,7 @@ namespace Geotools.Data
 					finish = partOffsets[part + 1];
 				}
 				length = finish - start;
-				Coordinates points = new Coordinates();
+				CoordinateCollection points = new CoordinateCollection();
 				points.Capacity=length;
 				Coordinate external;
 				for (int i = 0; i < length; i++)
@@ -152,7 +152,7 @@ namespace Geotools.Data
 			Coordinate	external;
 			for (int part = 0; part < numParts; part++)
 			{
-				Coordinates points = multi.GetGeometryN(part).GetCoordinates();
+				CoordinateCollection points = multi.GetGeometryN(part).GetCoordinates();
 				for (int i = 0; i < points.Count; i++)
 				{
 					external = geometryFactory.PrecisionModel.ToExternal(points[i]);

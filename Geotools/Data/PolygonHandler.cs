@@ -111,7 +111,7 @@ namespace Geotools.Data
 					finish = partOffsets[part + 1];
 				}
 				length = finish - start;
-				Coordinates points = new Coordinates();
+				CoordinateCollection points = new CoordinateCollection();
 				points.Capacity=length;
 				for (int i = 0; i < length; i++)
 				{
@@ -157,7 +157,7 @@ namespace Geotools.Data
 						minEnv = minShell.GetEnvelopeInternal();
 					}
 					bool isContained = false;
-					Coordinates coordList = tryRing.GetCoordinates() ;
+					CoordinateCollection coordList = tryRing.GetCoordinates() ;
 					if (tryEnv.Contains(testEnv)
 						&& (_cga.IsPointInRing(testPt,coordList ) ||
 						(PointInList(testPt,coordList)))) 
@@ -254,7 +254,7 @@ namespace Geotools.Data
 			for (int part = 0; part < multi.Count; part++)
 			{
 				Polygon poly = (Polygon)multi[part];
-				Coordinates points = poly.Shell.GetCoordinates();
+				CoordinateCollection points = poly.Shell.GetCoordinates();
 				if (_cga.IsCCW(points)==true)
 				{
 					//points = points.ReverseCoordinateOrder();
@@ -262,7 +262,7 @@ namespace Geotools.Data
 				WriteCoords(points, file, geometryFactory);
 				foreach(LinearRing ring in poly.Holes)
 				{
-					Coordinates points2 = ring.GetCoordinates();
+					CoordinateCollection points2 = ring.GetCoordinates();
 					if (_cga.IsCCW(points2)==false)
 					{
 						//points2 = points2.ReverseCoordinateOrder();
@@ -272,7 +272,7 @@ namespace Geotools.Data
 			}
 		}
 
-		public void WriteCoords(Coordinates points, System.IO.BinaryWriter file, GeometryFactory geometryFactory)
+		public void WriteCoords(CoordinateCollection points, System.IO.BinaryWriter file, GeometryFactory geometryFactory)
 		{
 			Coordinate external;
 			foreach (Coordinate point in points)
@@ -322,7 +322,7 @@ namespace Geotools.Data
 		/// <param name="testPoint">TestPoint the point to test for.</param>
 		/// <param name="pointList">PointList the list of points to look through.</param>
 		/// <returns>true if testPoint is a point in the pointList list.</returns>
-		private bool PointInList(Coordinate testPoint, Coordinates pointList) 
+		private bool PointInList(Coordinate testPoint, CoordinateCollection pointList) 
 		{
 			foreach(Coordinate p in pointList)
 			{
