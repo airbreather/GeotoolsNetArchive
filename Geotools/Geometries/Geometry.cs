@@ -242,6 +242,7 @@ namespace Geotools.Geometries
 		///  Flips the positions of the elements in the array so that the last is first.  
 		///</summary>
 		///<param name="coordinates">The array of coordinates to rearrange.</param>
+		[Obsolete("Deleted Geometry.java in JTS 1.3")]
 		protected static void ReversePointOrder(CoordinateCollection coordinates) 
 		{
 			coordinates.Reverse();
@@ -253,6 +254,7 @@ namespace Geotools.Geometries
 		///<param name="coordinates">The array to search for the minimum coordinate.</param>
 		///<returns> the minimum coordinate in the array, found using CompareTo method.  Returns
 		///null if coordinates is null or empty.</returns>
+		[Obsolete("Deleted from Geometry.java in JTS 1.3")]
 		protected static Coordinate MinCoordinate(CoordinateCollection coordinates) 
 		{
 			Coordinate coord = null;
@@ -270,6 +272,7 @@ namespace Geotools.Geometries
 		///</summary>
 		///<param name="coordinates">The array to rearrange.</param>
 		///<param name="firstCoordinate">The coordinate to make first.</param>
+		[Obsolete("Commented out of Geometry.java in JTS 1.3")]
 		protected static void Scroll(CoordinateCollection coordinates, Coordinate firstCoordinate) 
 		{
 			int index = coordinates.IndexOf( firstCoordinate );
@@ -294,6 +297,7 @@ namespace Geotools.Geometries
 		///<param name="coordinate">The Coordinate to search in the array.</param>
 		///<param name="coordinates">The array to search </param>
 		///<returns>Returns the position of coordinate, or -1 if it is  not found</returns>
+		[Obsolete("Commented out of Geometry.java in JTS 1.3")]
 		protected static int IndexOf(Coordinate coordinate, ArrayList coordinates)	//TODO: I don't think this is needed because IndexOf for ArrayList will do this.
 		{
 			for (int i = 0; i < coordinates.Count; i++) 
@@ -412,6 +416,25 @@ namespace Geotools.Geometries
 		}
 
 		/// <summary>
+		/// Tests whether the distance from this Geometry
+		/// to another is less than or equal to a specified value.
+		/// </summary>
+		/// <param name="geom">the Geometry to check the distance to</param>
+		/// <param name="distance">the distance value to compare</param>
+		/// <returns>true if the geometries are less than distance apart.</returns>
+		public boolean IsWithinDistance(Geometry geom, double distance)     
+		{
+			double envDist = getEnvelopeInternal().distance(geom.getEnvelopeInternal());
+			if (envDist > distance)
+				return false;
+			// NOTE: this could be implemented more efficiently
+			double geomDist = this.distance(geom);
+			if (geomDist > distance)
+				return false;
+			return true;
+		}
+
+		/// <summary>
 		/// Returns the area of this Geometry.  Areal Geometrys have a non-zero area.  They override this function to
 		/// compute the area, others return 0.0.
 		/// </summary>
@@ -432,6 +455,69 @@ namespace Geotools.Geometries
 		{
 			return 0.0;
 		}
+
+		/// <summary>
+		/// Computes the centroid of this Geometry.
+		/// The centroid is equal to the centroid of the set of component 
+		/// Geometrys of highest dimension (since the lower-dimension 
+		/// geometries contribute zero "weight" to the centroid)
+		/// </summary>
+		/// <returns>a Point which is the centroid of this Geometry</returns>
+		public Point GetCentroid()   
+		{
+			Coordinate centPt = null;
+			int dim = getDimension();
+			if (dim == 0) 
+			{
+				CentroidPoint cent = new CentroidPoint();
+				cent.add(this);
+				centPt = cent.getCentroid();
+			}
+			else if (dim == 1) 
+			{
+				CentroidLine cent = new CentroidLine();
+				cent.add(this);
+				centPt = cent.getCentroid();
+			}
+			else 
+			{
+				CentroidArea cent = new CentroidArea();
+				cent.add(this);
+				centPt = cent.getCentroid();
+			}
+			return GeometryFactory.createPointFromInternalCoord(centPt, this);   
+		}
+
+		/// <summary>
+		/// Computes an interior point of this Geometry.
+		/// An interior point is guaranteed to lie in the interior of the Geometry,
+		/// if it possible to calculate such a point exactly. Otherwise,
+		/// the point may lie on the boundary of the geometry.
+		/// </summary>
+		/// <returns>a Point which is in the interior of this Geometry</returns>
+		public Point GetInteriorPoint()
+		{
+			Coordinate interiorPt = null;
+			int dim = getDimension();
+			if (dim == 0) 
+			{
+				InteriorPointPoint intPt = new InteriorPointPoint(this);
+				interiorPt = intPt.getInteriorPoint();
+			}
+			else if (dim == 1) 
+			{
+				InteriorPointLine intPt = new InteriorPointLine(this);
+				interiorPt = intPt.getInteriorPoint();
+			}
+			else 
+			{
+				InteriorPointArea intPt = new InteriorPointArea(this);
+				interiorPt = intPt.getInteriorPoint();
+			}
+			return GeometryFactory.createPointFromInternalCoord(interiorPt, this);
+		}
+
+
 
 		///<summary>
 		///  Returns the dimension of this Geometry.  
@@ -625,8 +711,8 @@ namespace Geotools.Geometries
 		{
 			CheckNotGeometryCollection(this);
 			CheckNotGeometryCollection(geometry);
-			CheckEqualSRID(geometry);
-			CheckEqualPrecisionModel(geometry);
+			//CheckEqualSRID(geometry);				//not in JTS 1.3
+			//CheckEqualPrecisionModel(geometry);	//not in JTS 1.3
 			return RelateOp.Relate(this, geometry);
 		}
 
@@ -683,6 +769,23 @@ namespace Geotools.Geometries
 			return BufferOp.GetBuffer(this, distance);
 		}
 
+		/// <summary>
+		/// Returns a buffer region around this Geometry having the given
+		/// width and with a specified number of segments used to approximate curves.
+		/// The buffer of a Geometry is the Minkowski sum of the Geometry with
+		/// a disc of radius distance.  Curves in the buffer polygon are
+		/// approximated with line segments.  This method allows specifying the
+		/// accuracy of that approximation.
+		/// </summary>
+		/// <param name="distance">the width of the buffer, interpreted according to the PrecisionModel of the Geometry</param>
+		/// <param name="quadrantSegments">the number of segments to use to approximate a quadrant of a circle</param>
+		/// <returns>all points whose distance from this Geometry are less than or equal to distance</returns>
+		public Geometry Buffer(double distance, int quadrantSegments) 
+		{
+			return BufferOp.bufferOp(this, distance, quadrantSegments);
+		}
+
+
 		///<summary>
 		///  Returns the smallest convex Polygon that contains all the  points in the Geometry.
 		/// </summary>
@@ -711,8 +814,8 @@ namespace Geotools.Geometries
 		{
 			CheckNotGeometryCollection(this);
 			CheckNotGeometryCollection(geometry);
-			CheckEqualSRID(geometry);
-			CheckEqualPrecisionModel(geometry);
+			//CheckEqualSRID(geometry);				//not in JTS 1.3
+			//CheckEqualPrecisionModel(geometry);	//not in JTS 1.3
 			return OverlayOp.Overlay(this, geometry, OverlayOp.Intersection)  ;
 		}
 
@@ -725,8 +828,8 @@ namespace Geotools.Geometries
 		{
 			CheckNotGeometryCollection(this);
 			CheckNotGeometryCollection(geometry);
-			CheckEqualSRID(geometry);
-			CheckEqualPrecisionModel(geometry);
+			//CheckEqualSRID(geometry);				//not in JTS 1.3
+			//CheckEqualPrecisionModel(geometry);	//not in JTS 1.3
 			return OverlayOp.Overlay(this, geometry, OverlayOp.Union);
 		}
 
@@ -740,8 +843,8 @@ namespace Geotools.Geometries
 		{
 			CheckNotGeometryCollection(this);
 			CheckNotGeometryCollection(geometry);
-			CheckEqualSRID(geometry);
-			CheckEqualPrecisionModel(geometry);
+			//CheckEqualSRID(geometry);				//not in JTS 1.3
+			//CheckEqualPrecisionModel(geometry);	//not in JTS 1.3
 			return OverlayOp.Overlay(this, geometry, OverlayOp.Difference);
 		}
 
@@ -756,10 +859,12 @@ namespace Geotools.Geometries
 		{
 			CheckNotGeometryCollection(this);
 			CheckNotGeometryCollection(geometry);
-			CheckEqualSRID(geometry);
-			CheckEqualPrecisionModel(geometry);
+			//CheckEqualSRID(geometry);				//not in JTS 1.3
+			//CheckEqualPrecisionModel(geometry);	//not in JTS 1.3
 			return OverlayOp.Overlay(this, geometry, OverlayOp.SymDifference);
 		}
+
+
 
 		///<summary>
 		///  Performs an operation with or on this Geometry's coordinates.  
