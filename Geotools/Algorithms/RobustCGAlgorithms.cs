@@ -41,8 +41,7 @@ namespace Geotools.Algorithms
 	/// </remarks>
 	public class RobustCGAlgorithms : CGAlgorithms
 	{
-		private RobustLineIntersector _lineIntersector = new RobustLineIntersector();
-
+		
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the RobustCGAlgorithms.
@@ -209,12 +208,13 @@ namespace Geotools.Algorithms
 		/// segment in the linestring.</returns>
 		public override bool IsOnLine(Coordinate p, CoordinateCollection pt) 
 		{
+			RobustLineIntersector lineIntersector = new RobustLineIntersector();
 			for (int i = 1; i < pt.Count; i++) 
 			{
 				Coordinate p0 = pt[i - 1];
 				Coordinate p1 = pt[i];
-				_lineIntersector.ComputeIntersection(p, p0, p1);
-				if ( _lineIntersector.HasIntersection() ) 
+				lineIntersector.ComputeIntersection(p, p0, p1);
+				if ( lineIntersector.HasIntersection() ) 
 				{
 					return true;
 				}
