@@ -56,7 +56,7 @@
     
     <target name="unittest2"  description="runs unit tests">
     	<nunit2  haltonerror="false" haltonfailure="false" failonerror="false" >
-      	<test assemblyname="C:\CC\GeotoolsNetCVSBuild\Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll" fork="true" type="${nunit.output}"/>    	</nunit2>
+      	<test assemblyname="C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll" fork="true" type="${nunit.output}"/>    	</nunit2>
    </target>
   
     
