@@ -327,7 +327,7 @@ namespace Geotools.Geometries
 		/// <param name="coordinates">The Coordinate Collection to search</param>
 		/// <returns>The minimum coordinate in the Collection, found using CompareTo
 		/// </returns>
-		protected static Coordinate minCoordinate(Coordinates coordinates)
+		protected static Coordinate MinimumCoordinate(Coordinates coordinates)
 		{
 			Coordinate minCoord = null;
 			for (int i = 0; i < coordinates.Count; i++) 
@@ -344,7 +344,7 @@ namespace Geotools.Geometries
 		/// Shifts the positions until firstCoordinate is first.
 		/// </summary>
 		/// <param name="firstCoordinate">The Coordinate to make first</param>
-		protected void scroll(Coordinate firstCoordinate) 
+		protected void Scroll(Coordinate firstCoordinate) 
 		{
 			int i = IndexOf(firstCoordinate);
 			if (i < 0) return;
