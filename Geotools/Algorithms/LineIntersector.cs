@@ -84,8 +84,6 @@ namespace Geotools.Algorithms
 		/// </summary>
 		protected int[,] _intLineIndex = null;
 
-		protected Coordinate _pa;
-		protected Coordinate _pb;
 		protected PrecisionModel _precisionModel;
 		#endregion
 		#region Constructor
