@@ -34,9 +34,11 @@ namespace Geotools.SystemTests.TestRunner
 
 		public SystemTests()
 		{
-			_usiDir=@"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.SystemTests\Tests\UrbanScience\";
-			_vividTests= @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.SystemTests\Tests\vivid\";
-			_validateTests = @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.SystemTests\Tests\validate\";
+			string testRoot = @"C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\";
+
+			_usiDir= testRoot + @"Geotools.SystemTests\Tests\UrbanScience\";
+			_vividTests= testRoot+ @"Geotools.SystemTests\Tests\vivid\";
+			_validateTests = testRoot+ @"Geotools.SystemTests\Tests\validate\";
 		}
 
 		#region Vidid system tests
