@@ -14,7 +14,7 @@ namespace Geotools.CoordinateReferenceSystems
 		private string _name="";
 		private AxisOrientation _orientation;
 		/// <summary>
-		/// Default axis info for <var>x</var> values. Increasing ordinates values go East. This 
+		/// Default axis info for <var>x</var> values. Increasing ordinates values go East. This  
 		/// is usually used with projected coordinate systems.
 		/// </summary>
 		public static IAxisInfo X
