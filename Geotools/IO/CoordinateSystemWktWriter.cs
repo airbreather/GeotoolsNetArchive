@@ -100,7 +100,7 @@ namespace Geotools.IO
 			}
 			else
 			{
-				throw new NotImplementedException(String.Format("Cannot convert {0} to WKT.",obj.GetType().FullName));
+				throw new NotImplementedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Cannot convert {0} to WKT.",obj.GetType().FullName));
 			}
 		}
 		#endregion
@@ -166,8 +166,8 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("UNIT[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",{1:r},", angularUnit.Name, angularUnit.RadiansPerUnit));
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", angularUnit.Authority, angularUnit.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",{1:r},", angularUnit.Name, angularUnit.RadiansPerUnit));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", angularUnit.Authority, angularUnit.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
@@ -176,23 +176,23 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("COMPD_CS[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",", compoundCoordinateSystem.Name));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture,"\"{0}\",", compoundCoordinateSystem.Name));
 			WriteCoordinateSystem(compoundCoordinateSystem.HeadCS, writer);
 			writer.WriteLine(",");
 			WriteCoordinateSystem(compoundCoordinateSystem.TailCS, writer);
 			writer.WriteLine(",");
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", compoundCoordinateSystem.Authority, compoundCoordinateSystem.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", compoundCoordinateSystem.Authority, compoundCoordinateSystem.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
 		
 		#region Coordinate Systems
 		
-		private static void WriteGeographicCoordinateSystem(IGeographicCoordinateSystem geographicCoordinateSystem, IndentedTextWriter writer)
+		public static void WriteGeographicCoordinateSystem(IGeographicCoordinateSystem geographicCoordinateSystem, IndentedTextWriter writer)
 		{
 			writer.WriteLine("GEOGCS[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",", geographicCoordinateSystem.Name));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",", geographicCoordinateSystem.Name));
 			WriteHorizontalDatum(geographicCoordinateSystem.HorizontalDatum, writer);
 			WritePrimeMeridian(geographicCoordinateSystem.PrimeMeridian, writer);
 			//TODO:WriteAngularUnit(geocentricCoordinateSystem.get_Units
@@ -201,15 +201,15 @@ namespace Geotools.IO
 				WriteAxis( geographicCoordinateSystem.GetAxis(dimension), writer );
 			}
 
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", geographicCoordinateSystem.Authority, geographicCoordinateSystem.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", geographicCoordinateSystem.Authority, geographicCoordinateSystem.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.Write("]");
 		}
-		private static void WriteProjectedCoordinateSystem(IProjectedCoordinateSystem projectedCoordinateSystem, IndentedTextWriter writer)
+		public static void WriteProjectedCoordinateSystem(IProjectedCoordinateSystem projectedCoordinateSystem, IndentedTextWriter writer)
 		{
 			writer.WriteLine("PROJCS[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",",projectedCoordinateSystem.Name));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",",projectedCoordinateSystem.Name));
 			WriteGeographicCoordinateSystem(projectedCoordinateSystem.GeographicCoordinateSystem, writer);
 			writer.WriteLine(",");
 			WriteProjection( projectedCoordinateSystem.Projection, writer);
@@ -217,7 +217,7 @@ namespace Geotools.IO
 			{
 				WriteAxis( projectedCoordinateSystem.GetAxis(dimension), writer );
 			}
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", projectedCoordinateSystem.Authority, projectedCoordinateSystem.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", projectedCoordinateSystem.Authority, projectedCoordinateSystem.AuthorityCode));
 			
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
@@ -244,11 +244,11 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("DATUM[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",", horizontalDatum.Name));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",", horizontalDatum.Name));
 			
 			WriteEllipsoid(horizontalDatum.Ellipsoid, writer);
 			WriteWGS84ConversionInfo(horizontalDatum.WGS84Parameters, writer);
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", horizontalDatum.Authority, horizontalDatum.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", horizontalDatum.Authority, horizontalDatum.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
@@ -258,8 +258,8 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("SPHEROID[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",{1},{2},", ellipsoid.Name,ellipsoid.SemiMajorAxis, ellipsoid.InverseFlattening ));
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", ellipsoid.Authority, ellipsoid.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",{1},{2},", ellipsoid.Name,ellipsoid.SemiMajorAxis, ellipsoid.InverseFlattening ));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", ellipsoid.Authority, ellipsoid.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
@@ -292,12 +292,12 @@ namespace Geotools.IO
 				default:
 					throw new InvalidOperationException("This  should not exist");
 			}
-			writer.WriteLine(String.Format("AXIS[\"{0}\",\"{1}\"],", axis.Name, axisOrientation));	
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AXIS[\"{0}\",\"{1}\"],", axis.Name, axisOrientation));	
 		} 
 
 		private static void WriteWGS84ConversionInfo(WGS84ConversionInfo conversionInfo,  IndentedTextWriter writer)
 		{	 
-			writer.WriteLine(String.Format("TOWGS84[{0},{1},{2},{3},{4},{5},{6}],",
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "TOWGS84[{0},{1},{2},{3},{4},{5},{6}],",
 					conversionInfo.Dx,conversionInfo.Dy,conversionInfo.Dz,
 					conversionInfo.Ex,conversionInfo.Ey,conversionInfo.Ez,
 					conversionInfo.Ppm));
@@ -308,8 +308,8 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("UNIT[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",{1},", linearUnit.Name, linearUnit.MetersPerUnit));
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", linearUnit.Authority, linearUnit.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",{1},", linearUnit.Name, linearUnit.MetersPerUnit));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", linearUnit.Authority, linearUnit.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
@@ -319,8 +319,8 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("PRIMEM[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",{1},", primeMeridian.Name, primeMeridian.Longitude));
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", primeMeridian.Authority, primeMeridian.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",{1},", primeMeridian.Name, primeMeridian.Longitude));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", primeMeridian.Authority, primeMeridian.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
@@ -328,22 +328,22 @@ namespace Geotools.IO
 		
 		private static void WriteProjection(IProjection projection, IndentedTextWriter writer)
 		{
-			writer.WriteLine(String.Format("PROJECTION[\"{0}\"],",projection.Name));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "PROJECTION[\"{0}\"],",projection.Name));
 			for (int i=0;i<projection.NumParameters; i++)
 			{
 				string paramName = projection.GetParameter(i).Name;
 				double paramValue = projection.GetParameter(i).Value;
-				writer.WriteLine(String.Format("PARAMETER[\"{0}\",{1}],",paramName,paramValue));
+				writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "PARAMETER[\"{0}\",{1}],",paramName,paramValue));
 			}
 		}
 		private static void WriteVerticalCoordinateSystem(IVerticalCoordinateSystem verticalCoordinateSystem, IndentedTextWriter writer)
 		{
 			writer.WriteLine("VERT_CS[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",", verticalCoordinateSystem.Name));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",", verticalCoordinateSystem.Name));
 			WriteDatum( verticalCoordinateSystem.VerticalDatum, writer );
 			WriteUnit( verticalCoordinateSystem.VerticalUnit, writer );
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", verticalCoordinateSystem.Authority, verticalCoordinateSystem.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", verticalCoordinateSystem.Authority, verticalCoordinateSystem.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}
@@ -352,8 +352,8 @@ namespace Geotools.IO
 		{
 			writer.WriteLine("VERT_DATUM[");
 			writer.Indent=writer.Indent+1;
-			writer.WriteLine(String.Format("\"{0}\",{1},", verticalDatum.Name, DatumTypeAsCode(verticalDatum.DatumType)));
-			writer.WriteLine(String.Format("AUTHORITY[\"{0}\",\"{1}\"]", verticalDatum.Authority, verticalDatum.AuthorityCode));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "\"{0}\",{1},", verticalDatum.Name, DatumTypeAsCode(verticalDatum.DatumType)));
+			writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "AUTHORITY[\"{0}\",\"{1}\"]", verticalDatum.Authority, verticalDatum.AuthorityCode));
 			writer.Indent=writer.Indent-1;
 			writer.WriteLine("]");
 		}

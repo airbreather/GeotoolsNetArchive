@@ -17,316 +17,296 @@
  *
  */
 
-#region Using
 using System;
 using System.IO;
 using System.Collections;
 using System.Diagnostics;
-using Geotools.Geometries;
-using Geotools.Utilities;
-#endregion
+using com.vividsolutions.jts.geom;
 
 namespace Geotools.IO
 {
 	/// <summary>
-	///  Converts a Well-known Binary string to a Geometry.
+	///  Converts Well-known Binary representations to <b>Geometry</b> objects.
 	/// </summary>
-	/// <remarks>The Well-known Binary format is defined in the 
-	///  OpenGIS Simple Features Specification for SQL.
+	/// <remarks>
+	/// The Well-known Binary format is defined in the OpenGIS Simple Features Specification for SQL.
 	/// </remarks> 
-	public class GeometryWkbReader
+	public class GeometryWKBReader
 	{
-		private GeometryFactory _geometryFactory;
-		private BinaryReader _bReader;
-
-		#region Constructors
+		private GeometryFactory _factory;
 
 		/// <summary>
-		/// Creates a GeometryWKTReader that creates objects using the given GeometryFactory.
+		/// Initializes a new instance of the <see cref="GeometryWKBReader">GeometryWKBReader</see> class.
 		/// </summary>
-		/// <param name="geometryFactory">The factory used to create Geometries.</param>
-		public GeometryWkbReader(GeometryFactory geometryFactory) 
+		/// <param name="factory">The <b>GeometryFactory</b> used to create <b>Geometry</b> objects.</param>
+		public GeometryWKBReader(GeometryFactory factory) 
 		{
-			_geometryFactory = geometryFactory;
-		}		
-		#endregion
-
-		#region Properties
-		#endregion
-
-		#region Methods
-
-		/// <summary>
-		/// Creates a memory stream from the supplied byte array.  Then calls the other create 
-		/// method passing in the new binary reader created using the new memory stream.
-		/// </summary>
-		/// <param name="bArray">The byte array to be used to create the memory stream.</param>
-		/// <returns>A Geometry.</returns>
-		public Geometry Create(byte[] bArray)
-		{
-			//Create a memory stream using the suppiled byte array.
-			MemoryStream memStream = new MemoryStream(bArray);
-
-			//Create a new binary reader using the newly created memorystream.
-			BinaryReader bReader = new BinaryReader(memStream);
-
-			//Call the main create function.
-			return Create(bReader);
+			_factory = factory;
 		}
 
 		/// <summary>
-		/// Converts a Well-known binary representation to a Geometry.
+		/// Creates a <b>Geometry</b> from the supplied byte[] containing the Well-known Binary representation.
 		/// </summary>
-		/// <param name="bReader">
-		/// A byte array containing the definition of the geometry to be created.
-		/// </param>
-		/// <returns>
-		/// Returns the Geometry specified by wellKnownBinary.  Throws an exception if there is a 
-		/// parsing problem.
-		/// </returns>
-		public Geometry Create(BinaryReader bReader)
+		/// <param name="bytes">byte[] containing the Well-known Binary representation.</param>
+		/// <returns>A <b>Geometry</b> bases on the supplied Well-known Binary representation.</returns>
+		public Geometry Create(byte[] bytes)
 		{
-			_bReader = bReader;
-
-			//Get the first byte in the array.  This specifies if the WellKnownBinary is in
-			//XDR(Big Endian) format of NDR(Little Endian) format.
-            int format = _bReader.ReadByte();
-
-			//If the format type is 0 it is XDR
-			if(format == 0)
+			// Create a memory stream using the suppiled byte array.
+			using (MemoryStream ms = new MemoryStream(bytes))
 			{
-				return Create();
+				// Create a new binary reader using the newly created memorystream.
+				using (BinaryReader reader = new BinaryReader(ms))
+				{
+					// Call the main create function.
+					return Create(reader);
+				}
 			}
-			//If the format type is 1 it is NDR
-			if(format == 1)
-			{
-				return Create();
-			}
-			//If the format is neither 0 nor 1 there is a problem throw an exception
-			throw new ArgumentException("Format type not recognized");
 		}
 
-		#endregion
-
 		/// <summary>
-		/// Converts a Well-known binary representation in NDR format to a Geometry.
+		/// Creates a <b>Geometry</b> based on the Well-known binary representation.
 		/// </summary>
-		/// <returns>Returns the Geometry specified by wellKnownBinary.</returns>
-		private Geometry Create()
+		/// <param name="reader">A <see cref="System.IO.BinaryReader">BinaryReader</see> used to read the Well-known binary representation.</param>
+		/// <returns>A <b>Geometry</b> based on the Well-known binary representation.</returns>
+		public Geometry Create(BinaryReader reader)
 		{
-			//Get the type of this geometry.
-			int typeGeom = (int)_bReader.ReadUInt32();
+			// Get the first byte in the array.  This specifies if the WKB is in
+			// XDR (big-endian) format of NDR (little-endian) format.
+			byte byteOrder = reader.ReadByte();
+
+			if (!Enum.IsDefined(typeof(WKBByteOrder), byteOrder))
+			{
+				throw new ArgumentException("Byte order not recognized");
+			}
+
+			// Get the type of this geometry.
+			int type = (int)this.ReadUInt32(reader, (WKBByteOrder)byteOrder);
 			
-			switch(typeGeom)
+			if (!Enum.IsDefined(typeof(WKBGeometryType), type))
 			{
-				//Type 1 is a point
-				case 1:
-					return CreateWKBPoint();
-				//Type 2 is a LineString
-				case 2:
-					return CreateWKBLineString();
-				//Type 3 is a Polygon
-				case 3:
-					return CreateWKBPolygon();
-				//Type 4 is a MultiPoint
-				case 4:
-					return CreateWKBMultiPoint();
-				//Type 5 is a MultiLineString
-				case 5:
-					return CreateWKBMultiLineString();
-				//Type 6 is a MultiPolygon
-				case 6:
-					return CreateWKBMultiPolygon();
-				//Type 7 is a GeometryCollection
-				case 7:
-					return CreateWKBGeometryCollection();
-				//If the type is not 1-7 there is a problem throw an exception
+				throw new ArgumentException("Geometry type not recognized");
+			}
+
+			switch((WKBGeometryType)type)
+			{
+				case WKBGeometryType.WKBPoint:
+					return this.CreateWKBPoint(reader, (WKBByteOrder)byteOrder);
+					
+				case WKBGeometryType.WKBLineString:
+					return this.CreateWKBLineString(reader, (WKBByteOrder)byteOrder);
+					
+				case WKBGeometryType.WKBPolygon:
+					return this.CreateWKBPolygon(reader, (WKBByteOrder)byteOrder);
+					
+				case WKBGeometryType.WKBMultiPoint:
+					return this.CreateWKBMultiPoint(reader, (WKBByteOrder)byteOrder);
+					
+				case WKBGeometryType.WKBMultiLineString:
+					return this.CreateWKBMultiLineString(reader, (WKBByteOrder)byteOrder);
+					
+				case WKBGeometryType.WKBMultiPolygon:
+					return this.CreateWKBMultiPolygon(reader, (WKBByteOrder)byteOrder);
+					
+				case WKBGeometryType.WKBGeometryCollection:
+					return this.CreateWKBGeometryCollection(reader, (WKBByteOrder)byteOrder);
+					
 				default:
-					throw new ArgumentException("Geometry type not recognized");
+					throw new NotSupportedException("Geometry type not supported");
 			}
 		}
 
-		/// <summary>
-		/// Creates a point from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBPoint()
+		private Point CreateWKBPoint(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			//Create the x coordinate.
-			double x = _bReader.ReadDouble();
-
-			//Create the y coordinate.
-			double y = _bReader.ReadDouble();
-
-			//Create the coordinates.
-			Coordinate coord = new Coordinate(x, y);
-
-			//Create and return the point.
-			return _geometryFactory.CreatePoint(coord);
+			// Create and return the point.
+			return _factory.createPoint(new Coordinate(this.ReadDouble(reader, byteOrder), this.ReadDouble(reader, byteOrder)));
 		}
 
-		private CoordinateCollection ReadCoordinates()
+		private Coordinate[] ReadCoordinates(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			//Get the number of points in this linestring.
-			int numPoints = (int)_bReader.ReadUInt32();
+			// Get the number of points in this linestring.
+			int numPoints = (int)this.ReadUInt32(reader, byteOrder);
 
-			//Create an Array for the coordinates.
-			CoordinateCollection coords = new CoordinateCollection();
+			// Create a new array of coordinates.
+			Coordinate[] coords = new Coordinate[numPoints];
 
-			//Loop around the number of points.
-			for(int i = 0; i < numPoints; i++)
+			// Loop on the number of points in the ring.
+			for (int i = 0; i < numPoints; i++)
 			{
-				//Create a new point.
-				Point point = CreateWKBPoint() as Point;
-
-				//Add the coordinates of the point to the coordinate.
-				Coordinate coord = new Coordinate(point.X, point.Y);
-
-				//Add the coordinate to the coordinates array.
-				coords.Add(coord);
+				// Add the coordinate.
+				coords[i] = new Coordinate(this.ReadDouble(reader, byteOrder), this.ReadDouble(reader, byteOrder));
 			}
+
 			return coords;
 		}
-		/// <summary>
-		/// Creates a linestring from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private LineString CreateWKBLineString()
+
+		private LineString CreateWKBLineString(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			CoordinateCollection coords = ReadCoordinates();
-			//Create and return the linestring.
-			return _geometryFactory.CreateLineString(coords);
+			return _factory.createLineString(this.ReadCoordinates(reader, byteOrder));
 		}
 
-		/// <summary>
-		/// Creates a linar ring from WKB.
-		/// </summary>
-		/// <returns></returns>
-		private LinearRing CreateWKBLinearRing()
+		private LinearRing CreateWKBLinearRing(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			CoordinateCollection coords = ReadCoordinates();
-			//Create and return the linearring.
-			return _geometryFactory.CreateLinearRing(coords);
+			return _factory.createLinearRing(this.ReadCoordinates(reader, byteOrder));
 		}
-		/// <summary>
-		/// Creates a Polygon from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBPolygon()
-		{
-			//Get the Number of rings in this Polygon.
-			int numRings = (int)_bReader.ReadUInt32();
-			Debug.Assert(numRings>=1, "Number of rings in polygon must be 1 or more.");
 
-			LinearRing shell = CreateWKBLinearRing();
+		private Polygon CreateWKBPolygon(BinaryReader reader, WKBByteOrder byteOrder)
+		{
+			// Get the Number of rings in this Polygon.
+			int numRings = (int)this.ReadUInt32(reader, byteOrder);
+
+			Debug.Assert(numRings >= 1, "Number of rings in polygon must be 1 or more.");
+
+			LinearRing shell = this.CreateWKBLinearRing(reader, byteOrder);
 			
-			//Create a new array of linearrings for the interior rings.
+			// Create a new array of linearrings for the interior rings.
 			LinearRing[] interiorRings = new LinearRing[numRings-1];
-			for(int i = 0; i < numRings-1; i++)
+
+			for (int i = 0; i < (numRings - 1); i++)
 			{
-				interiorRings[i] = CreateWKBLinearRing();
+				interiorRings[i] = this.CreateWKBLinearRing(reader, byteOrder);
 			}
 				
-			//Create and return the Poylgon.
-			return _geometryFactory.CreatePolygon(shell, interiorRings);
+			// Create and return the Poylgon.
+			return _factory.createPolygon(shell, interiorRings);
 		}
 
-		/// <summary>
-		/// Creates a Multipoint from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBMultiPoint()
+		private MultiPoint CreateWKBMultiPoint(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			//Get the number of points in this multipoint.
-			int numPoints = (int)_bReader.ReadUInt32();
+			// Get the number of points in this multipoint.
+			int numPoints = (int)this.ReadUInt32(reader, byteOrder);
 
-			//Create a new array for the points.
+			// Create a new array for the points.
 			Point[] points = new Point[numPoints];
 
-			//Loop on the number of points.
-			for(int i = 0; i < numPoints; i++)
+			// Loop on the number of points.
+			for (int i = 0; i < numPoints; i++)
 			{
-				// read Point header
-				_bReader.ReadByte();
-				_bReader.ReadUInt32();
-				//Create the next point and add it to the point array.
-				points[i] = (Point)CreateWKBPoint();
+				// Read point header
+				reader.ReadByte();
+				this.ReadUInt32(reader, byteOrder);
+
+				// TODO: Validate type
+
+				// Create the next point and add it to the point array.
+				points[i] = this.CreateWKBPoint(reader, byteOrder);
 			}
-			//Create and return the MultiPoint.
-			return _geometryFactory.CreateMultiPoint(points);
+
+			// Create and return the multipoint.
+			return _factory.createMultiPoint(points);
 		}
 
-		/// <summary>
-		/// Creates a multilinestring from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBMultiLineString()
+		private MultiLineString CreateWKBMultiLineString(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			//Get the number of linestrings in this multilinestring.
-			int numLineStrings = (int)_bReader.ReadUInt32();
+			// Get the number of linestrings in this multilinestring.
+			int numLineStrings = (int)this.ReadUInt32(reader, byteOrder);
 
-            //Create a new array for the linestrings .
+			// Create a new array for the linestrings .
 			LineString[] lineStrings = new LineString[numLineStrings];
             
-			//Loop on the number of linestrings.
-			for(int i = 0; i < numLineStrings; i++)
+			// Loop on the number of linestrings.
+			for (int i = 0; i < numLineStrings; i++)
 			{
-				//read Point header
-				_bReader.ReadByte();
-				_bReader.ReadUInt32();
+				// Read linestring header
+				reader.ReadByte();
+				this.ReadUInt32(reader, byteOrder);
 
-				//Create the next linestring and add it to the array.
-				lineStrings[i] = (LineString)CreateWKBLineString();
+				// TODO: Validate type
+
+				// Create the next linestring and add it to the array.
+				lineStrings[i] = this.CreateWKBLineString(reader, byteOrder);
 			}
-			//Create and return the MultiLineString.
-			return _geometryFactory.CreateMultiLineString(lineStrings);
+
+			// Create and return the MultiLineString.
+			return _factory.createMultiLineString(lineStrings);
 		}
 
-		/// <summary>
-		/// Creates a multipolygon from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBMultiPolygon()
+		private MultiPolygon CreateWKBMultiPolygon(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			//Get the number of Polygons.
-			int numPolygons = (int)_bReader.ReadUInt32();
+			// Get the number of Polygons.
+			int numPolygons = (int)this.ReadUInt32(reader, byteOrder);
 
-			//Create a new array for the Polygons.
+			// Create a new array for the Polygons.
 			Polygon[] polygons = new Polygon[numPolygons];
 
-			//Loop on the number of polygons.
-			for(int i = 0; i < numPolygons; i++)
+			// Loop on the number of polygons.
+			for (int i = 0; i < numPolygons; i++)
 			{
 				// read polygon header
-				_bReader.ReadByte();
-				_bReader.ReadUInt32();
-				//Create the next polygon and add it to the array.
-				polygons[i] = (Polygon)CreateWKBPolygon();
+				reader.ReadByte();
+				this.ReadUInt32(reader, byteOrder);
+				
+				// TODO: Validate type
+
+				// Create the next polygon and add it to the array.
+				polygons[i] = this.CreateWKBPolygon(reader, byteOrder);
 			}
+
 			//Create and return the MultiPolygon.
-			return _geometryFactory.CreateMultiPolygon(polygons);
+			return _factory.createMultiPolygon(polygons);
 		}
 
-		/// <summary>
-		/// Creates a geometrycollection from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBGeometryCollection()
+		private Geometry CreateWKBGeometryCollection(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			//The next byte in the array tells the number of geometries in this collection.
-			int numGeometries = (int)_bReader.ReadUInt32();
+			// The next byte in the array tells the number of geometries in this collection.
+			int numGeometries = (int)this.ReadUInt32(reader, byteOrder);
 
-			//Create a new array for the geometries.
+			// Create a new array for the geometries.
 			Geometry[] geometries = new Geometry[numGeometries];
 
-			//Loop on the number of geometries.
+			// Loop on the number of geometries.
 			for(int i = 0; i < numGeometries; i++)
 			{
-				//Call the main create function with the next geometry.
-				geometries[i] = Create();
+				// Call the main create function with the next geometry.
+				geometries[i] = this.Create(reader);
 			}
-			//Create and return the next geometry.
-			return _geometryFactory.CreateGeometryCollection(geometries);
+
+			// Create and return the next geometry.
+			return _factory.createGeometryCollection(geometries);
+		}
+
+		private int ReadInt32(BinaryReader reader, WKBByteOrder byteOrder)
+		{
+			if (byteOrder == WKBByteOrder.Xdr)
+			{
+				byte[] bytes = BitConverter.GetBytes(reader.ReadInt32()); 
+				Array.Reverse(bytes);
+
+				return BitConverter.ToInt32(bytes, 0);
+			}
+			else
+			{
+				return reader.ReadInt32();
+			}
+		}
+
+		private uint ReadUInt32(BinaryReader reader, WKBByteOrder byteOrder)
+		{
+			if (byteOrder == WKBByteOrder.Xdr)
+			{
+				byte[] bytes = BitConverter.GetBytes(reader.ReadUInt32()); 
+				Array.Reverse(bytes);
+
+				return BitConverter.ToUInt32(bytes, 0);
+			}
+			else
+			{
+				return reader.ReadUInt32();
+			}
+		}	
+
+		private double ReadDouble(BinaryReader reader, WKBByteOrder byteOrder)
+		{
+			if (byteOrder == WKBByteOrder.Xdr)
+			{
+				byte[] bytes = BitConverter.GetBytes(reader.ReadDouble()); 
+				Array.Reverse(bytes);
+
+				return BitConverter.ToDouble(bytes, 0);
+			}
+			else
+			{
+				return reader.ReadDouble();
+			}
 		}
 	}
 }

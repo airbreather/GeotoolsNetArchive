@@ -16,14 +16,13 @@
  *
  */
 
-#region Using
 using System;
 using System.IO;
 using System.Text;
 using System.Xml;
 using Geotools.Utilities;
-using Geotools.Geometries;
-#endregion
+//using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 
 namespace Geotools.IO
 {
@@ -34,7 +33,7 @@ namespace Geotools.IO
 	/// <para>The GeometrySVGWriter will output coordinates rounded to the precision model. No more than 
 	/// the maximum number of necessary decimal places will be output.</para>
 	/// </remarks>
-	public class GeometrySvgWriter
+	public class GeometrySVGWriter
 	{
 
 		private int _radius =2;
@@ -49,11 +48,11 @@ namespace Geotools.IO
 		/// <summary>
 		/// Initializes a new instance of the GeometrySVGWriter class.
 		/// </summary>
-		public GeometrySvgWriter(PrecisionModel precisionModel): this(precisionModel,"",5)
+		public GeometrySVGWriter(PrecisionModel precisionModel): this(precisionModel,"",5)
 		{
 
 		}
-		public GeometrySvgWriter(PrecisionModel precisionModel, string xmlNamespace, int decimalPlaces)
+		public GeometrySVGWriter(PrecisionModel precisionModel, string xmlNamespace, int decimalPlaces)
 		{
 			_formatterString = CreateFormatter(decimalPlaces);
 			_namespace = xmlNamespace;
@@ -125,22 +124,6 @@ namespace Geotools.IO
 		}
 
 
-		/// <summary>
-		/// Returns a string of repeated characters.
-		/// </summary>
-		/// <param name="ch">The character to repeat.</param>
-		/// <param name="count">The number of times to repeat the character.</param>
-		/// <returns>Returns a string of repeated characters.</returns>
-		private static string StringOfChar(char ch, int count) 
-		{
-
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < count; i++) 
-			{
-				sb.Append(ch);
-			}
-			return sb.ToString();
-		}
 
 		/// <summary>
 		/// Converts a Geometry to its Well-known Text representation.
@@ -150,12 +133,12 @@ namespace Geotools.IO
 		/// <param name="style"></param>
 		/// <returns>A &lt;Geometry Tagged Text&gt; string (see the OpenGIS Simple
 		///  Features Specification)</returns>
-		public string Write(IGeometry geometry,string CssClass, string style)
+		public string Write(Geometry geometry,string CssClass, string style)
 		{
 			_cssClass=CssClass;
 			_style=style;
 			StringWriter sw = new StringWriter();
-			Geometry geometryObj = (Geometry)geometry;
+			Geometry geometryObj = geometry;
 			AppendGeometryTaggedText(geometry, sw);
 			_cssClass="";
 			_style="";
@@ -173,11 +156,11 @@ namespace Geotools.IO
 		/// Geometry is written to the output stream as &lt;Gemoetry Tagged Text&gt; string (see the OpenGIS
 		/// Simple Features Specification).
 		/// </remarks>
-		public void Write(IGeometry geometry, TextWriter writer,string CssClass, string style)
+		public void Write(Geometry geometry, TextWriter writer,string CssClass, string style)
 		{
 			_cssClass=CssClass;
 			_style=style;
-			Geometry geometryObj = (Geometry)geometry;
+			Geometry geometryObj = geometry;
 			AppendGeometryTaggedText(geometry, writer);
 			_cssClass="";
 			_style="";
@@ -189,13 +172,13 @@ namespace Geotools.IO
 		/// </summary>
 		/// <param name="geometry">The Geometry to process.</param>
 		/// <param name="writer">The output stream to Append to.</param>
-		public void AppendGeometryTaggedText(IGeometry geometry, TextWriter writer)
+		public void AppendGeometryTaggedText(Geometry geometry, TextWriter writer)
 		{
 			
 			if (geometry is Point) 
 			{
 				Point point = (Point) geometry;
-				AppendPointTaggedText(point.GetCoordinate(), writer, _precisionModel);
+				AppendPointTaggedText(point.getCoordinate(), writer, _precisionModel);
 			}
 			else if (geometry is LineString) 
 			{
@@ -238,17 +221,13 @@ namespace Geotools.IO
 		///  from a precise coordinate to an external coordinate</param>
 		protected void AppendPointTaggedText(Coordinate coordinate,  TextWriter writer, 	PrecisionModel precisionModel)
 		{
-			Coordinate externalCoordinate = new Coordinate();
-			//precisionModel.ToExternal(coordinate, externalCoordinate);
-			externalCoordinate = coordinate;
-
 			if (this._cssClass!="")
 			{
-				writer.WriteLine(String.Format("<{5}circle class=\"{0}\" style=\"{1}\" cx=\"{2}\" cy=\"{3}\" r=\"{4}\"/>",_cssClass,_style,WriteNumber(externalCoordinate.X),WriteNumber(externalCoordinate.Y),_radius,_namespace));			
+				writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "<{5}circle class=\"{0}\" style=\"{1}\" cx=\"{2}\" cy=\"{3}\" r=\"{4}\"/>",_cssClass,_style,WriteNumber(coordinate.x),WriteNumber(coordinate.y),_radius,_namespace));			
 			}
 			else
 			{
-				writer.WriteLine(String.Format("<{4}circle  style=\"{0}\" cx=\"{1}\" cy=\"{2}\" r=\"{3}\"/>",_style,WriteNumber(externalCoordinate.X),WriteNumber(externalCoordinate.Y),_radius,_namespace));			
+				writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "<{4}circle  style=\"{0}\" cx=\"{1}\" cy=\"{2}\" r=\"{3}\"/>",_style,WriteNumber(coordinate.x),WriteNumber(coordinate.y),_radius,_namespace));			
 			}
 		}
 
@@ -261,11 +240,11 @@ namespace Geotools.IO
 				
 			if (this._cssClass=="")
 			{
-				writer.WriteLine(String.Format("<{1}path  style=\"{0}\" d=\"",_style,_namespace));
+				writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "<{1}path  style=\"{0}\" d=\"",_style,_namespace));
 			}
 			else
 			{
-				writer.WriteLine(String.Format("<{2}path class=\"{0}\" style=\"{1}\" d=\"",_cssClass,_style,_namespace));
+				writer.WriteLine(String.Format(System.Globalization.CultureInfo.InvariantCulture, "<{2}path class=\"{0}\" style=\"{1}\" d=\"",_cssClass,_style,_namespace));
 			}
 		}
 		protected void AppendEndPath(TextWriter writer)
@@ -363,13 +342,7 @@ namespace Geotools.IO
 		/// from a precise coordinate to an external coordinate</param>
 		protected void AppendCoordinate(Coordinate coordinate, TextWriter writer, PrecisionModel precisionModel)
 		{
-			//throw new NotFiniteNumberException();
-			Coordinate externalCoordinate = new Coordinate();
-			//precisionModel.ToExternal(coordinate, externalCoordinate);
-			externalCoordinate = coordinate;
-			writer.Write(" " + WriteNumber(externalCoordinate.X) + " " + WriteNumber(externalCoordinate.Y));
-			//writer.Write(WriteNumber(coordinate.X) + " " + WriteNumber(coordinate.Y));
-			
+			writer.Write(" " + WriteNumber(coordinate.x) + " " + WriteNumber(coordinate.y));
 		}
 
 		/// <summary>
@@ -381,7 +354,7 @@ namespace Geotools.IO
 		{
 			if (d!=0.0)
 			{
-				return String.Format(_formatterString, d);
+				return String.Format(System.Globalization.CultureInfo.InvariantCulture, _formatterString, d);
 			}
 			
 			return "0";
@@ -407,26 +380,26 @@ namespace Geotools.IO
 		public void AppendLineStringTextRelative(LineString lineString, TextWriter writer)
 		{
 			
-			if (lineString.IsEmpty()) 
+			if (lineString.isEmpty()) 
 			{
 				//writer.Write("EMPTY");
 			}
 			else 
 			{
 				writer.Write(" M ");
-				double currentX = lineString.GetCoordinateN(0).X; 
-				double currentY = lineString.GetCoordinateN(0).Y;
+				double currentX = lineString.getCoordinateN(0).x; 
+				double currentY = lineString.getCoordinateN(0).y;
 				double x=0;
 				double y=0;
-				AppendCoordinate(lineString.GetCoordinateN(0), writer, _precisionModel);
+				AppendCoordinate(lineString.getCoordinateN(0), writer, _precisionModel);
 				Coordinate relativeCoordinate = new Coordinate();
 				writer.Write(" l ");
-				for (int i = 1; i < lineString.GetNumPoints(); i++) 
+				for (int i = 1; i < lineString.getNumPoints(); i++) 
 				{
-					x = lineString.GetCoordinateN(i).X;
-					y = lineString.GetCoordinateN(i).Y;
-					relativeCoordinate.X=  x- currentX;
-					relativeCoordinate.Y=  y - currentY;
+					x = lineString.getCoordinateN(i).x;
+					y = lineString.getCoordinateN(i).y;
+					relativeCoordinate.x =  x- currentX;
+					relativeCoordinate.y =  y - currentY;
 					AppendCoordinate(relativeCoordinate, writer, _precisionModel);
 					currentX = x;
 					currentY = y;	
@@ -442,18 +415,18 @@ namespace Geotools.IO
 		protected void AppendLineStringTextAbsolute(LineString lineString, TextWriter writer)
 		{
 			
-			if (lineString.IsEmpty()) 
+			if (lineString.isEmpty()) 
 			{
 				//writer.Write("EMPTY");
 			}
 			else 
 			{
 				writer.Write(" M ");
-				AppendCoordinate(lineString.GetCoordinateN(0), writer, _precisionModel);
-				for (int i = 1; i < lineString.GetNumPoints(); i++) 
+				AppendCoordinate(lineString.getCoordinateN(0), writer, _precisionModel);
+				for (int i = 1; i < lineString.getNumPoints(); i++) 
 				{
 					writer.Write(" L ");
-					AppendCoordinate(lineString.GetCoordinateN(i), writer, _precisionModel);
+					AppendCoordinate(lineString.getCoordinateN(i), writer, _precisionModel);
 					if (i%5==4)
 					{
 						writer.WriteLine();
@@ -472,16 +445,17 @@ namespace Geotools.IO
 		protected void AppendPolygonText(Polygon polygon,  TextWriter writer)
 		{
 			
-			if (polygon.IsEmpty()) 
+			if (polygon.isEmpty()) 
 			{
 				//writer.Write("EMPTY");
 			}
 			else 
 			{
-				AppendLineStringText(polygon.Shell,writer);
-				for (int i = 0; i < polygon.GetNumInteriorRing(); i++) 
+				
+				AppendLineStringText(polygon.getExteriorRing(),writer);
+				for (int i = 0; i < polygon.getNumInteriorRing(); i++) 
 				{
-					AppendLineStringText(polygon.Holes[i],  writer);
+					AppendLineStringText(polygon.getInteriorRingN(i),  writer);
 				}
 				writer.Write(" Z ");
 			}	
@@ -496,15 +470,15 @@ namespace Geotools.IO
 		/// <param name="writer">The output stream writer to Append to.</param>
 		protected void AppendMultiPointText(MultiPoint multiPoint,  TextWriter writer)
 		{
-			if (multiPoint.IsEmpty()) 
+			if (multiPoint.isEmpty()) 
 			{
 				//writer.Write("EMPTY");
 			}
 			else 
 			{
-				for (int i = 0; i < multiPoint.GetNumGeometries(); i++) 
+				for (int i = 0; i < multiPoint.getNumGeometries(); i++) 
 				{
-					AppendPointTaggedText( multiPoint.GetCoordinate(i), writer, _precisionModel);
+					AppendPointTaggedText( multiPoint.getGeometryN(i).getCoordinate(), writer, _precisionModel);
 				}
 			}
 		}
@@ -518,20 +492,20 @@ namespace Geotools.IO
 		protected void AppendMultiLineStringText(MultiLineString multiLineString, TextWriter writer)
 		{
 			
-			if (multiLineString.IsEmpty()) 
+			if (multiLineString.isEmpty()) 
 			{
 				writer.Write("EMPTY");
 			}
 			else 
 			{
-				for (int i = 0; i < multiLineString.GetNumGeometries(); i++) 
+				for (int i = 0; i < multiLineString.getNumGeometries(); i++) 
 				{
 					if (i > 0) 
 					{
 						writer.Write(", ");
 					}
 					//AppendLineStringText((LineString) multiLineString.GetGeometryN(i), level2, doIndent, writer);
-					AppendLineStringText((LineString) multiLineString.GetGeometryN(i), writer);
+					AppendLineStringText((LineString) multiLineString.getGeometryN(i), writer);
 				}
 				//writer.Write(")");
 			}
@@ -545,20 +519,20 @@ namespace Geotools.IO
 		public void AppendMultiPolygonText(MultiPolygon multiPolygon, TextWriter writer)
 		{
 			
-			if (multiPolygon.IsEmpty()) 
+			if (multiPolygon.isEmpty()) 
 			{
 				writer.Write("EMPTY");
 			}
 			else 
 			{
 				//writer.Write("M");
-				for (int i = 0; i < multiPolygon.GetNumGeometries(); i++) 
+				for (int i = 0; i < multiPolygon.getNumGeometries(); i++) 
 				{
 					/*if (i > 0 && (i<multiPolygon.GetNumGeometries()-1) ) 
 					{
 						writer.Write(", ");
 					}*/
-					AppendPolygonText((Polygon) multiPolygon.GetGeometryN(i), writer);
+					AppendPolygonText((Polygon) multiPolygon.getGeometryN(i), writer);
 				}
 				//writer.Write("Z");
 			}	
@@ -571,14 +545,14 @@ namespace Geotools.IO
 		/// <param name="writer">The output stream writer to Append to.</param>
 		protected void AppendGeometryCollectionText(GeometryCollection geometryCollection, TextWriter writer)
 		{	
-			if (geometryCollection.IsEmpty()) 
+			if (geometryCollection.isEmpty()) 
 			{
 			}
 			else 
 			{
-				for (int i = 0; i < geometryCollection.GetNumGeometries(); i++) 
+				for (int i = 0; i < geometryCollection.getNumGeometries(); i++) 
 				{
-					AppendGeometryTaggedText(geometryCollection.GetGeometryN(i),  writer);
+					AppendGeometryTaggedText(geometryCollection.getGeometryN(i),  writer);
 				}
 			}			
 		}

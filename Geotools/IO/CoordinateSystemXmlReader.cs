@@ -135,9 +135,9 @@ namespace Geotools.IO
 					case "CS_GEOCCS":
 					case "CS_FITTED_CS":
 					case "CS_LOCAL_CS":
-						throw new NotSupportedException(String.Format("{0} is not implemented.",reader.Name));
+						throw new NotSupportedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} is not implemented.",reader.Name));
 					default:
-						throw new ParseException(String.Format("Element type {0} was is not understoon.",reader.Name));
+						throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Element type {0} was is not understoon.",reader.Name));
 
 				}
 			}
@@ -170,7 +170,7 @@ namespace Geotools.IO
 				case "GEOCCS":
 				case "FITTED_CS":
 				case "LOCAL_CS":
-					throw new InvalidOperationException(String.Format("{0} coordinate system is not recongized.",reader.Name));
+					throw new InvalidOperationException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} coordinate system is not recongized.",reader.Name));
 				//default:
 				//	throw new ParseException(String.Format("Coordinate System {0} was not understoon.",reader.Name));
 
@@ -184,7 +184,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_Info"))
 			{
-				throw new ParseException(String.Format("Expected a IInfo but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IInfo but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}	
 			authority = reader.GetAttribute("Authority");
 			authorityCode = reader.GetAttribute("AuthorityCode");
@@ -216,7 +216,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_LinearUnit"))
 			{
-				throw new ParseException(String.Format("Expected a CS_LinearUnit but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a CS_LinearUnit but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 
 			double metersPerUnit = XmlConvert.ToDouble(reader.GetAttribute("MetersPerUnit"));
@@ -243,7 +243,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element && reader.Name=="CS_AngularUnit"))
 			{
-				throw new ParseException(String.Format("Expected a ILinearUnit but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a ILinearUnit but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			double radiansPerUnit = XmlConvert.ToDouble(reader.GetAttribute("RadiansPerUnit"));
 			string authority="",authorityCode="",abbreviation="",name="";
@@ -284,7 +284,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_CompoundCoordinateSystem"))
 			{
-				throw new ParseException(String.Format("Expected a ICompoundCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a ICompoundCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			string authority="",authorityCode="",abbreviation="",name="";
 			reader.Read();
@@ -321,7 +321,7 @@ namespace Geotools.IO
 						*/
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_Ellipsoid"))
 			{
-				throw new ParseException(String.Format("Expected a CS_Ellipsoid but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a CS_Ellipsoid but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			double semiMajor = XmlConvert.ToDouble(reader.GetAttribute("SemiMajorAxis"));
 			double semiMinor = XmlConvert.ToDouble(reader.GetAttribute("SemiMinorAxis"));
@@ -346,13 +346,13 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_ProjectionParameter"))
 			{
-				throw new ParseException(String.Format("Expected a IProjectionParameter but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IProjectionParameter but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			string name = reader.GetAttribute("Name");
 			string val = reader.GetAttribute("Value");
 			ProjectionParameter param = new ProjectionParameter();
 			param.Name=name;
-			param.Value=Double.Parse( val );
+			param.Value=Double.Parse( val, System.Globalization.CultureInfo.InvariantCulture );
 			return param;
 		}
 
@@ -360,7 +360,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_Projection"))
 			{
-				throw new ParseException(String.Format("Expected a IProjection but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IProjection but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			string className=reader.GetAttribute("ClassName");
 			reader.Read();
@@ -384,7 +384,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_ProjectedCoordinateSystem"))
 			{
-				throw new ParseException(String.Format("Expected a IProjectedCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IProjectedCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			string authority="",authorityCode="",abbreviation="",name="";
 			reader.Read();
@@ -413,7 +413,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_GeographicCoordinateSystem"))
 			{
-				throw new ParseException(String.Format("Expected a IGeographicCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IGeographicCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			string authority="",authorityCode="",abbreviation="",name="";
 			reader.Read();
@@ -447,7 +447,7 @@ namespace Geotools.IO
 
 			if (!(reader.NodeType==XmlNodeType.Element ||  reader.Name=="CS_Info"))
 			{
-				throw new ParseException(String.Format("Expected a IInfo but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IInfo but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 			
 			string orientationString = reader.GetAttribute("Orientation");
@@ -460,7 +460,7 @@ namespace Geotools.IO
 		{
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_HorizontalDatum"))
 			{
-				throw new ParseException(String.Format("Expected a IHorizontalDatum but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IHorizontalDatum but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 		
 			/* <IHorizontalDatum DatumType="1001">
@@ -526,7 +526,7 @@ namespace Geotools.IO
 			*/
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_VerticalCoordinateSystem"))
 			{
-				throw new ParseException(String.Format("Expected a IVerticalCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IVerticalCoordinateSystem but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}	
 			string authority="",authorityCode="",abbreviation="",name="";
 			reader.Read();
@@ -558,7 +558,7 @@ namespace Geotools.IO
 		 */
 			if (!(reader.NodeType==XmlNodeType.Element &&  reader.Name=="CS_VerticalDatum"))
 			{
-				throw new ParseException(String.Format("Expected a IVerticalDatum but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expected a IVerticalDatum but got a {0} at line {1} col {2}",reader.Name,reader.LineNumber,reader.LinePosition));
 			}
 
 			string datumTypeString = reader.GetAttribute("DatumType");

@@ -17,65 +17,59 @@
  *
  */
 
-#region Using
 using System;
 using System.IO;
 using System.Text;
-#endregion
 
 namespace Geotools.IO
 {
 	/// <summary>
-	/// Extends the BinaryWriter class to allow the writing of integers in the Big Endian format.
+	/// Binary writer class to allow the writing of integers in the Big Endian format.
 	/// </summary>
 	public class BigEndianBinaryWriter : BinaryWriter
 	{
-		#region Constructors
 		/// <summary>
-		/// Initializes a new instance of the BigEndianBinaryWriter class.
+		/// Initializes a new instance of the <see cref="BigEndianBinaryWriter">BigEndianBinaryWriter</see> class.
 		/// </summary>
-		public BigEndianBinaryWriter() : base()
-		{
-			
+		public BigEndianBinaryWriter() 
+			: base()
+		{	
 		}
+
 		/// <summary>
-		/// Initializes a new instance of the BigEndianBinaryWriter class based on the supplied stream and using UTF-8 as the encoding for strings.
+		/// Initializes a new instance of the <see cref="BigEndianBinaryWriter">BigEndianBinaryWriter</see> class based on the supplied stream and using UTF-8 as the encoding for strings.
 		/// </summary>
 		/// <param name="output">The supplied stream.</param>
-		public BigEndianBinaryWriter(Stream output) : base(output)
+		public BigEndianBinaryWriter(Stream output) 
+			: base(output)
 		{
 		}
+
 		/// <summary>
-		/// Initializes a new instance of the BigEndianBinaryWriter class based on the supplied stream and a specific character encoding.
+		/// Initializes a new instance of the <see cref="BigEndianBinaryWriter">BigEndianBinaryWriter</see> class based on the supplied stream and a specific character encoding.
 		/// </summary>
 		/// <param name="output">The supplied stream.</param>
 		/// <param name="encoding">The character encoding.</param>
-		public BigEndianBinaryWriter(Stream output, Encoding encoding): base(output,encoding)
+		public BigEndianBinaryWriter(Stream output, Encoding encoding)
+			: base(output, encoding)
 		{
 		}
-		#endregion
 
-		#region Properties
-		#endregion
-
-		#region Methods
 		/// <summary>
 		/// Reads a 2-byte signed integer using the big-endian layout from the current stream and advances the current position of the stream by two bytes.
 		/// </summary>
 		/// <param name="integer">The four-byte signed integer to write.</param>
 		public void WriteIntBE(int integer)
 		{
-			byte i1=(byte)(integer >> 24);
-			byte i2=(byte)(integer >> 16);
-			byte i3=(byte)(integer >> 8);
-			byte i4=(byte)(integer & 255);
+			byte i1 = (byte)(integer >> 24);
+			byte i2 = (byte)(integer >> 16);
+			byte i3 = (byte)(integer >> 8);
+			byte i4 = (byte)(integer & 255);
 			
 			this.Write(i1);
 			this.Write(i2);
 			this.Write(i3);
 			this.Write(i4);		
 		}
-		#endregion
-
 	}
 }

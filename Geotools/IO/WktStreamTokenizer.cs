@@ -59,7 +59,7 @@ namespace Geotools.IO
 			this.NextToken();
 			if (this.GetStringValue()!=expectedToken)
 			{
-				throw new ParseException(String.Format("Expecting comma ('{3}') but got a '{0}' at line {1} column {2}.",this.GetStringValue(),this.LineNumber,this.Column,expectedToken));
+				throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Expecting comma ('{3}') but got a '{0}' at line {1} column {2}.",this.GetStringValue(),this.LineNumber,this.Column,expectedToken));
 			}
 		}
 		
@@ -102,4 +102,3 @@ namespace Geotools.IO
 
 	}
 }
-

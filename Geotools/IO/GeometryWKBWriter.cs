@@ -17,329 +17,335 @@
  *
  */
 
-
-#region Using
 using System;
 using System.IO;
 using System.Collections;
-using Geotools.Geometries;
-using Geotools.Utilities;
-#endregion
+using com.vividsolutions.jts.geom;
 
 namespace Geotools.IO
 {
 	/// <summary>
-	///  Converts a Well-known Binary string to a Geometry.
+	///  Write <b>Geometry</b> objects as Well-Known Binary.
 	/// </summary>
-	/// <remarks>The Well-known
-	///  <para>Binary format is defined in the 
-	///  OpenGIS Simple Features Specification for SQL</para>
+	/// <remarks>
+	///  <para>
+	///  The Well-known Binary format is defined in the 
+	///  OpenGIS Simple Features Specification for SQL
+	///  </para>
 	/// </remarks> 
-	public class GeometryWkbWriter
+	public class GeometryWKBWriter
 	{
-		private BinaryWriter _bWriter;
-		private GeometryFactory _geometryFactory;
-
-		#region Constructors
+		private BinaryWriter _writer;
+		private GeometryFactory _factory;
 
 		/// <summary>
-		/// The constructor for the binary writer.
+		/// Initializes a new instance of the <see cref="GeometryWKBWriter">GeometryWKBWriter</see> class.
 		/// </summary>
-		/// <param name="geometryFactory">The geometry used by this method.</param>
-		public GeometryWkbWriter(GeometryFactory geometryFactory)
+		/// <param name="factory">The <b>GeometryFactory</b> used when writing geometries.</param>
+		public GeometryWKBWriter(BinaryWriter writer, GeometryFactory factory)
 		{
-			_geometryFactory = geometryFactory;
+			_writer = writer;
+			_factory = factory;
 		}
-
-		#endregion
-
-		#region Properties
-		#endregion
-
-		#region Methods
 
 		/// <summary>
-		/// The binary write method.
+		/// Returns a byte[] containing the supplied <b>Geometry</b> object's Well-known binary representation.
 		/// </summary>
-		/// <param name="geometry">The geometry to be written.</param>
-		/// <param name="bWriter">The binary writer to be used.</param>
-		/// <param name="format">The format employed (big/little endian).</param>
-		public BinaryWriter Write(Geometry geometry, BinaryWriter bWriter, byte format)
+		/// <param name="geometry">The <b>Geometry</b> object.</param>
+		/// <param name="factory">The <b>GeometryFactory</b>.</param>
+		/// <param name="byteOrder">The desired <see cref="WKBByteOrder">WKBByteOrder</see>.</param>
+		/// <returns>A byte[] containing the supplied <b>Geometry</b> object's Well-known binary representation.</returns>
+		public static byte[] GetBytes(Geometry geometry, GeometryFactory factory, WKBByteOrder byteOrder)
 		{
-			//Create the binary writer.
-			_bWriter = bWriter;
-
-			//Write the format.
-			_bWriter.Write(format);
-
-			//Write the type of this geometry
-			WriteType(geometry);
-
-			//Write the geometry
-			WriteGeometry(geometry, format);
-
-			return _bWriter;
-		}
-
-		public byte[] Write(Geometry geometry)
-		{
-			if (geometry==null)
+			if (geometry == null)
 			{
 				throw new ArgumentNullException("geometry");
 			}
-			MemoryStream stream = new MemoryStream();
-			BinaryWriter binaryWriter = new BinaryWriter(stream);
-			Write(geometry, binaryWriter, 0);
-			binaryWriter.Close();
-			byte[] wkb=stream.ToArray();
-			return wkb;
-		}
-		/// <summary>
-		/// Writes the type number for this geometry.
-		/// </summary>
-		/// <param name="geometry">The geometry to determine the type of.</param>
-		private void WriteType(Geometry geometry)
-		{
-			//Determine the type of the geometry.
-			switch( geometry.GetGeometryType() )
+
+			using (MemoryStream ms = new MemoryStream())
 			{
-					//Points are type 1.
-				case "Point":
-					_bWriter.Write(1);
+				using (BinaryWriter writer = new BinaryWriter(ms))
+				{
+					new GeometryWKBWriter(writer, factory).WriteGeometry(geometry, byteOrder);  
+				
+					return ms.ToArray();
+				}
+			}
+		}
+
+		/// <summary>
+		/// Writes the <b>Geometry</b> object.
+		/// </summary>
+		/// <param name="geometry">The <b>Geometry</b> object to write.</param>
+		/// <param name="byteOrder">The desired <see cref="WKBByteOrder">WKBByteOrder</see>.</param>
+		public void Write(Geometry geometry, WKBByteOrder byteOrder)
+		{
+			// Write the geometry
+			this.WriteGeometry(geometry, byteOrder);
+		}
+
+		private void WriteType(Geometry geometry, WKBByteOrder byteOrder)
+		{
+			switch(geometry.getGeometryType().ToUpper())
+			{
+				case "POINT":
+					this.Write((uint)WKBGeometryType.WKBPoint, byteOrder);
 					break;
-					//Linestrings are type 2.
-				case "LineString":
-					_bWriter.Write(2);
+
+				case "LINESTRING":
+					this.Write((uint)WKBGeometryType.WKBLineString, byteOrder);
 					break;
-					//Polygons are type 3.
-				case "Polygon":
-					_bWriter.Write(3);
+
+				case "POLYGON":
+					this.Write((uint)WKBGeometryType.WKBPolygon, byteOrder);
 					break;
-					//Mulitpoints are type 4.
-				case "MultiPoint":
-					_bWriter.Write(4);
+
+				case "MULTIPOINT":
+					this.Write((uint)WKBGeometryType.WKBMultiPoint, byteOrder);
 					break;
-					//Multilinestrings are type 5.
-				case "MultiLineString":
-					_bWriter.Write(5);
+
+				case "MULTILINESTRING":
+					this.Write((uint)WKBGeometryType.WKBMultiLineString, byteOrder);
 					break;
-					//Multipolygons are type 6.
-				case "MultiPolygon":
-					_bWriter.Write(6);
+
+				case "MULTIPOLYGON":
+					this.Write((uint)WKBGeometryType.WKBMultiPolygon, byteOrder);
 					break;
-					//Geometrycollections are type 7.
-				case "GeometryCollection":
-					_bWriter.Write(7);
+
+				case "GEOMETRYCOLLECTION":
+					this.Write((uint)WKBGeometryType.WKBGeometryCollection, byteOrder);
 					break;
-					//If the type is not of the above 7 throw an exception.
+
 				default:
 					throw new ArgumentException("Invalid Geometry Type");
 			}
 		}
 
-		/// <summary>
-		/// Writes the geometry to the binary writer.
-		/// </summary>
-		/// <param name="geometry">The geometry to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WriteGeometry(Geometry geometry, byte format)
+		private void WriteGeometry(Geometry geometry, WKBByteOrder byteOrder)
 		{
-			switch( geometry.GetGeometryType() )
+			switch (geometry.getGeometryType().ToUpper())
 			{
-					//Write the point.
-				case "Point":
-					Point point = (Point)geometry;
-					WritePoint(point);
+				case "POINT":
+					this.WritePoint((Point)geometry, byteOrder, true);
 					break;
-					//Write the Linestring.
-				case "LineString":
-					LineString ls = (LineString)geometry;
-					WriteLineString(ls, format);
+
+				case "LINESTRING":
+					this.WriteLineString((LineString)geometry, byteOrder, true);
 					break;
-					//Write the Polygon.
-				case "Polygon":
-					Polygon poly = (Polygon)geometry;
-					WritePolygon(poly, format);
+
+				case "POLYGON":
+					this.WritePolygon((Polygon)geometry, byteOrder);
 					break;
-					//Write the Multipoint.
-				case "MultiPoint":
-					MultiPoint mp = (MultiPoint)geometry;
-					WriteMultiPoint(mp, format);
+
+				case "MULTIPOINT":
+					this.WriteMultiPoint((MultiPoint)geometry, byteOrder);
 					break;
-					//Write the Multilinestring.
-				case "MultiLineString":
-					MultiLineString mls = (MultiLineString)geometry;
-					WriteMultiLineString(mls, format);
+
+				case "MULTILINESTRING":
+					this.WriteMultiLineString((MultiLineString)geometry, byteOrder);
 					break;
-					//Write the Multipolygon.
-				case "MultiPolygon":
-					MultiPolygon mPoly = (MultiPolygon)geometry;
-					WriteMultiPolygon(mPoly, format);
+
+				case "MULTIPOLYGON":
+					this.WriteMultiPolygon((MultiPolygon)geometry, byteOrder);
 					break;
-					//Write the Geometrycollection.
-				case "GeometryCollection":
-					GeometryCollection gc = (GeometryCollection)geometry;
-					WriteGeometryCollection(gc, format);
+
+				case "GEOMETRYCOLLECTION":
+					this.WriteGeometryCollection((GeometryCollection)geometry, byteOrder);
 					break;
-					//If the type is not of the aboce 7 throw an exception.
+
 				default:
 					throw new ArgumentException("Invalid Geometry Type");
 			}
 		}
 
-		/// <summary>
-		/// Writes a point.
-		/// </summary>
-		/// <param name="point">The point to be written.</param>
-		private void WritePoint(Point point)
+		private void WritePoint(Point point, WKBByteOrder byteOrder, bool writeHeader)
 		{
-			//Write the x coordinate.
-			_bWriter.Write(point.X);
-			//Write the y coordinate.
-			_bWriter.Write(point.Y);
+			if (writeHeader)
+			{
+				// Write byte order
+				_writer.Write((byte)byteOrder);
+
+				// Write type
+				this.WriteType(point, byteOrder);
+			}
+
+			// Write the x coordinate.
+			this.Write(point.getX(), byteOrder);
+
+			// Write the y coordinate.
+			this.Write(point.getY(), byteOrder);
 		}
 
-		/// <summary>
-		/// Writes a linestring.
-		/// </summary>
-		/// <param name="ls">The linestring to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WriteLineString(LineString ls, byte format)
+		private void WriteLineString(LineString ls, WKBByteOrder byteOrder, bool writeHeader)
 		{
-			//Write the number of points in this linestring.
-			_bWriter.Write( ls.GetNumPoints() );
-
-			//Loop on each set of coordinates.
-			foreach(Coordinate coord in ls.GetCoordinates() )
+			if (writeHeader)
 			{
-				//Create a new point from the coordinates & write it.
-				WritePoint(_geometryFactory.CreatePoint(coord));
+				// Write byte order
+				_writer.Write((byte)byteOrder);
+
+				// Write type
+				this.WriteType(ls, byteOrder);
+			}
+
+			// Write the number of points in this linestring.
+			this.Write((uint)ls.getNumPoints(), byteOrder);
+
+			// Loop on each set of coordinates.
+			foreach (Coordinate coord in ls.getCoordinates())
+			{
+				// Create a new point from the coordinates & write it.
+				WritePoint(_factory.createPoint(coord), byteOrder, false);
 			}
 		}
 
-		/// <summary>
-		/// Writes a polygon.
-		/// </summary>
-		/// <param name="poly">The polygon to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WritePolygon(Polygon poly, byte format)
+		private void WritePolygon(Polygon poly, WKBByteOrder byteOrder)
 		{
-			//Get the number of rings in this polygon.
-			int numRings = poly.GetNumInteriorRing() + 1;
+			// Write byte order
+			_writer.Write((byte)byteOrder);
 
-			//Write the number of rings to the stream (add one for the shell)
-			_bWriter.Write(numRings);
+			// Write type
+			this.WriteType(poly, byteOrder);
 
-			//Get the shell of this polygon.
-			WriteLineString(poly.Shell, format);
+			// Get the number of rings in this polygon.
+			int numRings = poly.getNumInteriorRing() + 1;
 
-			//Loop on the number of rings - 1 because we already wrote the shell.
-			for(int i = 0; i < numRings-1; i++)
+			// Write the number of rings to the stream (add one for the shell)
+			this.Write((uint)numRings, byteOrder);
+
+			// Get the shell of this polygon.
+			this.WriteLineString(poly.getExteriorRing(), byteOrder, false);
+
+			// Loop on the number of rings - 1 because we already wrote the shell.
+			for (int i = 0; i < numRings-1; i++)
 			{
-				//Populate the linearRing.
-				LinearRing lr = poly.GetInteriorRingN( i );
-
-				//Write the (lineString)LinearRing.
-				WriteLineString((LineString)lr, format);
+				this.WriteLineString(poly.getInteriorRingN(i), byteOrder, false);
 			}
 		}
 
-		/// <summary>
-		/// Writes a multipoint.
-		/// </summary>
-		/// <param name="mp">The multipoint to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WriteMultiPoint(MultiPoint mp, byte format)
+		private void WriteMultiPoint(MultiPoint mp, WKBByteOrder byteOrder)
 		{
-			//Get the number of points in this multipoint.
-			int numPoints = mp.GetNumPoints();
+			// Write byte order
+			_writer.Write((byte)byteOrder);
 
-			//Write the number of points.
-			_bWriter.Write(numPoints);
+			// Write type
+			this.WriteType(mp, byteOrder);
 
-			//Loop on the number of points.
-			for(int i = 0; i < numPoints; i++)
+			// Get the number of points in this multipoint.
+			int numPoints = mp.getNumPoints();
+
+			// Write the number of points.
+			this.Write((uint)numPoints, byteOrder);
+
+			// Loop on the number of points.
+			for (int i = 0; i < numPoints; i++)
 			{
-				//write the multipoint header
-				_bWriter.Write(format);
-				_bWriter.Write(4);
-
-				_bWriter.Write(numPoints);
-
-				//Write each point.
-				WritePoint((Point)mp[i]);
+				// Write each point.
+				this.WritePoint((Point)mp.getGeometryN(i), byteOrder, true);
 			}
 		}
 
-		/// <summary>
-		/// Writes a multilinestring.
-		/// </summary>
-		/// <param name="mls">The multilinestring to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WriteMultiLineString(MultiLineString mls, byte format)
+		private void WriteMultiLineString(MultiLineString mls, WKBByteOrder byteOrder)
 		{
-			//Get the number of linestrings in this multilinestring.
-			int numLineStrings = mls.GetNumGeometries();
+			// Write byte order
+			_writer.Write((byte)byteOrder);
+
+			// Write type
+			this.WriteType(mls, byteOrder);
 
 			//Write the number of linestrings.
-			_bWriter.Write(numLineStrings);
+			this.Write((uint)mls.getNumGeometries(), byteOrder);
 
 			//Loop on the number of linestrings.
-			for(int i = 0; i < numLineStrings; i++)
+			for (int i = 0; i < mls.getNumGeometries(); i++)
 			{
-				//Write each linestring.
-				WriteLineString((LineString)mls[i], format);
+				// Write each linestring.
+				this.WriteLineString((LineString)mls.getGeometryN(i), byteOrder, true);
 			}
 		}
 
-		/// <summary>
-		/// Writes a multipolygon.
-		/// </summary>
-		/// <param name="mp">The mulitpolygon to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WriteMultiPolygon(MultiPolygon mp, byte format)
+		private void WriteMultiPolygon(MultiPolygon mp, WKBByteOrder byteOrder)
 		{
-			//Get the number of polygons in this multipolygon.
-			int numpolygons = mp.GetNumGeometries();
+			// Write byte order
+			_writer.Write((byte)byteOrder);
 
-			//Write the number of polygons.
-			_bWriter.Write(numpolygons);
+			// Write type
+			this.WriteType(mp, byteOrder);
 
-			//Loop on the number of polygons.
-			for(int i = 0; i < numpolygons; i++)
+			// Get the number of polygons in this multipolygon.
+			int numpolygons = mp.getNumGeometries();
+
+			// Write the number of polygons.
+			this.Write((uint)numpolygons, byteOrder);
+
+			for (int i = 0; i < numpolygons; i++)
 			{
-				//Write the polygon header
-				_bWriter.Write(format);
-				_bWriter.Write(6);
-
-				//Write each polygon.
-				WritePolygon((Polygon)mp[i], format);
+				// Write each polygon.
+				this.WritePolygon((Polygon)mp.getGeometryN(i), byteOrder);
 			}
 		}
 
-		/// <summary>
-		/// Writes a geometrycollection.
-		/// </summary>
-		/// <param name="gc">The geometrycollection to be written.</param>
-		/// <param name="format">The format to use (little endian vs. big endian).</param>
-		private void WriteGeometryCollection(GeometryCollection gc, byte format)
+		private void WriteGeometryCollection(GeometryCollection gc, WKBByteOrder byteOrder)
 		{
-			//Get the number of geometries in this geometrycollection.
-			int numGeometries = gc.GetNumGeometries();
+			// Write byte order
+			_writer.Write((byte)byteOrder);
 
-			//Write the number of geometries.
-			_bWriter.Write(numGeometries);
+			// Write type
+			this.WriteType(gc, byteOrder);
 
-			//Loop on the number of geometries.
-			for(int i = 0; i < numGeometries; i++)
+			// Write the number of geometries.
+			this.Write((uint)gc.getNumGeometries(), byteOrder);
+
+			// Loop on the number of geometries.
+			for (int i = 0; i < gc.getNumGeometries(); i++)
 			{
-				//Write the type of each geometry.
-				WriteType(gc[i]);
-
-				//Write each geometry.
-				WriteGeometry(gc[i], format);
+				// Write each geometry.
+				this.WriteGeometry(gc.getGeometryN(i), byteOrder);
 			}
 		}
-		#endregion
+
+		private void Write(int value, WKBByteOrder byteOrder)
+		{
+			if (byteOrder == WKBByteOrder.Xdr)
+			{
+				byte[] bytes = BitConverter.GetBytes(value); 
+				Array.Reverse(bytes);
+
+				_writer.Write(BitConverter.ToInt32(bytes, 0));
+			}
+			else
+			{
+				_writer.Write(value);
+			}
+		}
+
+		private void Write(uint value, WKBByteOrder byteOrder)
+		{
+			if (byteOrder == WKBByteOrder.Xdr)
+			{
+				byte[] bytes = BitConverter.GetBytes(value); 
+				Array.Reverse(bytes);
+
+				_writer.Write(BitConverter.ToUInt32(bytes, 0));
+			}
+			else
+			{
+				_writer.Write(value);
+			}
+		}
+
+		private void Write(double value, WKBByteOrder byteOrder)
+		{
+			if (byteOrder == WKBByteOrder.Xdr)
+			{
+				byte[] bytes = BitConverter.GetBytes(value); 
+				Array.Reverse(bytes);
+
+				_writer.Write(BitConverter.ToDouble(bytes, 0));
+			}
+			else
+			{
+				_writer.Write(value);
+			}
+		}
 	}
 }

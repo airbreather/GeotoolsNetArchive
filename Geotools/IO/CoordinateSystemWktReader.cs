@@ -21,7 +21,6 @@
 
 using System;
 using System.IO;
-using Geotools.IO;
 using Geotools.CoordinateReferenceSystems;
 using Geotools.CoordinateTransformations;
 using Geotools.Utilities;
@@ -92,9 +91,9 @@ namespace Geotools.IO
 				case "GEOCCS":
 				case "FITTED_CS":
 				case "LOCAL_CS":
-					throw new NotSupportedException(String.Format("{0} is not implemented.",objectName));
+					throw new NotSupportedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} is not implemented.",objectName));
 				default:
-					throw new ParseException(String.Format("'{0'} is not recongnized.",objectName));
+					throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "'{0'} is not recongnized.",objectName));
 
 			}
 			reader.Close();
@@ -134,7 +133,7 @@ namespace Geotools.IO
 					unit = new AngularUnit(unitsPerUnit,"",authority,authorityCode,unitName,"","");
 					break;
 				default:
-					throw new NotImplementedException(String.Format("{0} is not recognized a unit of measure.",unitName));
+					throw new NotImplementedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} is not recognized a unit of measure.",unitName));
 			}
 			return unit;
 		}
@@ -163,7 +162,7 @@ namespace Geotools.IO
 				case "GEOCCS":
 				case "FITTED_CS":
 				case "LOCAL_CS":
-					throw new InvalidOperationException(String.Format("{0} coordinate system is not recongized.",coordinateSystem));
+					throw new InvalidOperationException(String.Format("System.Globalization.CultureInfo.InvariantCulture, {0} coordinate system is not recongized.",coordinateSystem));
 			}
 			return returnCS;
 		}

@@ -17,45 +17,42 @@
  *
  */
 
-
-#region Using
-
 using System;
+using System.IO;
 using System.Text;
 using System.Diagnostics;
-#endregion
 
 namespace Geotools.IO
 {
 	/// <summary>
-	/// Extends the BinaryReader class to allow reading of integers in the Big Endian format.
+	/// Binary reader class to allow reading of integers in the Big Endian format.
 	/// </summary>
 	/// <remarks>
-	/// The BinaryReader uses Little Endian format when reading binary streams.
+	/// The <see cref="System.IO.BinaryReader">BinaryReader</see> uses Little Endian format when reading binary streams.
 	/// </remarks>
-	public class BigEndianBinaryReader : System.IO.BinaryReader
+	public class BigEndianBinaryReader : BinaryReader
 	{
-		#region Constructor
 		/// <summary>
-		/// Initializes a new instance of the BigEndianBinaryReader class based on the supplied stream and using UTF8Encoding.
+		/// Initializes a new instance of the <see cref="BigEndianBinaryReader">BigEndianBinaryReader</see> class based on the supplied stream and using UTF8Encoding.
 		/// </summary>
 		/// <param name="stream"></param>
-		public BigEndianBinaryReader(System.IO.Stream stream) 
+
+		public BigEndianBinaryReader(Stream stream) 
 			: base(stream)
 		{
 		}
+
 		/// <summary>
-		/// Initializes a new instance of the BigEndianBinaryReader class based on the supplied stream and a specific character encoding.
+		/// Initializes a new instance of the <see cref="BigEndianBinaryReader">BigEndianBinaryReader</see> class based on the supplied stream and a specific character encoding.
 		/// </summary>
 		/// <param name="input"></param>
 		/// <param name="encoding"></param>
-		public BigEndianBinaryReader(System.IO.Stream input, Encoding encoding) 
+
+		public BigEndianBinaryReader(Stream input, Encoding encoding) 
 			: base(input, encoding)
 		{
 		}
-		#endregion
 
-		#region Methods
 		/// <summary>
 		/// Reads a 4-byte signed integer using the big-endian layout from the current stream and advances the current position of the stream by two bytes.
 		/// </summary>
@@ -64,18 +61,18 @@ namespace Geotools.IO
 		{
 			// big endian
 			byte[] byteArray = new byte[4];
-			int iBytesRead = this.Read(byteArray,0,4);
-			Debug.Assert(iBytesRead==4);
+			int iBytesRead = this.Read(byteArray, 0, 4);
+			Debug.Assert(iBytesRead == 4);
 			
-			int i = byteArray[0+0];
+			int i = byteArray[0 + 0];
 			i = i << 8;
-			i = i | byteArray[0+1];
+			i = i | byteArray[0 + 1];
 			i = i << 8;
-			i = i | byteArray[0+2]; 
+			i = i | byteArray[0 + 2]; 
 			i = i << 8;
-			i = i | byteArray[0+3];
+			i = i | byteArray[0 + 3];
+			
 			return i;
 		}
-		#endregion
 	}
 }

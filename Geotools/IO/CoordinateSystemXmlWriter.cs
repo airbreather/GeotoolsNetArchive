@@ -110,7 +110,7 @@ namespace Geotools.IO
 			}
 			else
 			{
-				throw new NotImplementedException(String.Format("Cannot convert {0} to XML.",obj.GetType().FullName));
+				throw new NotImplementedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Cannot convert {0} to XML.",obj.GetType().FullName));
 			}
 			
 		}
