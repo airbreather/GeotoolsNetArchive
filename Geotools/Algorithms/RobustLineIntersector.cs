@@ -179,6 +179,7 @@ namespace Geotools.Algorithms
 			return DO_INTERSECT;
 		} // protected override int ComputeIntersect(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
 
+		/*
 		/// <summary>
 		/// 
 		/// </summary>
@@ -186,7 +187,7 @@ namespace Geotools.Algorithms
 		/// <param name="p2"></param>
 		/// <param name="q"></param>
 		/// <returns></returns>
-		private bool Between(Coordinate p1, Coordinate p2, Coordinate q) 
+		private bool IntersectsEnvelope(Coordinate p1, Coordinate p2, Coordinate q) 
 		{
 			if (((q.X >= Math.Min(p1.X, p2.X)) && (q.X <= Math.Max(p1.X, p2.X))) &&
 				((q.Y >= Math.Min(p1.Y, p2.Y)) && (q.Y <= Math.Max(p1.Y, p2.Y)))) 
@@ -198,6 +199,7 @@ namespace Geotools.Algorithms
 				return false;
 			}
 		}
+		*/
 
 		private int ComputeCollinearIntersection(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
 		{
