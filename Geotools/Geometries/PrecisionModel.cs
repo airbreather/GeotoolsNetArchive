@@ -251,9 +251,10 @@ namespace Geotools.Geometries
 		/// <returns>
 		/// The numeric value rounded to the PrecisionModel grid.
 		/// </returns>
-		public static double MakePrecise(double val)
+		public double MakePrecise(double val)
 		{
-			return Math.Round( val );
+			//return Math.Round( val );
+			return Math.Round(val * _scale) / _scale;
 		}
 
 		/// <summary>

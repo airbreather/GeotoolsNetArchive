@@ -118,6 +118,7 @@ namespace Geotools.Data
 					Coordinate coordinate = new Coordinate(file.ReadDouble(), file.ReadDouble() );
 					//Coordinate internalCoord = geometryFactory.PrecisionModel.ToInternal(external);
 					//points.Add(internalCoord);
+					geometryFactory.PrecisionModel.MakePrecise(coordinate);
 					points.Add(coordinate);
 				}
 				LinearRing ring = geometryFactory.CreateLinearRing(points);

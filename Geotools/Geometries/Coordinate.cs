@@ -304,8 +304,8 @@ namespace Geotools.Geometries
 		[Obsolete("Coordinate.MakePrecise() was removed in JTS 1.3")]
 		public void MakePrecise(PrecisionModel precisionModel)
 		{
-			_x = PrecisionModel.MakePrecise( _x );
-			_y = PrecisionModel.MakePrecise( _y );
+			_x = precisionModel.MakePrecise( _x );
+			_y = precisionModel.MakePrecise( _y );
 		}
 
 		/// <summary>
