@@ -70,12 +70,7 @@
                 <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
-                />
-                <Reference
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Drawing.dll"
+                    HintPath = "..\..\..\..\WINNT\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
                 />
             </References>
         </Build>
@@ -161,7 +156,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <Folder RelPath = "bin\" />
                 <File
                     RelPath = "CoordinateSystems\AbstractInformation.cs"
                     SubType = "Code"
@@ -728,22 +722,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Geometries\CVS\Entries"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\CVS\Entries.Log"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\CVS\Repository"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\CVS\Root"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Geometries\Filters\FlipYFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -752,22 +730,6 @@
                     RelPath = "Geometries\Filters\ProjectionFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\Filters\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\Filters\CVS\Entries"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\Filters\CVS\Repository"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\Filters\CVS\Root"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Geometries\SFS\ICurve.cs"
@@ -833,22 +795,6 @@
                     RelPath = "Geometries\SFS\ISurface.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\SFS\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\SFS\CVS\Entries"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\SFS\CVS\Repository"
-                    BuildAction = "None"
-                />
-                <File
-                    RelPath = "Geometries\SFS\CVS\Root"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Graph\Depth.cs"
@@ -951,10 +897,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Graph\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Graph\Index\EdgeSetIntersector.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -995,10 +937,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Graph\Index\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Index\ISpatialIndex.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1034,10 +972,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Index\BinTree\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Index\Chain\MonotoneChain.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1058,17 +992,9 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Index\Chain\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Index\IntervalTree\IntervalNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Index\IntervalTree\vssver.scc"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Index\Quadtree\BinaryPower.cs"
@@ -1169,10 +1095,6 @@
                     RelPath = "Index\Sweepline\SweepLineInterval.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Index\Sweepline\vssver.scc"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "IO\BigEndianBinaryReader.cs"
@@ -1300,10 +1222,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Operation\Buffer\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Operation\Distance\ConnectedElementPointFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1369,10 +1287,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Operation\Overlay\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Operation\Relate\EdgeEndBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1411,10 +1325,6 @@
                     RelPath = "Operation\Relate\RelateOp.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Operation\Relate\vssver.scc"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Operation\Valid\ConnectedInteriorTester.cs"
