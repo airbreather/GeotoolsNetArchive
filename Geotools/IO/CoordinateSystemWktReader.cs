@@ -21,6 +21,7 @@
 
 using System;
 using System.IO;
+using Geotools.IO;
 using Geotools.CoordinateReferenceSystems;
 using Geotools.CoordinateTransformations;
 using Geotools.Utilities;
