@@ -1,28 +1,43 @@
+/*
+ *  Copyright (C) 2002 Urban Science Applications, Inc. (translated from Java Topology Suite, 
+ *  Copyright 2001 Vivid Solutions)
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ */
+
 #region Using statements
 using System;
 using Geotools.Geometries;
 #endregion
+
 namespace Geotools.Algorithms
 {
 
-
-	/**
-	 * Computes a point in the interior of an area geometry.
-	 *
-	 * <h2>Algorithm</h2>
-	 * <ul>
-	 *   <li>Find the intersections between the geometry
-	 *       and the horizontal bisector of the area's envelope
-	 *   <li>Pick the midpoint of the largest intersection (the intersections
-	 *       will be lines and points)
-	 * </ul>
-	 *
-	 * <b>
-	 * Note: If a fixed precision model is used,
-	 * in some cases this method may return a point
-	 * which does not lie in the interior.
-	 * </b>
-	 */
+	/// <summary>
+	/// Computes a point in the interior of an area geometry.
+	/// </summary>
+	/// <remarks>
+	/// <list type="number">
+	/// <description>Find the intersections between the geometry and the horizontal bisector of the area's envelope</description>
+	/// <description>Pick the midpoint of the largest intersection (the intersections will be lines and points)</description>
+	/// </list>
+	/// Note: If a fixed precision model is used,
+	/// in some cases this method may return a point
+	/// which does not lie in the interior.
+	/// </remarks>
 	public class InteriorPointArea 
 	{
 
@@ -48,12 +63,11 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		/**
-		 * Tests the interior vertices (if any)
-		 * defined by a linear Geometry for the best inside point.
-		 * If a Geometry is not of dimension 1 it is not tested.
-		 * @param geom the geometry to add
-		 */
+		/// <summary>
+		///  Tests the interior vertices (if any)  defined by a linear Geometry for the best inside point.
+		/// </summary>
+		/// <remarks> If a Geometry is not of dimension 1 it is not tested.</remarks>
+		/// <param name="geom">geom the geometry to add.</param>
 		private void Add(Geometry geom)
 		{
 			if (geom is Polygon) 
@@ -70,12 +84,11 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		/**
-		 * Finds a reasonable point at which to label a Geometry.
-		 * @param geometry the geometry to analyze
-		 * @return the midpoint of the largest intersection between the geometry and
-		 * a line halfway down its envelope
-		 */
+	
+		/// <summary>
+		///  Finds a reasonable point at which to label a Geometry.
+		/// </summary>
+		/// <param name="geometry">geometry the geometry to analyze</param>
 		public void AddPolygon(Geometry geometry) 
 		{
 			LineString bisector = HorizontalBisector(geometry);
@@ -91,8 +104,12 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		//@return if geometry is a collection, the widest sub-geometry; otherwise,
-		//the geometry itself
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="geometry"></param>
+		/// <returns>if geometry is a collection, the widest sub-geometry; otherwise, the geometry itself</returns>
 		protected Geometry WidestGeometry(Geometry geometry) 
 		{
 			if (!(geometry is GeometryCollection)) 
@@ -136,11 +153,11 @@ namespace Geotools.Algorithms
 		
 		}
 
-		/**
-		 * Returns the centre point of the envelope.
-		 * @param envelope the envelope to analyze
-		 * @return the centre of the envelope
-		 */
+		/// <summary>
+		/// Returns the centre point of the envelope.
+		/// </summary>
+		/// <param name="envelope"> envelope the envelope to analyze.</param>
+		/// <returns> the centre of the envelope.</returns>
 		public Coordinate Centre(Envelope envelope) 
 		{
 			/*return new Coordinate(avg(envelope.getMinX(),

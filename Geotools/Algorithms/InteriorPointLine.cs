@@ -4,17 +4,13 @@ using Geotools.Geometries;
 #endregion
 namespace Geotools.Algorithms
 {
-
-/**
- * Computes a point in the interior of an linear geometry.
- * <h2>Algorithm</h2>
- * <ul>
- * <li>Find an interior vertex which is closest to
- * the centroid of the linestring.
- * <li>If there is no interior vertex, find the endpoint which is
- * closest to the centroid.
- * </ul>
- */
+	/// <summary>
+	/// Computes a point in the interior of an linear geometry.
+	/// </summary>
+	/// <remarks>
+	/// <para>1. Find an interior vertex which is closest to the centroid of the linestring.</para>
+	/// <para>2. If there is no interior vertex, find the endpoint which is closest to the centroid.</para>
+	/// </remarks>
 	public class InteriorPointLine 
 	{
 
@@ -41,12 +37,11 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		/**
-		 * Tests the interior vertices (if any)
-		 * defined by a linear Geometry for the best inside point.
-		 * If a Geometry is not of dimension 1 it is not tested.
-		 * @param geom the geometry to add
-		 */
+		/// <summary>
+		/// Tests the interior vertices (if any) defined by a linear Geometry for the best inside point.
+		/// </summary>
+		/// <remarks>If a Geometry is not of dimension 1 it is not tested.</remarks>
+		/// <param name="geom">geom the geometry to add.</param>
 		private void AddInterior(Geometry geom)
 		{
 			if (geom is LineString) 
@@ -69,12 +64,14 @@ namespace Geotools.Algorithms
 				Add(pts[i]);
 			}
 		}
-		/**
-		 * Tests the endpoint vertices
-		 * defined by a linear Geometry for the best inside point.
-		 * If a Geometry is not of dimension 1 it is not tested.
-		 * @param geom the geometry to add
-		 */
+
+		/// <summary>
+		/// Tests the endpoint vertices defined by a linear Geometry for the best inside point.
+		/// </summary>
+		/// <remarks>
+		/// If a Geometry is not of dimension 1 it is not tested.
+		/// </remarks>
+		/// <param name="geom">geom the geometry to add.</param>
 		private void AddEndpoints(Geometry geom)
 		{
 			if (geom is LineString) 
