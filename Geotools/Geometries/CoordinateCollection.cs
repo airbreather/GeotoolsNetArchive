@@ -282,7 +282,7 @@ namespace Geotools.Geometries
 			return false;
 		}
 
-		/// <summary>
+		/*/// <summary>
 		/// Returns a Coordinate collection that is the reverse order of the coordinates in this collection.
 		/// </summary>
 		/// <remarks>If a new collection is not required call Reverse() instead.</remarks>
@@ -297,7 +297,7 @@ namespace Geotools.Geometries
 				coordinates[numpoints - 1 -i] = this[i];
 			}
 			return coordinates;
-		}
+		}*/
 
 		/// <summary>
 		/// If the coordinate array has repeated points, constructs new array
@@ -327,7 +327,7 @@ namespace Geotools.Geometries
 		/// <param name="coordinates">The Coordinate Collection to search</param>
 		/// <returns>The minimum coordinate in the Collection, found using CompareTo
 		/// </returns>
-		protected static Coordinate MinimumCoordinate(CoordinateCollection coordinates)
+		public static Coordinate MinimumCoordinate(CoordinateCollection coordinates)
 		{
 			Coordinate minCoord = null;
 			for (int i = 0; i < coordinates.Count; i++) 
@@ -344,7 +344,7 @@ namespace Geotools.Geometries
 		/// Shifts the positions until firstCoordinate is first.
 		/// </summary>
 		/// <param name="firstCoordinate">The Coordinate to make first</param>
-		protected void Scroll(Coordinate firstCoordinate) 
+		public void Scroll(Coordinate firstCoordinate) 
 		{
 			int i = IndexOf(firstCoordinate);
 			//if i is already the first element in the Collection we don't need to do anything
@@ -368,7 +368,7 @@ namespace Geotools.Geometries
 		/// call Scroll method of your coordinates directly.</remarks>
 		/// <param name="coordinates">The CoordinateCollection to scroll</param>
 		/// <param name="firstCoordinate">The Coordinate to make first</param>
-		protected static void Scroll(CoordinateCollection coordinates, Coordinate firstCoordinate) 
+		public static void Scroll(CoordinateCollection coordinates, Coordinate firstCoordinate) 
 		{
 			coordinates.Scroll(firstCoordinate);
 		}

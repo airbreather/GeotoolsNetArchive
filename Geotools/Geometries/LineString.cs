@@ -337,7 +337,7 @@ namespace Geotools.Geometries
 		/// Returns true if this and the other Geometry are of the same class and have equal 
 		/// internal data.
 		///</returns>
-		public override bool Equals( object obj)
+		public override bool EqualsExact( object obj, double tolerance)
 		{
 			Geometry geometry = obj as Geometry;
 			if ( geometry != null )
@@ -366,14 +366,6 @@ namespace Geotools.Geometries
 			return false;
 		}
 
-		/// <summary>
-		/// Returns the hash code for this object.
-		/// </summary>
-		/// <returns>The hash code for this linestring.</returns>
-		public override int GetHashCode()
-		{
-			return ToString().GetHashCode();
-		}
 
 		///<summary>
 		///  Performs an operation with or on this Geometry's coordinates.  
@@ -422,23 +414,32 @@ namespace Geotools.Geometries
 		///<summary>
 		/// Converts this Geometry to normal form (or canonical form).
 		///</summary>
-		///<remarks>Normal form is a unique representation
+		///<remarks>
+		///<para>
+		///Normalizes a LineString.  A normalized linestring
+		///has the first point which is not equal to it's reflected point
+		///less than the reflected point.
+		///</para>
+		///<para>Normal form is a unique representation
 		/// for Geometry's. It can be used to test whether two Geometrys are equal in a way that is 
 		/// independent of the ordering of the coordinates within them. Normal form equality is a stronger 
 		/// condition than topological equality, but weaker than pointwise equality. The definitions for 
 		/// normal form use the standard lexicographical ordering for coordinates. Sorted in order of 
 		/// coordinates means the obvious extension of this ordering to sequences of coordinates.
+		/// </para>
 		///</remarks>
 		public override void Normalize() 
 		{
 			for ( int i = 0; i < _points.Count; i++ ) 
 			{
 				int j = _points.Count - 1 - i;
+				// skip equal points on both ends
 				if ( !_points[i].Equals( _points[j] ) ) 
 				{
 					if ( _points[i].CompareTo( _points[j] ) > 0 ) 
 					{
-						ReversePointOrder( _points );
+						//ReversePointOrder( _points );
+						_points.Reverse();
 					}
 					return;
 				}
@@ -497,7 +498,8 @@ namespace Geotools.Geometries
 			for(int i=0; i < _points.Count; i++)
 			{
 				coordinate = _points[i];
-				external = _geometryFactory.PrecisionModel.ToExternal( coordinate );
+				//external = _geometryFactory.PrecisionModel.ToExternal( coordinate );
+				external = coordinate;
 				if (this._SRID==sourceSRID)
 				{
 					projection.MetersToDegrees(external.X, external.Y, out x, out y);	
@@ -507,7 +509,9 @@ namespace Geotools.Geometries
 					
 					projection.DegreesToMeters(external.X, external.Y, out x, out y);
 				}
-				projectedCoordinate = _geometryFactory.PrecisionModel.ToInternal(new Coordinate( x, y) );
+				projectedCoordinate = new Coordinate( x, y);
+				//projectedCoordinate.MakePrecise(this.PrecisionModel);
+				this.PrecisionModel.MakePrecise(projectedCoordinate);
 				projectedCoordinates.Add( projectedCoordinate );
 			}
 			return new LineString( projectedCoordinates, this.PrecisionModel, newSRID);

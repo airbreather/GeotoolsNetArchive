@@ -22,6 +22,7 @@
 using System;
 using System.Collections;
 using System.Text;
+using Geotools.Algorithms;
 using Geotools.CoordinateTransformations;
 #endregion
 
@@ -262,6 +263,41 @@ namespace Geotools.Geometries
 			throw new NotSupportedException();
 		}
 	
+
+		/// <summary>
+		/// Computes the centroid of a heterogenous GeometryCollection.
+		/// </summary>
+		/// <remarks>
+		/// The centroid is equal to the centroid of the set of component Geometrys of highest
+		/// dimension (since the lower-dimension geometries contribute zero
+		/// "weight" to the centroid)
+		/// </remarks>
+		/// <returns></returns>
+		public Point getCentroid()
+		{
+			Coordinate centPt = null;
+			int dim = GetDimension();
+			if (dim == 0) 
+			{
+				CentroidPoint cent = new CentroidPoint();
+				cent.Add(this);
+				centPt = cent.GetCentroid();
+			}
+			else if (dim == 1) 
+			{
+				CentroidLine cent = new CentroidLine();
+				cent.Add(this);
+				centPt = cent.GetCentroid();
+			}
+			else 
+			{
+				CentroidArea cent = new CentroidArea();
+				cent.Add(this);
+				centPt = cent.GetCentroid();
+			}
+			return GeometryFactory.CreatePointFromInternalCoord(centPt, this);
+		}
+
 		///<summary>
 		/// Returns true if the two Geometrys have the same class and if the data which they store
 		/// internally are equal.
@@ -274,7 +310,7 @@ namespace Geotools.Geometries
 		/// Returns true if this and the other Geometry are of the same class and have equal 
 		/// internal data.
 		///</returns>
-		public override bool Equals(object obj)
+		public override bool EqualsExact(object obj, double tolerance)
 		{
 			Geometry geometry = obj as Geometry;
 			if ( geometry != null )
@@ -298,7 +334,7 @@ namespace Geotools.Geometries
 						{
 							return false;
 						}
-						if(!(geom.Equals((Geometry)otherCollection._geometries[count])))
+						if(!(geom.EqualsExact((Geometry)otherCollection._geometries[count], tolerance)))
 						{
 							return false;
 						}
@@ -527,7 +563,7 @@ namespace Geotools.Geometries
 			double sum = 0.0;
 			for (int i = 0; i < _geometries.Length; i++) 
 			{
-				sum += ((LineString) _geometries[i]).GetLength();
+				sum += _geometries[i].GetLength();
 			}
 			return sum;
 		}

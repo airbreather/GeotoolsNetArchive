@@ -277,6 +277,12 @@ namespace Geotools.Geometries
 
 		#region Create factory methods
 
+		public static Point CreatePointFromInternalCoord(Coordinate coord, Geometry exemplar)
+		{
+			exemplar.PrecisionModel.MakePrecise(coord);
+			return new Point(coord, exemplar.PrecisionModel, exemplar.GetSRID());
+		}
+
 		/// <summary>
 		/// Creates a point given a coordinate.
 		/// </summary>

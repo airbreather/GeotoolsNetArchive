@@ -125,16 +125,20 @@ namespace Geotools.IO
 			Coordinate internalCoordinate = new Coordinate();
 			externalCoordinate.X = GetNextNumber(tokenizer);
 			externalCoordinate.Y = GetNextNumber(tokenizer);
-			_precisionModel.ToInternal(externalCoordinate, internalCoordinate);
-			coordinates.Add(internalCoordinate);
+			//_precisionModel.ToInternal(externalCoordinate, internalCoordinate);
+			//coordinates.Add(internalCoordinate);
+			this._precisionModel.MakePrecise(externalCoordinate);
+			coordinates.Add(externalCoordinate);
+
 			nextToken = GetNextCloserOrComma(tokenizer);
 			while (nextToken==",")
 			{
-				externalCoordinate.X = this.GetNextNumber(tokenizer);
-				externalCoordinate.Y = this.GetNextNumber(tokenizer);
-				internalCoordinate = new Coordinate();
-				_precisionModel.ToInternal(externalCoordinate, internalCoordinate);
-				coordinates.Add(internalCoordinate);
+				Coordinate coordinate = new Coordinate();
+				coordinate.X = this.GetNextNumber(tokenizer);
+				coordinate.Y = this.GetNextNumber(tokenizer);
+				_precisionModel.MakePrecise(coordinate);
+				//coordinates.Add(internalCoordinate);
+				coordinates.Add(coordinate);
 				nextToken = GetNextCloserOrComma(tokenizer);
 			}
 			return coordinates;
@@ -348,10 +352,12 @@ namespace Geotools.IO
 			double x = GetNextNumber(tokenizer);
 			double y = GetNextNumber(tokenizer);
 			Coordinate externalCoordinate = new Coordinate(x, y);
-			Coordinate internalCoordinate = new Coordinate();
-			_precisionModel.ToInternal(externalCoordinate, internalCoordinate);
+			//Coordinate internalCoordinate = new Coordinate();
+			//_precisionModel.ToInternal(externalCoordinate, internalCoordinate);\
+			//externalCoordinate.MakePrecise(this._precisionModel);
+			this._precisionModel.MakePrecise(externalCoordinate);
 			GetNextCloser(tokenizer);
-			return _geometryFactory.CreatePoint(internalCoordinate);
+			return _geometryFactory.CreatePoint(externalCoordinate);
 		}
 
 		/// <summary>

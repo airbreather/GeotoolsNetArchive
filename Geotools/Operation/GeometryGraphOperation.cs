@@ -40,8 +40,7 @@ namespace Geotools.Operation
 		protected GeometryGraph[] _arg = null;  // the arg(s) of the operation  TODO array of GeometryGraph...
 
 		protected PrecisionModel _resultPrecisionModel;
-		protected bool _makePrecise;
-
+	
 		/// <summary>
 		/// Constructs an Operation object.
 		/// </summary>

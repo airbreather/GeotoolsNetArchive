@@ -45,7 +45,7 @@ namespace Geotools.Geometries
 		/// <param name="coordinate">An arraylist containing the coordinates of the point</param>
 		/// <param name="precisionModel">The specification of the grid of allowable points for this Point</param>
 		/// <param name="SRID">The ID of the Spatial Reference System used by this Point</param>
-		internal Point(Coordinate coordinate, PrecisionModel precisionModel, int SRID) : base( precisionModel, SRID)
+		public Point(Coordinate coordinate, PrecisionModel precisionModel, int SRID) : base( precisionModel, SRID)
 		{
 			this._coordinate = coordinate;
 		}
@@ -240,7 +240,7 @@ namespace Geotools.Geometries
 		/// Returns true if this and the other Geometry are of the same class and have equal 
 		/// internal data.
 		///</returns>
-		public override bool Equals(object obj)
+		public override bool EqualsExact(object obj, double tolerance)
 		{
 			Geometry geometry = obj as Geometry;
 			if ( geometry != null )
@@ -262,14 +262,6 @@ namespace Geotools.Geometries
 			return false;
 		}
 
-		/// <summary>
-		/// Returns the hash code for this object.
-		/// </summary>
-		/// <returns>The hash code for this linestring.</returns>
-		public override int GetHashCode()
-		{
-			return ToString().GetHashCode();
-		}
 
 		///<summary>
 		///  Performs an operation with or on this Geometry's coordinates.  
@@ -369,7 +361,8 @@ namespace Geotools.Geometries
 
 			double x=0.0;
 			double y=0.0;
-			Coordinate external = _geometryFactory.PrecisionModel.ToExternal( new Coordinate(this._coordinate) );
+			//Coordinate external = _geometryFactory.PrecisionModel.ToExternal( new Coordinate(this._coordinate) );
+			Coordinate external = this._coordinate;
 			if (this.GetSRID()==sourceSRID)
 			{
 				projection.MetersToDegrees( external.X, external.Y, out x, out y);
@@ -379,7 +372,8 @@ namespace Geotools.Geometries
 				projection.DegreesToMeters(external.X, external.Y, out x, out y);
 			}
 			
-			Coordinate projectedCoordinate = _geometryFactory.PrecisionModel.ToInternal(new Coordinate(x,y) );
+			Coordinate projectedCoordinate = new Coordinate(x,y);
+			this.PrecisionModel.MakePrecise(projectedCoordinate);
 			return new Point( projectedCoordinate, this.PrecisionModel, newSRID);
 		} // public override IGeometry Project(OGC.CoordinateTransformations.CT_Coordinat
 		#endregion

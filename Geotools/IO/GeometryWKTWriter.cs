@@ -372,7 +372,8 @@ namespace Geotools.IO
 		{
 			
 			Coordinate externalCoordinate = new Coordinate();
-			precisionModel.ToExternal(coordinate, externalCoordinate);
+			//precisionModel.ToExternal(coordinate, externalCoordinate);
+			externalCoordinate = coordinate;
 			writer.Write(WriteNumber(externalCoordinate.X) + " " + WriteNumber(externalCoordinate.Y));
 			
 		}

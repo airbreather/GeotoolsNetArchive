@@ -77,6 +77,21 @@
         <Files>
             <Include>
                 <File
+                    RelPath = "Algorithms\CentroidArea.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Algorithms\CentroidLine.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Algorithms\CentroidPoint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Algorithms\CGAlgorithms.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -88,6 +103,21 @@
                 />
                 <File
                     RelPath = "Algorithms\HCoordinate.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Algorithms\InteriorPointArea.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Algorithms\InteriorPointLine.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Algorithms\InteriorPointPoint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

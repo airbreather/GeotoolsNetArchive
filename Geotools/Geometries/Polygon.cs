@@ -317,7 +317,7 @@ namespace Geotools.Geometries
 		/// Returns true if this and the other Geometry are of the same class and have equal 
 		/// internal data.
 		///</returns>
-		public override bool Equals( object obj )
+		public override bool EqualsExact( object obj, double tolerance )
 		{
 			Geometry geometry = obj as Geometry;
 			if ( !IsEquivalentClass( geometry ) )
@@ -327,7 +327,7 @@ namespace Geotools.Geometries
 			Polygon otherPoly = geometry as Polygon;
 			if ( otherPoly != null )
 			{
-				if ( !_shell.Equals( otherPoly.Shell ) )
+				if ( !_shell.EqualsExact( otherPoly.Shell, tolerance ) )
 				{
 					return false;
 				}
@@ -339,7 +339,7 @@ namespace Geotools.Geometries
 					}
 					for(int i = 0; i < _holes.Length; i++)
 					{
-						if ( !_holes[i].Equals( otherPoly.Holes[i] )  )
+						if ( !_holes[i].EqualsExact( otherPoly.Holes[i], tolerance )  )
 						{
 							return false;
 						}
@@ -501,15 +501,18 @@ namespace Geotools.Geometries
 			{
 				uniqueCoordinates.Add( ring.GetCoordinateN( i ) );		// copy all but last one into uniquecoordinates
 			}
-			Coordinate minCoordinate = MinCoordinate( ring.GetCoordinates() );
-			Scroll( uniqueCoordinates, minCoordinate );
+			// JTS 1.2 Coordinate minCoordinate = MinCoordinate( ring.GetCoordinates() );
+			// JST 1.2 Scroll( uniqueCoordinates, minCoordinate );
+			Coordinate minCoordinate = CoordinateCollection.MinimumCoordinate( ring.GetCoordinates() );
+			CoordinateCollection.Scroll(uniqueCoordinates, minCoordinate);
+
 			CoordinateCollection ringCoordinates = ring.GetCoordinates();
 			ringCoordinates.Clear();
 			ringCoordinates.AddRange( uniqueCoordinates );
 			ringCoordinates.Add( (Coordinate)uniqueCoordinates[0].Clone() );		// add back in the closing point.
 			if ( _cgAlgorithms.IsCCW( ringCoordinates ) == clockwise )
 			{
-				ReversePointOrder( ringCoordinates );
+				ringCoordinates.Reverse();
 			}
 		}
 		

@@ -239,7 +239,9 @@ namespace Geotools.IO
 		protected void AppendPointTaggedText(Coordinate coordinate,  TextWriter writer, 	PrecisionModel precisionModel)
 		{
 			Coordinate externalCoordinate = new Coordinate();
-			precisionModel.ToExternal(coordinate, externalCoordinate);
+			//precisionModel.ToExternal(coordinate, externalCoordinate);
+			externalCoordinate = coordinate;
+
 			if (this._cssClass!="")
 			{
 				writer.WriteLine(String.Format("<{5}circle class=\"{0}\" style=\"{1}\" cx=\"{2}\" cy=\"{3}\" r=\"{4}\"/>",_cssClass,_style,WriteNumber(externalCoordinate.X),WriteNumber(externalCoordinate.Y),_radius,_namespace));			
@@ -363,7 +365,8 @@ namespace Geotools.IO
 		{
 			//throw new NotFiniteNumberException();
 			Coordinate externalCoordinate = new Coordinate();
-			precisionModel.ToExternal(coordinate, externalCoordinate);
+			//precisionModel.ToExternal(coordinate, externalCoordinate);
+			externalCoordinate = coordinate;
 			writer.Write(" " + WriteNumber(externalCoordinate.X) + " " + WriteNumber(externalCoordinate.Y));
 			//writer.Write(WriteNumber(coordinate.X) + " " + WriteNumber(coordinate.Y));
 			

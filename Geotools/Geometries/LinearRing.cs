@@ -136,7 +136,8 @@ namespace Geotools.Geometries
 			for(int i=0; i < _points.Count; i++)
 			{
 				coordinate = _points[i];
-				external = _geometryFactory.PrecisionModel.ToExternal( coordinate );
+				//external = _geometryFactory.PrecisionModel.ToExternal( coordinate );
+				external =  coordinate;
 				if (this._SRID==sourceSRID)
 				{
 					projection.MetersToDegrees(external.X, external.Y, out x, out y);	
@@ -146,7 +147,9 @@ namespace Geotools.Geometries
 					
 					projection.DegreesToMeters(external.X, external.Y, out x, out y);
 				}
-				projectedCoordinate = _geometryFactory.PrecisionModel.ToInternal(new Coordinate( x, y) );
+				//projectedCoordinate = _geometryFactory.PrecisionModel.ToInternal(new Coordinate( x, y) );
+				projectedCoordinate = new Coordinate( x, y);
+				this.PrecisionModel.MakePrecise(projectedCoordinate);
 				projectedCoordinates.Add( projectedCoordinate );
 			}
 			return new LinearRing( projectedCoordinates, this.PrecisionModel, newSRID);

@@ -325,7 +325,7 @@ namespace Geotools.Geometries
 		///<returns>Returns the vertices of this Geometry</returns>
 		public abstract CoordinateCollection GetCoordinates() ;
 
-		/// <summary>
+		/*/// <summary>
 		/// Returns this Geometry's external vertices (points).
 		/// </summary>
 		/// <remarks>These point are based on the output of precisionModel.ToExternal.</remarks>
@@ -340,7 +340,7 @@ namespace Geotools.Geometries
 			}
 			return externalCoordinates;
 		} //public virtual Coordinates GetCoordinatesInternal()
-	
+	*/
 		///<summary>
 		///  Returns the count of this Geometrys vertices.
 		///</summary>
@@ -422,15 +422,19 @@ namespace Geotools.Geometries
 		/// <param name="geom">the Geometry to check the distance to</param>
 		/// <param name="distance">the distance value to compare</param>
 		/// <returns>true if the geometries are less than distance apart.</returns>
-		public boolean IsWithinDistance(Geometry geom, double distance)     
+		public bool IsWithinDistance(Geometry geom, double distance)     
 		{
-			double envDist = getEnvelopeInternal().distance(geom.getEnvelopeInternal());
+			double envDist = GetEnvelopeInternal().Distance(geom.GetEnvelopeInternal());
 			if (envDist > distance)
+			{
 				return false;
+			}
 			// NOTE: this could be implemented more efficiently
-			double geomDist = this.distance(geom);
+			double geomDist = this.Distance(geom);
 			if (geomDist > distance)
+			{
 				return false;
+			}
 			return true;
 		}
 
@@ -466,26 +470,26 @@ namespace Geotools.Geometries
 		public Point GetCentroid()   
 		{
 			Coordinate centPt = null;
-			int dim = getDimension();
+			int dim = this.GetDimension();
 			if (dim == 0) 
 			{
 				CentroidPoint cent = new CentroidPoint();
-				cent.add(this);
-				centPt = cent.getCentroid();
+				cent.Add(this);
+				centPt = cent.GetCentroid();
 			}
 			else if (dim == 1) 
 			{
 				CentroidLine cent = new CentroidLine();
-				cent.add(this);
-				centPt = cent.getCentroid();
+				cent.Add(this);
+				centPt = cent.GetCentroid();
 			}
 			else 
 			{
 				CentroidArea cent = new CentroidArea();
-				cent.add(this);
-				centPt = cent.getCentroid();
+				cent.Add(this);
+				centPt = cent.GetCentroid();
 			}
-			return GeometryFactory.createPointFromInternalCoord(centPt, this);   
+			return GeometryFactory.CreatePointFromInternalCoord(centPt, this);   
 		}
 
 		/// <summary>
@@ -498,23 +502,23 @@ namespace Geotools.Geometries
 		public Point GetInteriorPoint()
 		{
 			Coordinate interiorPt = null;
-			int dim = getDimension();
+			int dim = this.GetDimension();
 			if (dim == 0) 
 			{
 				InteriorPointPoint intPt = new InteriorPointPoint(this);
-				interiorPt = intPt.getInteriorPoint();
+				interiorPt = intPt.InteriorPoint;
 			}
 			else if (dim == 1) 
 			{
 				InteriorPointLine intPt = new InteriorPointLine(this);
-				interiorPt = intPt.getInteriorPoint();
+				interiorPt = intPt.InteriorPoint;
 			}
 			else 
 			{
 				InteriorPointArea intPt = new InteriorPointArea(this);
-				interiorPt = intPt.getInteriorPoint();
+				interiorPt = intPt.InteriorPoint;
 			}
-			return GeometryFactory.createPointFromInternalCoord(interiorPt, this);
+			return GeometryFactory.CreatePointFromInternalCoord(interiorPt, this);
 		}
 
 
@@ -782,7 +786,7 @@ namespace Geotools.Geometries
 		/// <returns>all points whose distance from this Geometry are less than or equal to distance</returns>
 		public Geometry Buffer(double distance, int quadrantSegments) 
 		{
-			return BufferOp.bufferOp(this, distance, quadrantSegments);
+			return BufferOp.Buffer(this, distance, quadrantSegments);
 		}
 
 
@@ -1177,6 +1181,51 @@ namespace Geotools.Geometries
 				maxY = 0;
 			}
 		}
+
+
+
+
+
+
+
+
+
+		/// <summary>
+		/// Returns true if the two Geometrys have the same class and
+		/// if the data which they store internally are equal. Stricter equality than
+		/// equals. If this and the other Geometrys are
+		///	composites and any children are not Geometrys, returns
+		/// false.
+		/// </summary>
+		/// <param name="obj">obj  the Geometry with which to compare this Geometry</param>
+		/// <param name="tolerance">tolerance distance at or below which two Coordinates will be considered equal</param>
+		/// <returns></returns>
+		public abstract bool EqualsExact(object obj, double tolerance);
+
+		public override bool Equals(object obj)
+		{
+			return this.EqualsExact(obj, 0.0);
+		}
+		
+		/// <summary>
+		/// Returns the hash code for this object.
+		/// </summary>
+		/// <returns>The hash code for this linestring.</returns>
+		public override int GetHashCode()
+		{
+			// because we are overriding Equals(obj) - we need to override this method too.
+			return ToString().GetHashCode();
+		}
+
+		protected bool Equal(Coordinate a, Coordinate b, double tolerance) 
+		{
+			if (tolerance == 0)
+			{
+				return a.Equals(b); 
+			}
+			return a.Distance(b) <= tolerance;
+		}
+
 	}
 
 
