@@ -149,7 +149,6 @@ namespace Geotools.Data
 				offset = offset + g.GetNumPoints();
 			}
         
-			Coordinate	external;
 			for (int part = 0; part < numParts; part++)
 			{
 				CoordinateCollection points = multi.GetGeometryN(part).GetCoordinates();
