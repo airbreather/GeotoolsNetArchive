@@ -84,15 +84,16 @@
     
     
    
-     <target name="doc"  description="build documentation">
+    
+    <target name="doc"  description="build documentation">
         <echo message="Requires HtmlHelp compiler (hhc.exe) to be in the system path"/>
         <ndoc failonerror="false">
             <assemblies basedir=".">
-                <includes name="Geotools\bin\Debug\Geotools.dll"/>
+		<includes name="Geotools\bin\Debug\Geotools.dll"/>
             </assemblies>
             <documenters>
                 <documenter name="MSDN">
-                    <property name="OutputDirectory" value="docs\MSDN" />
+                    <property name="OutputDirectory" value="Docs" />
                     <property name="HtmlHelpName" value="Geotools" />
                     <property name="HtmlHelpCompilerFilename" value="hhc.exe" />
                     <property name="IncludeFavorites" value="true" />
@@ -111,7 +112,7 @@
                     <property name="DocumentEmptyNamespaces" value="False" />
                     <property name="IncludeAssemblyVersion" value="False" />
                     <property name="CopyrightText" value="Geotools.Net" />
-                    <property name="CopyrightHref" value="http://sourceforge.net/projects/geotoolsnet" />
+                    <property name="CopyrightHref" value="http://geotoolsnet.sourceforge.net/Index.html" />
                  </documenter>             
             </documenters> 
         </ndoc>
