@@ -34,7 +34,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// 
 	/// </summary>
-	internal class SIRtreePointInRing : IPointInRing
+	public class SIRtreePointInRing : IPointInRing
 	{
 		private LinearRing _ring;
 		private SIRtree _sirTree;
