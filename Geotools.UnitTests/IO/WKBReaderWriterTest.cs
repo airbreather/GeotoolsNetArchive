@@ -3,6 +3,12 @@
  * $Header$
  * $Log$
  * 
+ * 5     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
+ * 4     11/04/02 3:20p Rabergman
+ * Changed using namespaces
+ * 
  * 3     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -16,7 +22,7 @@
 #region Using
 using System;
 using NUnit.Framework;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.IO;
 using Geotools.UnitTests.Utilities;
 #endregion
@@ -26,19 +32,10 @@ namespace UrbansScience.Geographic.UnitTests.IO
 	/// <summary>
 	/// Summary description for Class1.
 	/// </summary>
-	public class WKBReader : TestCase
+	[TestFixture]
+	public class WKBReader 
 	{
-		#region Constructors
-		/// <summary>
-		/// Initializes a new instance of the Class1 class.
-		/// </summary>
-		public WKBReader(String name) : base(name)
-		{
-			//
-			// TODO: Add constructor logic here
-			//
-		}
-		#endregion
+		
 
 		#region Properties
 		#endregion
@@ -52,7 +49,7 @@ namespace UrbansScience.Geographic.UnitTests.IO
 		{
 			string wkt= "POINT(40 60)";
 			bool result = ReaderWriterTestHelper.TestHelper(wkt);
-			AssertEquals("Point: ", true, result);
+			Assertion.AssertEquals("Point: ", true, result);
 		}
 
 		#endregion
@@ -62,7 +59,7 @@ namespace UrbansScience.Geographic.UnitTests.IO
 		{
 			string wkt= "LINESTRING(40 60, 40 320, 420 320, 420 60, 40 60)";
 			bool result = ReaderWriterTestHelper.TestHelper(wkt);
-			AssertEquals("Linestring: ", true, result);
+			Assertion.AssertEquals("Linestring: ", true, result);
 		}
 		#endregion
 
@@ -71,7 +68,7 @@ namespace UrbansScience.Geographic.UnitTests.IO
 		{
 			string wkt= "POLYGON((40 60, 40 320, 420 320, 420 60, 40 60))";
 			bool result = ReaderWriterTestHelper.TestHelper(wkt);
-			AssertEquals("Polygon: ", true, result);
+			Assertion.AssertEquals("Polygon: ", true, result);
 		}
 		#endregion
 
@@ -80,7 +77,7 @@ namespace UrbansScience.Geographic.UnitTests.IO
 		{
 			string wkt= "MULTIPOINT(40 60, 40 320, 420 320, 420 60, 40 60)";
 			bool result = ReaderWriterTestHelper.TestHelper(wkt);
-			AssertEquals("MultiPoint: ", true, result);
+			Assertion.AssertEquals("MultiPoint: ", true, result);
 		}
 		#endregion
 
@@ -89,7 +86,7 @@ namespace UrbansScience.Geographic.UnitTests.IO
 		{
 			string wkt= "MULTILINESTRING((40 60, 40 320, 420 320, 420 60, 40 60),(20 30, 30 40))";
 			bool result = ReaderWriterTestHelper.TestHelper(wkt);
-			AssertEquals("MultiLineString: ", true, result);
+			Assertion.AssertEquals("MultiLineString: ", true, result);
 		}
 		#endregion
 
@@ -98,7 +95,7 @@ namespace UrbansScience.Geographic.UnitTests.IO
 		{
 			string wkt= "MULTIPOLYGON(((10 13, 11 13, 12 13, 13 14, 14 15, 15 16, 15 17, 15 18, 14 19, 13 20, 12 21, 11 21, 10 21, 9 20, 8 19, 7 18, 7 17, 7 16, 8 15, 9 14, 10 13),(10 16, 11 17, 10 18, 9 17, 10 16)),((13 16, 14 17, 13 18, 12 17, 13 16)))";
 			bool result = ReaderWriterTestHelper.TestHelper(wkt);
-			AssertEquals("MultiPolygon: ", true, result);
+			Assertion.AssertEquals("MultiPolygon: ", true, result);
 		}
 		#endregion
 	}

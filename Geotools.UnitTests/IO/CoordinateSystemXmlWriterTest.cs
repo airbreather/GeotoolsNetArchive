@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 6     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 5     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -31,25 +34,12 @@ namespace Geotools.UnitTests.IO
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.IO.CoordinateSystemXmlWriter class
 	/// </summary>
-	public class CoordinateSystemXmlWriterTest : TestCase 
+	[TestFixture]
+	public class CoordinateSystemXmlWriterTest  
 	{
 		CoordinateSystemEPSGFactory _factory = new CoordinateSystemEPSGFactory( Global.GetEPSGDatabaseConnection() );
 
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public CoordinateSystemXmlWriterTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 		/* these tests should not throw any exceptions. 
 		 * to test whether the correct Xml is produced, this is part of the XmlReader tests - where

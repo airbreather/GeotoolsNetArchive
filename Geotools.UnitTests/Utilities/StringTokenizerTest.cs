@@ -3,6 +3,8 @@
  * $Header$
  * $Log$
  * 
+ * 3     12/27/02 1:18p Awcoats
+ * 
  * 2     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -23,23 +25,9 @@ namespace Geotools.UnitTests.Utilities
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.Utilities.StreamTokenizerTest class
 	/// </summary>
-	public class StreamTokenizerTest : TestCase 
+	[TestFixture]
+	public class StreamTokenizerTest  
 	{
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public StreamTokenizerTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
 
 		/// <summary>
 		/// Tests the constructor
@@ -58,7 +46,7 @@ namespace Geotools.UnitTests.Utilities
 				iTokenCount++;
 			}
 			//Console.WriteLine("token count="+iTokenCount);
-			AssertEquals("token count",22,iTokenCount);
+			Assertion.AssertEquals("token count",22,iTokenCount);
 		}
 
 		/// <summary>
@@ -78,7 +66,7 @@ namespace Geotools.UnitTests.Utilities
 				iTokenCount++;
 			}
 			//Console.WriteLine("token count ignore=false="+iTokenCount);
-			AssertEquals("token count",30,iTokenCount);
+			Assertion.AssertEquals("token count",30,iTokenCount);
 		}
 
 		/// <summary>
@@ -98,7 +86,7 @@ namespace Geotools.UnitTests.Utilities
 				iTokenCount++;
 			}
 			//Console.WriteLine("token count ignore=false="+iTokenCount);
-			AssertEquals("token count",8,iTokenCount);
+			Assertion.AssertEquals("token count",8,iTokenCount);
 		}
 
 		/// <summary>
@@ -117,7 +105,7 @@ namespace Geotools.UnitTests.Utilities
 				iTokenCount++;
 			}
 			// first token will be -2.5
-			AssertEquals("token count",3,iTokenCount);
+			Assertion.AssertEquals("token count",3,iTokenCount);
 		}
 		/// <summary>
 		/// Tests the constructor
@@ -136,7 +124,7 @@ namespace Geotools.UnitTests.Utilities
 				iTokenCount++;
 			}
 			//Console.WriteLine("token count ignore=false="+iTokenCount);
-			AssertEquals("token count",7,iTokenCount);
+			Assertion.AssertEquals("token count",7,iTokenCount);
 		}
 		public void TestReadNumber() 
 		{
@@ -149,14 +137,14 @@ namespace Geotools.UnitTests.Utilities
 			tokenizer.NextToken();
 		
 			double number = tokenizer.GetNumericValue();
-			AssertEquals("test1",123.5,number);
+			Assertion.AssertEquals("test1",123.5,number);
 
 			tokenizer.NextToken();
 		
 			try
 			{
 				double number2 = tokenizer.GetNumericValue();
-				Fail("This should fail because the token is not a number.");
+				Assertion.Fail("This should fail because the token is not a number.");
 			}
 			catch
 			{

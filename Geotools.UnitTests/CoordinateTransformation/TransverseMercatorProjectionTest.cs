@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 6     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 5     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -32,20 +35,11 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.CoordinateSystems.MercatorTest class
 	/// </summary>
-	public class TransverseMercatorProjectionTest : TestCase 
+	[TestFixture]
+	public class TransverseMercatorProjectionTest 
 	{
 
-		public TransverseMercatorProjectionTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 		/// <summary>
 		/// Tests the constructor

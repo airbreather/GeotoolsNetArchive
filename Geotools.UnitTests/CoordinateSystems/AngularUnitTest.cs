@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 6     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 5     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -31,35 +34,22 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the UrbanScience.OpenGIS.UnitTests.AngularUnitTest class
 	/// </summary>
-	public class AngularUnitTest : TestCase 
+	[TestFixture]
+	public class AngularUnitTest 
 	{
-	
-		public AngularUnitTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
-
-	
 		public void Test_Constructor() 
 		{
 //(Note: Test must be commented out because this class has been made internal.  All test are functioning properly otherwise.)
 //			OGC.CoordinateSystems.IAngularUnit angularunit = new AngularUnit(1.0,"remarks","authority","authoritycode","name","alias","abbreviation");
-//			AssertEquals("ctor 1. ", "abbreviation", angularunit.Abbreviation);
-//			AssertEquals("ctor 2. ", "alias", angularunit.Alias);
-//			AssertEquals("ctor 3. ", "authority", angularunit.Authority);
-//			AssertEquals("ctor 4. ", "authoritycode", angularunit.AuthorityCode);
-//			AssertEquals("ctor 5. ", "name", angularunit.Name);
-//			AssertEquals("ctor 6. ", 1.0, angularunit.RadiansPerUnit);
-//			AssertEquals("ctor 7. ", "remarks", angularunit.Remarks);
-//			//AssertEquals("ctor 8. ", null, angularunit.WKT);
-//			//AssertEquals("ctor 9. ", null, angularunit.XML);		
+//			Assertion.AssertEquals("ctor 1. ", "abbreviation", angularunit.Abbreviation);
+//			Assertion.AssertEquals("ctor 2. ", "alias", angularunit.Alias);
+//			Assertion.AssertEquals("ctor 3. ", "authority", angularunit.Authority);
+//			Assertion.AssertEquals("ctor 4. ", "authoritycode", angularunit.AuthorityCode);
+//			Assertion.AssertEquals("ctor 5. ", "name", angularunit.Name);
+//			Assertion.AssertEquals("ctor 6. ", 1.0, angularunit.RadiansPerUnit);
+//			Assertion.AssertEquals("ctor 7. ", "remarks", angularunit.Remarks);
+//			//Assertion.AssertEquals("ctor 8. ", null, angularunit.WKT);
+//			//Assertion.AssertEquals("ctor 9. ", null, angularunit.XML);		
 		}
 
 	
@@ -67,7 +57,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 		{
 //(Note: Test must be commented out because this class has been made internal.  All test are functioning properly otherwise.)
 //			OGC.CoordinateSystems.IAngularUnit angularunit = new AngularUnit(1.0);
-//			AssertEquals("ctor 1. ", 1.0, angularunit.RadiansPerUnit);
+//			Assertion.AssertEquals("ctor 1. ", 1.0, angularunit.RadiansPerUnit);
 		}
 	}
 }

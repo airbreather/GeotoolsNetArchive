@@ -32,11 +32,11 @@ namespace Geotools.UnitTests
 			{
 				// we are in the Construction directory.
 			}
-			return @"C:\Projects\OGIS v. 1.0\4 CONSTRUCTION\Geotools.UnitTests";
+			return @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.UnitTests";
 		}
 	}
 	// This class bundles all tests into a single suite.
-	public class AllTests 
+	/*public class AllTests 
 	{
 	
 		public static ITest Suite 
@@ -58,5 +58,5 @@ namespace Geotools.UnitTests
 				return suite;
 			}
 		}
-	}
+	}*/
 }

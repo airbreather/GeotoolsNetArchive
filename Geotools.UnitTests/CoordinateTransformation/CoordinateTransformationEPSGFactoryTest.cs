@@ -3,6 +3,14 @@
  * $Header$
  * $Log$
  * 
+ * 8     1/02/03 10:51a Awcoats
+ * fixed unit test failure regarding open connection,
+ * 
+ * 7     12/27/02 1:15p Awcoats
+ * 
+ * 6     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 5     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -34,26 +42,20 @@ namespace Geotools.UnitTests.CoordinateTransformation
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.CoordinateSystems.CoordinateTransformationEPSGFactoryTest class
 	/// </summary>
-	public class CoordinateTransformationEPSGFactoryTest : TestCase 
+	[TestFixture]
+	public class CoordinateTransformationEPSGFactoryTest
 	{
 		CoordinateTransformationEPSGFactory _CTfactory;
 		CoordinateSystemEPSGFactory _CRSfactory;
 		
-		public CoordinateTransformationEPSGFactoryTest(String name) : base(name) 
+		public CoordinateTransformationEPSGFactoryTest() 
 		{
 			IDbConnection connection = Global.GetEPSGDatabaseConnection();
 			_CTfactory = new CoordinateTransformationEPSGFactory(connection);
 			_CRSfactory = new CoordinateSystemEPSGFactory(connection);
 		}
 	
-		protected override void SetUp() 
-		{
-
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 		#region CreateFromTransformationCode
 		public void TestCreateFromTransformationCode1()
@@ -72,16 +74,16 @@ namespace Geotools.UnitTests.CoordinateTransformation
 			double metersX = (double)result1.Ord[0];
 			double metersY = (double)result1.Ord[1];
 
-			AssertEquals("Transverse Mercator Transform X","400000",metersX.ToString());
-			AssertEquals("Transverse Mercator Transform Y","-100000",metersY.ToString());
+			Assertion.AssertEquals("Transverse Mercator Transform X","400000",metersX.ToString());
+			Assertion.AssertEquals("Transverse Mercator Transform Y","-100000",metersY.ToString());
 
 			CoordinatePoint result2 = UKNationalGrid1.MathTransform.GetInverse().Transform( result1);
 				
 			double long2= (double)result2.Ord[0];
 			double lat2= (double)result2.Ord[1];
 
-			AssertEquals("Transverse Mercator InverseTransformPoint X","-2",long2.ToString());
-			AssertEquals("TransverseMercator InverseTransformPoint Y","49",lat2.ToString());	
+			Assertion.AssertEquals("Transverse Mercator InverseTransformPoint X","-2",long2.ToString());
+			Assertion.AssertEquals("TransverseMercator InverseTransformPoint Y","49",lat2.ToString());	
 		}
 		public void TestCreateFromTransformationCode2()
 		{
@@ -103,7 +105,7 @@ namespace Geotools.UnitTests.CoordinateTransformation
 			try 
 			{
 				ICoordinateTransformation UKNationalGrid1 = _CTfactory.CreateFromTransformationCode("-1");
-				Fail("Excpetion should be thrown.");
+				Assertion.Fail("Excpetion should be thrown.");
 			}
 			catch(ArgumentException)
 			{
@@ -116,7 +118,7 @@ namespace Geotools.UnitTests.CoordinateTransformation
 		#region CreateCoordinateOperation
 		public void TestCreateCoordinateOperation()
 		{
-			ICoordinateTransformation utm32 = _CTfactory.CreateFromCoordinateSystemCodes("32632","4326");
+			//ICoordinateTransformation utm32 = _CTfactory.CreateFromCoordinateSystemCodes("32632","4326");
 			//TODO: see if the numbers returned are correct.
 		}
 		#endregion

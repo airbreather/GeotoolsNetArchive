@@ -3,6 +3,12 @@
  * $Header$
  * $Log$
  * 
+ * 9     1/02/03 10:55a Awcoats
+ * removed [ignore] comments.
+ * 
+ * 8     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 7     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -40,23 +46,20 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.CoordinateSystems.CoordinateSystemFactoryTest class
 	/// </summary>
-	public class CoordinateSystemFactoryTest : TestCase 
+	[TestFixture]
+	public class CoordinateSystemFactoryTest 
 	{
-		CoordinateSystemFactory _csFactory = new CoordinateSystemFactory();
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public CoordinateSystemFactoryTest(String name) : base(name) 
-		{
-		}
+		CoordinateSystemFactory _csFactory;
 	
-		protected override void SetUp() 
+		[SetUp]
+		public void Init()
 		{
+			 _csFactory = new CoordinateSystemFactory();
 		}
-
-		protected override void TearDown() 
+		[TearDown]
+		public void Cleanup()
 		{
+			_csFactory = null;
 		}
 
 		#region CreateVerticalCoordinateSystem
@@ -67,10 +70,10 @@ namespace Geotools.UnitTests.CoordinateSystems
 //			ILinearUnit unit = LinearUnit.Meters;
 //			IVerticalDatum verticalDatum = _csFactory.CreateVerticalDatum("vertdatum",IDatumType.IVD_Ellipsoidal);
 //			IVerticalCoordinateSystem verticalCS = _csFactory.CreateVerticalCoordinateSystem("test", verticalDatum, unit, ref axis);
-//			AssertEquals("ctor. 1","test",verticalCS.Name);
-//			AssertEquals("ctor. 2",verticalDatum,verticalCS.VerticalDatum);
-//			AssertEquals("ctor. 3",unit, verticalCS.VerticalUnit);
-//			AssertEquals("ctor. 4",axis, verticalCS.GetAxis(0));
+//			Assertion.AssertEquals("ctor. 1","test",verticalCS.Name);
+//			Assertion.AssertEquals("ctor. 2",verticalDatum,verticalCS.VerticalDatum);
+//			Assertion.AssertEquals("ctor. 3",unit, verticalCS.VerticalUnit);
+//			Assertion.AssertEquals("ctor. 4",axis, verticalCS.GetAxis(0));
 		}
 		#endregion
 		#region CreateFlattenedSphere
@@ -80,20 +83,21 @@ namespace Geotools.UnitTests.CoordinateSystems
 //(Note: Test must be commented out because this class has been made internal.  All test are functioning properly otherwise.)
 //			ICoordinateSystemFactory csFactory = new CoordinateSystemFactory();
 //			IEllipsoid ellipsoid = csFactory.CreateFlattenedSphere("test",20926348.0, 294.26068, new LinearUnit(1) );
-//			AssertEquals("ctor. 1 ","test",ellipsoid.Name);
-//			AssertEquals("ctor. 2 ",20926348.0,ellipsoid.SemiMajorAxis);
-//			AssertEquals("ctor. 3 ",20855233.000877455, ellipsoid.SemiMinorAxis);
-//			AssertEquals("ctor. 4 ",294.26068,ellipsoid.InverseFlattening);
+//			Assertion.AssertEquals("ctor. 1 ","test",ellipsoid.Name);
+//			Assertion.AssertEquals("ctor. 2 ",20926348.0,ellipsoid.SemiMajorAxis);
+//			Assertion.AssertEquals("ctor. 3 ",20855233.000877455, ellipsoid.SemiMinorAxis);
+//			Assertion.AssertEquals("ctor. 4 ",294.26068,ellipsoid.InverseFlattening);
 		}
 
 		
+	
 		public void TestCreateFlattenedSphere2()
 		{
 			ICoordinateSystemFactory csFactory = new CoordinateSystemFactory();
 			try
 			{
 				IEllipsoid ellipsoid = csFactory.CreateFlattenedSphere("test",1,2, null );
-				Fail("ArgumentNullException should be thrown  for null linear unit parameter.");
+				Assertion.Fail("ArgumentNullException should be thrown  for null linear unit parameter.");
 			}
 			catch (ArgumentNullException)
 			{
@@ -106,17 +110,18 @@ namespace Geotools.UnitTests.CoordinateSystems
 		{
 //(Note: Test must be commented out because this class has been made internal.  All test are functioning properly otherwise.)
 //			IEllipsoid ellipsoid = _csFactory.CreateEllipsoid("name", 1234.0,1235,  new LinearUnit(1));
-//			AssertEquals("ctor. 1 ","name",ellipsoid.Name);
-//			AssertEquals("ctor. 2 ",1234.0,ellipsoid.SemiMajorAxis);
-//			AssertEquals("ctor. 3 ",1235.0,ellipsoid.SemiMinorAxis);
+//			Assertion.AssertEquals("ctor. 1 ","name",ellipsoid.Name);
+//			Assertion.AssertEquals("ctor. 2 ",1234.0,ellipsoid.SemiMajorAxis);
+//			Assertion.AssertEquals("ctor. 3 ",1235.0,ellipsoid.SemiMinorAxis);
 		}
 
+		
 		public void TestCreateEllipsoid2()
 		{
 			try
 			{
 				IEllipsoid ellipsoid = _csFactory.CreateEllipsoid("test",1,2, null );
-				Fail("ArgumentNullException should be thrown  for null linear unit parameter.");
+				Assertion.Fail("ArgumentNullException should be thrown  for null linear unit parameter.");
 			}
 			catch (ArgumentNullException)
 			{
@@ -131,17 +136,18 @@ namespace Geotools.UnitTests.CoordinateSystems
 //(Note: Test must be commented out because this class has been made internal.  All test are functioning properly otherwise.)
 //			IAngularUnit angularUnit = new AngularUnit(1);
 //			IPrimeMeridian primeMeridian = _csFactory.CreatePrimeMeridian("name", angularUnit,2.0);
-//			AssertEquals("ctor. 1 ", "name", primeMeridian.Name);
-//			AssertEquals("ctor. 2", angularUnit, primeMeridian.AngularUnit);
-//			AssertEquals("ctor. 3 ", 2.0, primeMeridian.Longitude);
+//			Assertion.AssertEquals("ctor. 1 ", "name", primeMeridian.Name);
+//			Assertion.AssertEquals("ctor. 2", angularUnit, primeMeridian.AngularUnit);
+//			Assertion.AssertEquals("ctor. 3 ", 2.0, primeMeridian.Longitude);
 		}
 
+		
 		public void TestCreatePrimeMeridian2()
 		{
 			try
 			{
 				IPrimeMeridian primeMeridian = _csFactory.CreatePrimeMeridian("name", null,2.0);
-				Fail("ArgumentNullException should have been thrown.");
+				Assertion.Fail("ArgumentNullException should have been thrown.");
 			}
 			catch(ArgumentNullException)
 			{
@@ -153,15 +159,16 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void TestCreateVerticalDatum1()
 		{
 			IDatum datum = _csFactory.CreateVerticalDatum("name",DatumType.IHD_Geocentric);
-			AssertEquals("ctor.1","name",datum.Name);
-			AssertEquals("ctor.2",DatumType.IHD_Geocentric, datum.DatumType);
+			Assertion.AssertEquals("ctor.1","name",datum.Name);
+			Assertion.AssertEquals("ctor.2",DatumType.IHD_Geocentric, datum.DatumType);
 		}
+		
 		public void TestCreateVerticalDatum2()
 		{
 			try
 			{
 				IDatum datum = _csFactory.CreateVerticalDatum(null,DatumType.IHD_Geocentric);
-				Fail("ArgumentNullException should have been thrown.");
+				Assertion.Fail("ArgumentNullException should have been thrown.");
 			}
 			catch(ArgumentNullException)
 			{
@@ -179,10 +186,10 @@ namespace Geotools.UnitTests.CoordinateSystems
 //			wgs.Dx=1;
 //			
 //			IHorizontalDatum horizontalDatum = _csFactory.CreateHorizontalDatum("name",IDatumType.IHD_Geocentric, ellipsoid, ref wgs);
-//			AssertEquals("ctor 1","name",horizontalDatum.Name);
-//			AssertEquals("ctor 2",IDatumType.IHD_Geocentric,horizontalDatum.DatumType);
-//			AssertEquals("ctor 3",ellipsoid,horizontalDatum.Ellipsoid);
-//			AssertEquals("ctor 4",wgs,horizontalDatum.WGS84Parameters);
+//			Assertion.AssertEquals("ctor 1","name",horizontalDatum.Name);
+//			Assertion.AssertEquals("ctor 2",IDatumType.IHD_Geocentric,horizontalDatum.DatumType);
+//			Assertion.AssertEquals("ctor 3",ellipsoid,horizontalDatum.Ellipsoid);
+//			Assertion.AssertEquals("ctor 4",wgs,horizontalDatum.WGS84Parameters);
 		}
 		public void TestCreateHorizontalDatum2()
 		{
@@ -195,7 +202,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 //			try
 //			{
 //				IHorizontalDatum horizontalDatum = _csFactory.CreateHorizontalDatum("name",IDatumType.IHD_Geocentric, null, ref wgs);
-//				Fail("Should throw a ArgumentNullException.");
+//				Assertion.Fail("Should throw a ArgumentNullException.");
 //			}
 //			catch(ArgumentNullException)
 //			{
@@ -212,7 +219,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			{
 				ProjectionParameter[] projectionParams = new ProjectionParameter[2];
 				IProjection horizontalDatum = _csFactory.CreateProjection(null,"class",projectionParams);
-				Fail("Should throw a ArgumentNullException.");
+				Assertion.Fail("Should throw a ArgumentNullException.");
 			}
 			catch(ArgumentNullException)
 			{
@@ -224,7 +231,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			{
 				ProjectionParameter[] projectionParams = new ProjectionParameter[2];
 				IProjection horizontalDatum = _csFactory.CreateProjection("mercator","class",projectionParams);
-				Fail("Should throw a ArgumentException because the params are different lengths.");
+				Assertion.Fail("Should throw a ArgumentException because the params are different lengths.");
 			}
 			catch(ArgumentException)
 			{
@@ -240,7 +247,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 				param.Value=2.0;
 				projectionParams[0] = param;
 				IProjection horizontalDatum = _csFactory.CreateProjection("notexistent","class",projectionParams);
-				Fail("Should throw a NotImplementedException because the projection does not exist.");
+				Assertion.Fail("Should throw a NotImplementedException because the projection does not exist.");
 			}
 			catch(NotImplementedException)
 			{
@@ -260,15 +267,15 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void TestCreateLocalDatum1()
 		{
 			ILocalDatum datum = _csFactory.CreateLocalDatum("name",DatumType.IHD_Geocentric);
-			AssertEquals("ctor. 1","name",datum.Name);
-			AssertEquals("ctor. 2",DatumType.IHD_Geocentric,datum.DatumType);
+			Assertion.AssertEquals("ctor. 1","name",datum.Name);
+			Assertion.AssertEquals("ctor. 2",DatumType.IHD_Geocentric,datum.DatumType);
 		}
 		public void TestCreateLocalDatum2()
 		{
 			try
 			{
 				ILocalDatum datum = _csFactory.CreateLocalDatum(null,DatumType.IHD_Geocentric);
-				Fail("Should throw a ArgumentNullException.");
+				Assertion.Fail("Should throw a ArgumentNullException.");
 			}
 			catch(ArgumentNullException)
 			{
@@ -286,7 +293,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 				 IAxisInfo[] axis = new IAxisInfo[1];
 				 axis[0] = AxisInfo.X;
 				 _csFactory.CreateFittedCoordinateSystem("name",null,"aa",axis);
-				 Fail("Should throw a not implemented exception.");
+				 Assertion.Fail("Should throw a not implemented exception.");
 			 }
 			 catch(NotImplementedException)
 			 {
@@ -299,7 +306,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 				IAxisInfo[] axis = new IAxisInfo[1];
 				axis[0] = AxisInfo.X;
 				_csFactory.CreateLocalCoordinateSystem("name",null,null,axis);
-				Fail("Should throw a not implemented exception.");
+				Assertion.Fail("Should throw a not implemented exception.");
 			}
 			catch(NotImplementedException)
 			{

@@ -45,8 +45,10 @@
     	up for everyone.
     -->
     <target name="clean" description="Removes temporary files generated during compilation.">
-        <delete verbose="true"  failonerror="false">
-            <fileset basedir="bin\Debug">
+        <delete file="bin\Debug\Geotools.dll"  failonerror="false"/>
+	<delete file="bin\Release\Geotools.dll"  failonerror="false"/>
+	<delete verbose="true"  failonerror="false">
+	<fileset basedir="bin\Debug">
                 <includes name="${project.name}.dll"/>
                 <includes name="${project.name}.pdb"/>
                 <includes name="${project.name}.xml"/>
@@ -91,9 +93,13 @@
            </sources>
 			<references basedir="${bin.dir}">
                 <includes name="System.dll"/>
-                 <includes name="NUnitCore.dll"/>
+                 <includes name="nunit.framework.dll"/>
                  <includes name="Geotools.dll"/>
                  <includes name="XmlDiffPatch.dll"/>
+		<includes name="OGC.SimpleFeatures.dll"/>
+		<includes name="OGC.CoordinateSystems.dll"/>
+		<includes name="OGC.CoordinateTransformations.dll"/>
+		<includes name="OGC.Positioning.dll"/>
             </references>
            
             <arg value="/nologo"/>

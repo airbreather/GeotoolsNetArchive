@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 5     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 4     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -29,24 +32,10 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.CoordinateSystems.HorizontalCoordinateSystemTest class
 	/// </summary>
-	public class HorizontalCoordinateSystemTest : TestCase 
+	[TestFixture]
+	public class HorizontalCoordinateSystemTest  
 	{
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public HorizontalCoordinateSystemTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
-
+		
 		public void Test_Constructor() 
 		{
 //(Note: Test must be commented out because this class has been made internal.  All test are functioning properly otherwise.)

@@ -3,6 +3,12 @@
  * $Header$
  * $Log$
  * 
+ * 6     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
+ * 5     11/04/02 3:20p Rabergman
+ * Changed using namespaces
+ * 
  * 4     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -19,7 +25,7 @@
 
 #region Using
 using System;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.IO;
 using NUnit.Framework;
 #endregion
@@ -29,25 +35,12 @@ namespace Geotools.UnitTests.IO
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.IO.GeometryWktWriterTest class
 	/// </summary>
-	public class GeometryWktWriterTest : TestCase 
+	[TestFixture]
+	public class GeometryWktWriterTest  
 	{
 		GeometryFactory _factory = new GeometryFactory();
 		GeometryWKTWriter _writer = new GeometryWKTWriter();
-		/// <summary>
-		/// Initializes a new instance of the GeometryWktWriterTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public GeometryWktWriterTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 		#region Point
 		public void TestPoint1()
@@ -55,7 +48,7 @@ namespace Geotools.UnitTests.IO
 			Coordinate cooordinate = new Coordinate(1.0,2.0);
 			IPoint point = _factory.CreatePoint( cooordinate );
 			string wkt = _writer.WriteFormatted(point);
-			AssertEquals("point wkt1","POINT (1 2)",wkt);
+			Assertion.AssertEquals("point wkt1","POINT (1 2)",wkt);
 		}
 
 		public void TestPoint2()
@@ -63,7 +56,7 @@ namespace Geotools.UnitTests.IO
 			Coordinate cooordinate = new Coordinate(1.2,2.3);
 			IPoint point = _factory.CreatePoint( cooordinate );
 			string wkt = _writer.WriteFormatted(point);
-			AssertEquals("point wkt1","POINT (1.2 2.3)",wkt);
+			Assertion.AssertEquals("point wkt1","POINT (1.2 2.3)",wkt);
 		}
 		#endregion
 
@@ -75,7 +68,7 @@ namespace Geotools.UnitTests.IO
 			coordinates.Add( new Coordinate(1.2,2.3) );
 			MultiPoint multipoint = _factory.CreateMultiPoint( coordinates );
 			string wkt = _writer.WriteFormatted(multipoint);
-			AssertEquals("multi point","MULTIPOINT (1 2, 1.2 2.3)",wkt);
+			Assertion.AssertEquals("multi point","MULTIPOINT (1 2, 1.2 2.3)",wkt);
 		}
 		#endregion
 
@@ -88,7 +81,7 @@ namespace Geotools.UnitTests.IO
 			coordinates.Add( new Coordinate(1.2,2.3) );
 			LineString linestring = _factory.CreateLineString( coordinates );
 			string wkt = _writer.WriteFormatted(linestring);
-			AssertEquals("multi point","LINESTRING (1 2, 1.2 2.3)",wkt);
+			Assertion.AssertEquals("multi point","LINESTRING (1 2, 1.2 2.3)",wkt);
 		}
 		#endregion
 

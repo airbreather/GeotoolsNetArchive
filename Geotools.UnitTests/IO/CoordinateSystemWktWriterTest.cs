@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 5     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 4     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -35,26 +38,12 @@ namespace Geotools.UnitTests
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.CoordinateSystemWktWriterTest class
 	/// </summary>
-	public class CoordinateSystemWktWriterTest : TestCase 
+	[TestFixture]
+	public class CoordinateSystemWktWriterTest 
 	{
 		CoordinateSystemEPSGFactory _factory = new CoordinateSystemEPSGFactory( Global.GetEPSGDatabaseConnection() );
 
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public CoordinateSystemWktWriterTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-			
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 	
 		public void TestWriteCompoundCoordinateSystem() 
@@ -65,7 +54,7 @@ namespace Geotools.UnitTests
 			//CoordinateSystemWktWriter.WriteCompoundCoordinateSystem(compoundsCoordinateSsytem, indentedTextWriter);
 			CoordinateSystemWktWriter.Write(compoundsCoordinateSsytem, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\CompoundCoordinateSystem.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 	
@@ -76,7 +65,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(linearUnit, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\LinearUnit.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 		
 		public void TestWriteUnit2() 
@@ -86,7 +75,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(AngularUnit, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\Radians.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 	
@@ -97,7 +86,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(verticalDatum, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\VerticalDatum.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		
@@ -108,7 +97,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(horizontalDatum, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\HorizontalDatum.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		public void TestWriteEllipsoid()
@@ -118,7 +107,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(ellipsoid, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\Spheroid.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 		public void TestWritePrimeMeridian()
 		{
@@ -127,7 +116,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(PrimeMeridian, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\PrimeMeridian.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		public void TestWriteGeographicCoordinateSystem()
@@ -137,7 +126,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(GeographicCoordinateSystem, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\GeographicCoordinateSystem.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		public void TestWriteProjectedCoordinateSystem()
@@ -147,7 +136,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(ProjectedCoordinateSystem, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\ProjectedCoordinateSystem.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		public void TestWriteVerticalCoordinateSystem()
@@ -157,7 +146,7 @@ namespace Geotools.UnitTests
 			IndentedTextWriter indentedTextWriter = new IndentedTextWriter(textwriter);
 			CoordinateSystemWktWriter.Write(VerticalCoordinateSystem, indentedTextWriter);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\VerticalCoordinateSystem.txt", textwriter.ToString() );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		public void TestWrite1()
@@ -165,7 +154,7 @@ namespace Geotools.UnitTests
 			ICompoundCoordinateSystem compoundsCoordinateSsytem = _factory.CreateCompoundCoordinateSystem("7405");
 			string wkt = CoordinateSystemWktWriter.Write(compoundsCoordinateSsytem);
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\CompoundCoordinateSystem.txt", wkt );
-			AssertEquals("test 1",true,same);
+			Assertion.AssertEquals("test 1",true,same);
 		}
 
 		public void TestWrite2()
@@ -173,7 +162,7 @@ namespace Geotools.UnitTests
 			ICompoundCoordinateSystem compoundsCoordinateSsytem = _factory.CreateCompoundCoordinateSystem("7405");
 			string wkt1 = CoordinateSystemWktWriter.Write(compoundsCoordinateSsytem);
 			string wkt2 = compoundsCoordinateSsytem.WKT;
-			AssertEquals("test 1",wkt1,wkt2);
+			Assertion.AssertEquals("test 1",wkt1,wkt2);
 		}
 
 		

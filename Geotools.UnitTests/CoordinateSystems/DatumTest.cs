@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 7     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 6     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -33,23 +36,9 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the UrbanScience.OpenGIS.UnitTests.DatumTest class
 	/// </summary>
-	public class DatumTest : TestCase 
+	[TestFixture]
+	public class DatumTest 
 	{
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public DatumTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
 
 		/// <summary>
 		/// Tests the constructor
@@ -57,15 +46,15 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void Test_Constructor() 
 		{
 //			OGC.CoordinateSystems.IDatum datum = new Datum(IDatumType.IHD_Geocentric,"remarks","authority","authoritycode","name","alias","abbreviation");
-//			AssertEquals("ctor 0. ", IDatumType.IHD_Geocentric, datum.DatumType);
-//			AssertEquals("ctor 1. ", "abbreviation", datum.Abbreviation);
-//			AssertEquals("ctor 2. ", "alias", datum.Alias);
-//			AssertEquals("ctor 3. ", "authority", datum.Authority);
-//			AssertEquals("ctor 4. ", "authoritycode", datum.AuthorityCode);
-//			AssertEquals("ctor 5. ", "name", datum.Name);
-//			AssertEquals("ctor 6. ", "remarks", datum.Remarks);
-//			//AssertEquals("ctor 7. ", null, datum.WKT);
-//			//AssertEquals("ctor 8. ", null, datum.XML);	
+//			Assertion.AssertEquals("ctor 0. ", IDatumType.IHD_Geocentric, datum.DatumType);
+//			Assertion.AssertEquals("ctor 1. ", "abbreviation", datum.Abbreviation);
+//			Assertion.AssertEquals("ctor 2. ", "alias", datum.Alias);
+//			Assertion.AssertEquals("ctor 3. ", "authority", datum.Authority);
+//			Assertion.AssertEquals("ctor 4. ", "authoritycode", datum.AuthorityCode);
+//			Assertion.AssertEquals("ctor 5. ", "name", datum.Name);
+//			Assertion.AssertEquals("ctor 6. ", "remarks", datum.Remarks);
+//			//Assertion.AssertEquals("ctor 7. ", null, datum.WKT);
+//			//Assertion.AssertEquals("ctor 8. ", null, datum.XML);	
 		}
 
 		/// <summary>
@@ -74,7 +63,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void Test_TestConstructor2()
 		{
 //			OGC.CoordinateSystems.IDatum datum = new Datum(IDatumType.IHD_Geocentric);
-//			AssertEquals("ctor 0. ", IDatumType.IHD_Geocentric, datum.DatumType);
+//			Assertion.AssertEquals("ctor 0. ", IDatumType.IHD_Geocentric, datum.DatumType);
 		}
 	}
 }

@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 6     12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 5     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -34,24 +37,11 @@ namespace Geotools.UnitTests.IO
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.IO.CoordinateSystemWktReader class
 	/// </summary>
-	public class CoordinateSystemWktReaderTest : TestCase 
+	[TestFixture]
+	public class CoordinateSystemWktReaderTest 
+
 	{
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public CoordinateSystemWktReaderTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
-
+		
 	
 		public void TestReadUnit1() 
 		{
@@ -73,7 +63,7 @@ namespace Geotools.UnitTests.IO
 			IAngularUnit angularUnit = CoordinateSystemWktReader.Create(wkt1) as IAngularUnit;
 			string wkt2 = angularUnit.WKT;
 			bool same = Compare.CompareAgainstString(Global.GetUnitTestRootDirectory()+@"\IO\AngularUnit.txt",wkt2 );
-			//AssertEquals("test 1",true,same); fails because of issues with double and precsision
+			//Assertion.AssertEquals("test 1",true,same); fails because of issues with double and precsision
 		}
 
 		public void TestReadUnit3() 
@@ -83,7 +73,7 @@ namespace Geotools.UnitTests.IO
 			ILinearUnit linearUnit = CoordinateSystemWktReader.Create(wkt1) as ILinearUnit;
 			string wkt2 = linearUnit.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Unit 3",true,same);
+			Assertion.AssertEquals("Unit 3",true,same);
 		}
 
 
@@ -94,7 +84,7 @@ namespace Geotools.UnitTests.IO
 			IVerticalDatum verticalDatum = CoordinateSystemWktReader.Create(wkt1) as IVerticalDatum;
 			string wkt2 = verticalDatum.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Vertical Datum 1",true,same);
+			Assertion.AssertEquals("Vertical Datum 1",true,same);
 		}
 
 
@@ -105,7 +95,7 @@ namespace Geotools.UnitTests.IO
 			IHorizontalDatum horizontalDatum = CoordinateSystemWktReader.Create(wkt1) as IHorizontalDatum;
 			string wkt2 = horizontalDatum.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Horizontal datum 1",true,same);
+			Assertion.AssertEquals("Horizontal datum 1",true,same);
 		}
 
 
@@ -116,7 +106,7 @@ namespace Geotools.UnitTests.IO
 			IEllipsoid Ellipsoid = CoordinateSystemWktReader.Create(wkt1) as IEllipsoid;
 			string wkt2 = Ellipsoid.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Ellipsoid 1",true,same);
+			Assertion.AssertEquals("Ellipsoid 1",true,same);
 		}
 
 		public void TestReadPrimeMeridian2() 
@@ -126,7 +116,7 @@ namespace Geotools.UnitTests.IO
 			IPrimeMeridian primeMeridian = CoordinateSystemWktReader.Create(wkt1) as IPrimeMeridian;
 			string wkt2 = primeMeridian.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Prime Meridian 1",true,same);
+			Assertion.AssertEquals("Prime Meridian 1",true,same);
 		}
 	
 		public void TestReadVerticalCoordinateSystem2() 
@@ -136,7 +126,7 @@ namespace Geotools.UnitTests.IO
 			IVerticalCoordinateSystem verticalCoordinateSystem = CoordinateSystemWktReader.Create(wkt1) as IVerticalCoordinateSystem;
 			string wkt2 = verticalCoordinateSystem.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("vertical coordinate system 1",true,same);
+			Assertion.AssertEquals("vertical coordinate system 1",true,same);
 		}
 
 		public void TestReadGeographicCoordinateSystem2() 
@@ -146,7 +136,7 @@ namespace Geotools.UnitTests.IO
 			IGeographicCoordinateSystem geographicCoordinateSystem = CoordinateSystemWktReader.Create(wkt1) as IGeographicCoordinateSystem;
 			string wkt2 = geographicCoordinateSystem.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Geographic coordinate system 1",true,same);
+			Assertion.AssertEquals("Geographic coordinate system 1",true,same);
 		}
 
 		public void TestReadProjectedCoordinateSystem2() 
@@ -156,7 +146,7 @@ namespace Geotools.UnitTests.IO
 			IProjectedCoordinateSystem projectedCoordinateSystem = CoordinateSystemWktReader.Create(wkt1) as IProjectedCoordinateSystem;
 			string wkt2 = projectedCoordinateSystem.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Projected coordinate system 1",true,same);
+			Assertion.AssertEquals("Projected coordinate system 1",true,same);
 		}
 		
 
@@ -167,7 +157,7 @@ namespace Geotools.UnitTests.IO
 			ICompoundCoordinateSystem compoundCoordinateSystem = CoordinateSystemWktReader.Create(wkt1) as ICompoundCoordinateSystem;
 			string wkt2 = compoundCoordinateSystem.WKT;
 			bool same = Compare.CompareAgainstString(testFile, wkt2 );
-			AssertEquals("Compound coordinate system 1",true,same);
+			Assertion.AssertEquals("Compound coordinate system 1",true,same);
 		}
 	
 	}

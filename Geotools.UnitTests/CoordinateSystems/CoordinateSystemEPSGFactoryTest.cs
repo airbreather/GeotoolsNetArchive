@@ -2,6 +2,16 @@
  * $Header$
  * $Log$
  * 
+ * 9     1/02/03 11:18a Awcoats
+ * commeted out Test_Constructor2 because gave a warning when the epsg.mdb
+ * was not in the bin directory.
+ * 
+ * 8     12/27/02 1:37p Awcoats
+ * fixed documentation errors.
+ * 
+ * 7     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 6     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -25,7 +35,6 @@ using System.Data;
 using System.Data.SqlClient;
 using Geotools.CoordinateReferenceSystems;
 using Geotools.CoordinateTransformations;
-
 using NUnit.Framework;
 #endregion
 
@@ -34,27 +43,20 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the UrbanScience.OpenGIS.UnitTests.CoordinateSystems.CoordinateSystemEPSGFactoryTest class
 	/// </summary>
-	public class CoordinateSystemEPSGFactoryTest : TestCase 
+	[TestFixture]
+	public class CoordinateSystemEPSGFactoryTest 
 	{
 		CoordinateSystemEPSGFactory _factory;
 		#region Standard NunitStuff
 
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public CoordinateSystemEPSGFactoryTest(String name) : base(name) 
+		
+		[SetUp]
+		public void Init()
 		{
+			_factory = new CoordinateSystemEPSGFactory(Global.GetEPSGDatabaseConnection());
 		}
 	
-		protected override void SetUp() 
-		{
-			 _factory = new CoordinateSystemEPSGFactory(Global.GetEPSGDatabaseConnection());
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 		#endregion
 
 		#region Test Database stuff
@@ -64,22 +66,23 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				CoordinateSystemEPSGFactory factory = new CoordinateSystemEPSGFactory(null);
-				Fail("ArgumentNullException should be thrown");
+				Assertion.Fail("ArgumentNullException should be thrown");
 			}
 			catch (ArgumentNullException)
 			{
 			}
 		}
 
-		
+		/*
+		[Ignore("EPSG is not in the bin directory, so will fail")]
 		public void Test_Constructor2() 
 		{
 			CoordinateSystemEPSGFactory factory = CoordinateSystemEPSGFactory.UseDefaultDatabase();
 			ILinearUnit linearUnit = factory.CreateLinearUnit("9001");
-			AssertEquals("LinearUnit - untis per meter ",1.0,linearUnit.MetersPerUnit);
-			AssertEquals("LinearUnit - Authority","EPSG",linearUnit.Authority);
-			AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
-		}
+			Assertion.AssertEquals("LinearUnit - untis per meter ",1.0,linearUnit.MetersPerUnit);
+			Assertion.AssertEquals("LinearUnit - Authority","EPSG",linearUnit.Authority);
+			Assertion.AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
+		}*/
 
 		
 		public void Test_TestAccessDB() 
@@ -87,9 +90,9 @@ namespace Geotools.UnitTests.CoordinateSystems
 			IDbConnection connection = Global.GetEPSGDatabaseConnection();
 			CoordinateSystemEPSGFactory factory = new CoordinateSystemEPSGFactory(connection);
 			ILinearUnit linearUnit = factory.CreateLinearUnit("9001");
-			AssertEquals("LinearUnit - untis per meter ",1.0,linearUnit.MetersPerUnit);
-			AssertEquals("LinearUnit - Authority","EPSG",linearUnit.Authority);
-			AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
+			Assertion.AssertEquals("LinearUnit - untis per meter ",1.0,linearUnit.MetersPerUnit);
+			Assertion.AssertEquals("LinearUnit - Authority","EPSG",linearUnit.Authority);
+			Assertion.AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
 			connection.Close();
 		}
 		
@@ -100,9 +103,9 @@ namespace Geotools.UnitTests.CoordinateSystems
 
 			CoordinateSystemEPSGFactory factory = new CoordinateSystemEPSGFactory(connection);
 			ILinearUnit linearUnit = factory.CreateLinearUnit("9001");
-			AssertEquals("LinearUnit - untis per meter ",1.0,linearUnit.MetersPerUnit);
-			AssertEquals("LinearUnit - Authority","EPSG",linearUnit.Authority);
-			AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
+			Assertion.AssertEquals("LinearUnit - untis per meter ",1.0,linearUnit.MetersPerUnit);
+			Assertion.AssertEquals("LinearUnit - Authority","EPSG",linearUnit.Authority);
+			Assertion.AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
 			connection.Close();
 		}
 		#endregion
@@ -113,7 +116,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				ILinearUnit linearUnit = _factory.CreateLinearUnit("1");
-				Fail("Linear Unit - Exception should be thrown.");
+				Assertion.Fail("Linear Unit - Exception should be thrown.");
 			}
 			catch(ArgumentOutOfRangeException)
 			{
@@ -126,7 +129,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				ILinearUnit linearUnit = _factory.CreateLinearUnit("9101");
-				Fail("Linear Unit - Exception should be thrown because 9101 is an angular unit.");
+				Assertion.Fail("Linear Unit - Exception should be thrown because 9101 is an angular unit.");
 			}
 			catch(ArgumentException)
 			{
@@ -141,9 +144,9 @@ namespace Geotools.UnitTests.CoordinateSystems
 		{
 	
 			IAngularUnit angularUnit = _factory.CreateAngularUnit("9101");
-			AssertEquals("AngularUnit - untis per meter ",1.0,angularUnit.RadiansPerUnit);
-			AssertEquals("AngularUnit - Authority","EPSG",angularUnit.Authority);
-			AssertEquals("AngularUnit - Remarks","SI standard unit.",angularUnit.Remarks);
+			Assertion.AssertEquals("AngularUnit - untis per meter ",1.0,angularUnit.RadiansPerUnit);
+			Assertion.AssertEquals("AngularUnit - Authority","EPSG",angularUnit.Authority);
+			Assertion.AssertEquals("AngularUnit - Remarks","SI standard unit.",angularUnit.Remarks);
 		}
 
 
@@ -155,7 +158,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IAngularUnit angularUnit3 = _factory.CreateAngularUnit("-1");
-				Fail("Angular Unit - Exception should be thrown.");
+				Assertion.Fail("Angular Unit - Exception should be thrown.");
 			}
 			catch(ArgumentOutOfRangeException)
 			{
@@ -170,7 +173,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IAngularUnit angularUnit3 = _factory.CreateAngularUnit("9001");
-				Fail("Angular Unit - Exception should be thrown. 9001 is a linear unit.");
+				Assertion.Fail("Angular Unit - Exception should be thrown. 9001 is a linear unit.");
 			}
 			catch(ArgumentException)
 			{
@@ -182,8 +185,8 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void Test_PrimeMeridian()
 		{
 			IPrimeMeridian primeMeridian = _factory.CreatePrimeMeridian("8902");
-			AssertEquals("PrimeMeridian - degress from Greenwich",-9.0754862, primeMeridian.Longitude);
-			AssertEquals("PrimeMeridian - remarks","",primeMeridian.Remarks);
+			Assertion.AssertEquals("PrimeMeridian - degress from Greenwich",-9.0754862, primeMeridian.Longitude);
+			Assertion.AssertEquals("PrimeMeridian - remarks","",primeMeridian.Remarks);
 		}
 
 		/// <summary>
@@ -194,7 +197,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IPrimeMeridian primeMeridian2 = _factory.CreatePrimeMeridian("1");
-				Fail("Prime Meridian - Exception should be thrown.");
+				Assertion.Fail("Prime Meridian - Exception should be thrown.");
 			}
 			catch(ArgumentOutOfRangeException)
 			{
@@ -208,7 +211,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IHorizontalDatum horizontalDatum = _factory.CreateHorizontalDatum("-1");
-				Fail("Create Horizontal Datum 1.");
+				Assertion.Fail("Create Horizontal Datum 1.");
 			}
 			catch(ArgumentException)
 			{
@@ -217,7 +220,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IHorizontalDatum horizontalDatum = _factory.CreateHorizontalDatum(null);
-				Fail("Create Horizontal Datum 2.");
+				Assertion.Fail("Create Horizontal Datum 2.");
 			}
 			catch(ArgumentNullException)
 			{
@@ -229,12 +232,12 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void Test_Ellipsoid()
 		{
 			IEllipsoid ellipsoid = _factory.CreateEllipsoid("7001");
-			AssertEquals("Ellipsoid Remarks","Original definition is a=20923713 and b=20853810 feet of 1796.   For the 1936 retriangulation OSGB defines the relationship of feet of 1796 to the International metre through log(1.48401603) exactly [=0.3048007491...]. 1/f is given to 7 decimal places.",ellipsoid.Remarks);
-			AssertEquals("Ellipsoid Name","Airy 1830", ellipsoid.Name);
-			AssertEquals("Ellipsoid Major Axis","6377563.396", ellipsoid.SemiMajorAxis.ToString());
-			AssertEquals("Ellipsoid Minor Axis","6356256.90923729", ellipsoid.SemiMinorAxis.ToString());
-			AssertEquals("Ellipsoid flattening",299.3249646, ellipsoid.InverseFlattening);
-			AssertEquals("Ellipsoid IVF Definitive", true, ellipsoid.IsIvfDefinitive() );
+			Assertion.AssertEquals("Ellipsoid Remarks","Original definition is a=20923713 and b=20853810 feet of 1796.   For the 1936 retriangulation OSGB defines the relationship of feet of 1796 to the International metre through log(1.48401603) exactly [=0.3048007491...]. 1/f is given to 7 decimal places.",ellipsoid.Remarks);
+			Assertion.AssertEquals("Ellipsoid Name","Airy 1830", ellipsoid.Name);
+			Assertion.AssertEquals("Ellipsoid Major Axis","6377563.396", ellipsoid.SemiMajorAxis.ToString());
+			Assertion.AssertEquals("Ellipsoid Minor Axis","6356256.90923729", ellipsoid.SemiMinorAxis.ToString());
+			Assertion.AssertEquals("Ellipsoid flattening",299.3249646, ellipsoid.InverseFlattening);
+			Assertion.AssertEquals("Ellipsoid IVF Definitive", true, ellipsoid.IsIvfDefinitive() );
 		}
 		#endregion
 
@@ -252,7 +255,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				_factory.CreateProjectedCoordinateSystem(null);
-				Fail("Should not allow a null parameter");
+				Assertion.Fail("Should not allow a null parameter");
 			}
 			catch(ArgumentNullException)
 			{
@@ -262,7 +265,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				_factory.CreateProjectedCoordinateSystem("-1");
-				Fail("Should not allow a null parameter");
+				Assertion.Fail("Should not allow a null parameter");
 			}
 			catch(ArgumentException)
 			{
@@ -296,7 +299,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				_factory.CreateGeographicCoordinateSystem(null);
-				Fail("Should not allow a null parameter");
+				Assertion.Fail("Should not allow a null parameter");
 			}
 			catch(ArgumentNullException)
 			{
@@ -304,7 +307,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				_factory.CreateGeographicCoordinateSystem("-1");
-				Fail("Should not find this record.");
+				Assertion.Fail("Should not find this record.");
 			}
 			catch(ArgumentException)
 			{
@@ -327,8 +330,8 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void TestCreateVerticalCoordinateSystem1()
 		{
 			IVerticalCoordinateSystem vcs = _factory.CreateVerticalCoordinateSystem("5701");
-			AssertEquals("vcs ctor. 1", "Newlyn", vcs.Name);
-			AssertEquals("vcs ctor. 2","Ordnance Datum Newlyn", vcs.VerticalDatum.Name);
+			Assertion.AssertEquals("vcs ctor. 1", "Newlyn", vcs.Name);
+			Assertion.AssertEquals("vcs ctor. 2","Ordnance Datum Newlyn", vcs.VerticalDatum.Name);
 		}
 
 		public void TestCreateVerticalCoordinateSystem2()
@@ -336,7 +339,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IVerticalCoordinateSystem vcs = _factory.CreateVerticalCoordinateSystem(null);
-				Fail("ArguementNullException should be thrown.");
+				Assertion.Fail("ArguementNullException should be thrown.");
 			}
 			catch (ArgumentNullException)
 			{
@@ -348,7 +351,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IVerticalCoordinateSystem vcs = _factory.CreateVerticalCoordinateSystem("-1");
-				Fail("ArguementException should be thrown.");
+				Assertion.Fail("ArguementException should be thrown.");
 			}
 			catch (ArgumentException)
 			{
@@ -360,7 +363,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void TestCreateVerticalDatumTest1()
 		{
 			IVerticalDatum verticalDatum = _factory.CreateVerticalDatum("5101");
-			AssertEquals("VeticalDatum ctor1.","Ordnance Datum Newlyn",verticalDatum.Name);
+			Assertion.AssertEquals("VeticalDatum ctor1.","Ordnance Datum Newlyn",verticalDatum.Name);
 		}
 		#endregion
 
@@ -391,9 +394,9 @@ namespace Geotools.UnitTests.CoordinateSystems
 		{
 			ICompoundCoordinateSystem compoundsCRS = _factory.CreateCompoundCoordinateSystem("7405");
 
-			AssertEquals("ctor 1.","OSGB36 / British National Grid + ODN",compoundsCRS.Name);
-			AssertEquals("ctor 2.","OSGB 1936 / British National Grid",compoundsCRS.HeadCS.Name);
-			AssertEquals("ctor 3.","Newlyn",compoundsCRS.TailCS.Name);
+			Assertion.AssertEquals("ctor 1.","OSGB36 / British National Grid + ODN",compoundsCRS.Name);
+			Assertion.AssertEquals("ctor 2.","OSGB 1936 / British National Grid",compoundsCRS.HeadCS.Name);
+			Assertion.AssertEquals("ctor 3.","Newlyn",compoundsCRS.TailCS.Name);
 
 
 		}
@@ -407,21 +410,21 @@ namespace Geotools.UnitTests.CoordinateSystems
 			// parameters for UK National Grid.
 			ParameterList parameterList = _factory.GetParameters("19916");//,"9807");
 			
-			AssertEquals("Test 1",49.0,parameterList.GetDouble("latitude_of_natural_origin") );
-			AssertEquals("Test 2",-2.0,parameterList.GetDouble("longitude_of_natural_origin") );
-			AssertEquals("Test 3",0.999601272,parameterList.GetDouble("scale_factor_at_natural_origin") );
-			AssertEquals("Test 4",400000.0,parameterList.GetDouble("false_easting") );
-			AssertEquals("Test 5",-100000.0,parameterList.GetDouble("false_northing") );
+			Assertion.AssertEquals("Test 1",49.0,parameterList.GetDouble("latitude_of_natural_origin") );
+			Assertion.AssertEquals("Test 2",-2.0,parameterList.GetDouble("longitude_of_natural_origin") );
+			Assertion.AssertEquals("Test 3",0.999601272,parameterList.GetDouble("scale_factor_at_natural_origin") );
+			Assertion.AssertEquals("Test 4",400000.0,parameterList.GetDouble("false_easting") );
+			Assertion.AssertEquals("Test 5",-100000.0,parameterList.GetDouble("false_northing") );
 		}
 
 
 		public void Test_GetAxisInfo1()
 		{
 			IAxisInfo[] axisinfos = _factory.GetAxisInfo("4400");
-			AssertEquals("0 Axis",AxisOrientation.East,axisinfos[0].Orientation);
-			AssertEquals("0 Axis","Easting",axisinfos[0].Name);
-			AssertEquals("1 Axis",AxisOrientation.North,axisinfos[1].Orientation);
-			AssertEquals("1 Axis","Northing",axisinfos[1].Name);
+			Assertion.AssertEquals("0 Axis",AxisOrientation.East,axisinfos[0].Orientation);
+			Assertion.AssertEquals("0 Axis","Easting",axisinfos[0].Name);
+			Assertion.AssertEquals("1 Axis",AxisOrientation.North,axisinfos[1].Orientation);
+			Assertion.AssertEquals("1 Axis","Northing",axisinfos[1].Name);
 		
 		}
 		public void Test_GetAxisInfo2()
@@ -429,7 +432,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			try
 			{
 				IAxisInfo[] axisinfos = _factory.GetAxisInfo("-1");
-				Fail("Should not find axis info of -1.");
+				Assertion.Fail("Should not find axis info of -1.");
 			}
 			catch(ArgumentException)
 			{
@@ -440,20 +443,20 @@ namespace Geotools.UnitTests.CoordinateSystems
 		public void Test_GetCoordinateSystemType()
 		{
 			string coordSysType = _factory.GetCoordinateSystemType("24100");
-			AssertEquals("GetCoordinateSystemType","projected",coordSysType);
+			Assertion.AssertEquals("GetCoordinateSystemType","projected",coordSysType);
 
 		}
 
 		public void Test_GetOrientation1()
 		{
 			AxisOrientation orientation = _factory.GetOrientation("North");
-			AssertEquals("GetOrientation North",AxisOrientation.North,orientation);
+			Assertion.AssertEquals("GetOrientation North",AxisOrientation.North,orientation);
 		}
 
 		public void Test_GetOrientation2()
 		{
 			AxisOrientation orientation = _factory.GetOrientation("Up");
-			AssertEquals("GetOrientation Up",AxisOrientation.Up,orientation);
+			Assertion.AssertEquals("GetOrientation Up",AxisOrientation.Up,orientation);
 		}
 		#endregion
 	}

@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 8     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 7     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -31,28 +34,15 @@ using Geotools.CoordinateReferenceSystems;
 
 #endregion
 
-namespace UrbanScience.OpenGIS.UnitTests.CoordinateSystems
+namespace Geotools.UnitTests.CoordinateSystems
 {
 	/// <summary>
 	/// Tests the basic functionality of the UrbanScience.OpenGIS.UnitTests.CoordinateSystems.PrimeMeridianTest class
 	/// </summary>
-	public class PrimeMeridianTest : TestCase 
+	[TestFixture]
+	public class PrimeMeridianTest 
 	{
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public PrimeMeridianTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 		public void Test_Test1()
 		{

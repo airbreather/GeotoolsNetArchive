@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 4     11/04/02 3:20p Rabergman
+ * Changed using namespaces
+ * 
  * 3     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -17,7 +20,7 @@
 #region Using
 using System;
 using System.IO;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.IO;
 #endregion
 

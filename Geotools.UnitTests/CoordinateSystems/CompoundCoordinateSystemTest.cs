@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 6     12/27/02 1:00p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
  * 5     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -31,23 +34,18 @@ namespace Geotools.UnitTests.CoordinateSystems
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.CoordinateSystems.CompoundCoordinateSystemTest class
 	/// </summary>
-	public class CompoundCoordinateSystemTest : TestCase 
+	[TestFixture]
+	public class CompoundCoordinateSystemTest 
 	{
 		CoordinateSystemEPSGFactory _factory;
 		
 
-		public CompoundCoordinateSystemTest(String name) : base(name) 
+		public CompoundCoordinateSystemTest()
 		{
 			_factory = new CoordinateSystemEPSGFactory(Global.GetEPSGDatabaseConnection());
 		}
 	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 	
 		public void Test_Constructor1() 
@@ -63,14 +61,14 @@ namespace Geotools.UnitTests.CoordinateSystems
 //				"name",
 //				"alias",
 //				"abbreviation");
-//			AssertEquals("ctor1.",headCRS,compoundCS.HeadCS);
-//			AssertEquals("ctor2.",tailCRS,compoundCS.TailCS);
-//			AssertEquals("ctor3.","remarks",compoundCS.Remarks);
-//			AssertEquals("ctor3.","authority",compoundCS.Authority);
-//			AssertEquals("ctor3.","code",compoundCS.AuthorityCode);
-//			AssertEquals("ctor3.","name",compoundCS.Name);
-//			AssertEquals("ctor3.","alias",compoundCS.Alias);
-//			AssertEquals("ctor3.","abbreviation",compoundCS.Abbreviation);
+//			Assertion.AssertEquals("ctor1.",headCRS,compoundCS.HeadCS);
+//			Assertion.AssertEquals("ctor2.",tailCRS,compoundCS.TailCS);
+//			Assertion.AssertEquals("ctor3.","remarks",compoundCS.Remarks);
+//			Assertion.AssertEquals("ctor3.","authority",compoundCS.Authority);
+//			Assertion.AssertEquals("ctor3.","code",compoundCS.AuthorityCode);
+//			Assertion.AssertEquals("ctor3.","name",compoundCS.Name);
+//			Assertion.AssertEquals("ctor3.","alias",compoundCS.Alias);
+//			Assertion.AssertEquals("ctor3.","abbreviation",compoundCS.Abbreviation);
 		}
 
 		
@@ -89,7 +87,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 //					"name",
 //					"alias",
 //					"abbreviation");
-//				Fail("Argumentexception should be thrown.");
+//				Assertion.Fail("Argumentexception should be thrown.");
 //			}
 //			catch(ArgumentNullException)
 //			{
@@ -111,7 +109,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 //					"name",
 //					"alias",
 //					"abbreviation");
-//				Fail("Argumentexception should be thrown.");
+//				Assertion.Fail("Argumentexception should be thrown.");
 //			}
 //			catch(ArgumentNullException)
 //			{

@@ -3,6 +3,15 @@
  * $Header$
  * $Log$
  * 
+ * 11    12/27/02 1:01p Awcoats
+ * changes  when moving from NUnit 1.0 to Nunit 2.0
+ * 
+ * 10    12/09/02 11:56a Awcoats
+ * changed x to X and y to Y.
+ * 
+ * 9     11/04/02 3:20p Rabergman
+ * Changed using namespaces
+ * 
  * 8     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -28,7 +37,7 @@
 #region Using
 using System;
 using NUnit.Framework;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.IO;
 using Geotools.UnitTests.Utilities;
 //using Geotools.IO;
@@ -39,23 +48,10 @@ namespace Geotools.UnitTests.IO
 	/// <summary>
 	/// Tests the basic functionality of the Geotools.UnitTests.IO.GeometryWktReaderTest class
 	/// </summary>
-	public class GeometryWktReaderTest : TestCase 
+	[TestFixture]
+	public class GeometryWktReaderTest 
 	{
-		/// <summary>
-		/// Initializes a new instance of the PointBaseTest class. 
-		/// </summary>
-		/// <param name="name">The name of the test.</param>
-		public GeometryWktReaderTest(String name) : base(name) 
-		{
-		}
-	
-		protected override void SetUp() 
-		{
-		}
-
-		protected override void TearDown() 
-		{
-		}
+		
 
 
 		#region Parsing
@@ -67,7 +63,7 @@ namespace Geotools.UnitTests.IO
 			try
 			{
 				IGeometry geometry = factory.CreateFromWKT(wkt);
-				Fail("parse exception");
+				Assertion.Fail("parse exception");
 			}
 			catch(ParseException)
 			{
@@ -82,7 +78,7 @@ namespace Geotools.UnitTests.IO
 			try
 			{
 				IGeometry geometry = factory.CreateFromWKT(wkt);
-				Fail("parse exception");
+				Assertion.Fail("parse exception");
 			}
 			catch(ArgumentNullException)
 			{
@@ -96,7 +92,7 @@ namespace Geotools.UnitTests.IO
 			try
 			{
 				IGeometry geometry = factory.CreateFromWKT(wkt);
-				Fail("ArgumentException should have been thrown.");
+				Assertion.Fail("ArgumentException should have been thrown.");
 			}
 			catch(ArgumentException)
 			{
@@ -110,7 +106,7 @@ namespace Geotools.UnitTests.IO
 			try
 			{
 				IGeometry geometry = factory.CreateFromWKT(wkt);
-				Fail("EMPTY2 is not valid.");
+				Assertion.Fail("EMPTY2 is not valid.");
 			}
 			catch(ParseException)
 			{
@@ -128,11 +124,11 @@ namespace Geotools.UnitTests.IO
 			GeometryFactory factory = new GeometryFactory();
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			IPoint point = (IPoint)geometry;
-			AssertEquals("empty",false,point.IsEmpty());
-			AssertEquals("x",3.0,point.GetX());
-			AssertEquals("y",4.0,point.GetY());
+			Assertion.AssertEquals("empty",false,point.IsEmpty());
+			Assertion.AssertEquals("x",3.0,point.GetX());
+			Assertion.AssertEquals("y",4.0,point.GetY());
 			string wkt2 = ((Point)point).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 		}
 
 		public void TestWktReadPoint2()
@@ -143,7 +139,7 @@ namespace Geotools.UnitTests.IO
 			try
 			{
 				IGeometry geometry = factory.CreateFromWKT(wkt);
-				Fail("Should fail because of the comma.");
+				Assertion.Fail("Should fail because of the comma.");
 			}
 			catch(ParseException)
 			{
@@ -157,9 +153,9 @@ namespace Geotools.UnitTests.IO
 			GeometryFactory factory = new GeometryFactory();
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			IPoint point = (IPoint)geometry;
-			AssertEquals("empty",true,point.IsEmpty());
+			Assertion.AssertEquals("empty",true,point.IsEmpty());
 			string wkt2 = ((Point)point).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 		}
 		#endregion
 
@@ -171,9 +167,9 @@ namespace Geotools.UnitTests.IO
 			GeometryFactory factory = new GeometryFactory();
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			IGeometryCollection multipoint = (IGeometryCollection)geometry;
-			AssertEquals("empty",false,multipoint.IsEmpty());
+			Assertion.AssertEquals("empty",false,multipoint.IsEmpty());
 			string wkt2 = ((MultiPoint)multipoint).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 		}
 
 		public void TestWktReadMultiPoint2()
@@ -183,9 +179,9 @@ namespace Geotools.UnitTests.IO
 			GeometryFactory factory = new GeometryFactory();
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			IGeometryCollection multipoint = (IGeometryCollection)geometry;
-			AssertEquals("empty",true,multipoint.IsEmpty());
+			Assertion.AssertEquals("empty",true,multipoint.IsEmpty());
 			string wkt2 = ((MultiPoint)geometry).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 		}
 		#endregion
 
@@ -198,19 +194,19 @@ namespace Geotools.UnitTests.IO
 			GeometryFactory factory = new GeometryFactory();
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			ILineString linestring = (ILineString)geometry;
-			AssertEquals("numpoints",5,linestring.GetNumPoints());
-			AssertEquals("x1",50.0,linestring.GetPointN(0).x);
-			AssertEquals("y1",31.0,linestring.GetPointN(0).y);
-			AssertEquals("x2",54.0,linestring.GetPointN(1).x);
-			AssertEquals("y2",31.0,linestring.GetPointN(1).y);
-			AssertEquals("x3",54.0,linestring.GetPointN(2).x);
-			AssertEquals("y3",29.0,linestring.GetPointN(2).y);
-			AssertEquals("x4",50.0,linestring.GetPointN(3).x);
-			AssertEquals("y4",29.0,linestring.GetPointN(3).y);
-			AssertEquals("x5",50.0,linestring.GetPointN(4).x);
-			AssertEquals("y5",31.0,linestring.GetPointN(4).y);
+			Assertion.AssertEquals("numpoints",5,linestring.GetNumPoints());
+			Assertion.AssertEquals("x1",50.0,linestring.GetPointN(0).X);
+			Assertion.AssertEquals("y1",31.0,linestring.GetPointN(0).Y);
+			Assertion.AssertEquals("x2",54.0,linestring.GetPointN(1).X);
+			Assertion.AssertEquals("y2",31.0,linestring.GetPointN(1).Y);
+			Assertion.AssertEquals("x3",54.0,linestring.GetPointN(2).X);
+			Assertion.AssertEquals("y3",29.0,linestring.GetPointN(2).Y);
+			Assertion.AssertEquals("x4",50.0,linestring.GetPointN(3).X);
+			Assertion.AssertEquals("y4",29.0,linestring.GetPointN(3).Y);
+			Assertion.AssertEquals("x5",50.0,linestring.GetPointN(4).X);
+			Assertion.AssertEquals("y5",31.0,linestring.GetPointN(4).Y);
 			string wkt2 = ((LineString)linestring).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 		}
 		#endregion
 
@@ -224,7 +220,7 @@ namespace Geotools.UnitTests.IO
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			IPolygon polygon = (IPolygon)geometry;
 			string wkt2 = ((Polygon)polygon).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 
 		}
 		public void TestPolygon2()
@@ -235,7 +231,7 @@ namespace Geotools.UnitTests.IO
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			IPolygon polygon = (IPolygon)geometry;
 			string wkt2 = ((Polygon)polygon).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 
 		}
 		#endregion
@@ -248,19 +244,19 @@ namespace Geotools.UnitTests.IO
 			GeometryFactory factory = new GeometryFactory();
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			MultiLineString multilineString = (MultiLineString)geometry;
-			AssertEquals("Multilinestring 1",2,multilineString.GetNumGeometries());
+			Assertion.AssertEquals("Multilinestring 1",2,multilineString.GetNumGeometries());
 			LineString linestring1 = (LineString)multilineString.GetGeometryN(0);
 			LineString linestring2 = (LineString)multilineString.GetGeometryN(1);
-			AssertEquals("MLS 1",10.05,linestring1.GetCoordinates()[0].X);
-			AssertEquals("MLS 2",10.28,linestring1.GetCoordinates()[0].Y);
-			AssertEquals("MLS 3",20.95,linestring1.GetCoordinates()[1].X);
-			AssertEquals("MLS 4",20.89,linestring1.GetCoordinates()[1].Y);
-			AssertEquals("MLS 1",20.95,linestring2.GetCoordinates()[0].X);
-			AssertEquals("MLS 2",20.89,linestring2.GetCoordinates()[0].Y);
-			AssertEquals("MLS 3",31.92,linestring2.GetCoordinates()[1].X);
-			AssertEquals("MLS 4",21.45,linestring2.GetCoordinates()[1].Y);
+			Assertion.AssertEquals("MLS 1",10.05,linestring1.GetCoordinates()[0].X);
+			Assertion.AssertEquals("MLS 2",10.28,linestring1.GetCoordinates()[0].Y);
+			Assertion.AssertEquals("MLS 3",20.95,linestring1.GetCoordinates()[1].X);
+			Assertion.AssertEquals("MLS 4",20.89,linestring1.GetCoordinates()[1].Y);
+			Assertion.AssertEquals("MLS 1",20.95,linestring2.GetCoordinates()[0].X);
+			Assertion.AssertEquals("MLS 2",20.89,linestring2.GetCoordinates()[0].Y);
+			Assertion.AssertEquals("MLS 3",31.92,linestring2.GetCoordinates()[1].X);
+			Assertion.AssertEquals("MLS 4",21.45,linestring2.GetCoordinates()[1].Y);
 			string wkt2 = ((MultiLineString)multilineString).ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 			
 		}
 		#endregion
@@ -273,35 +269,35 @@ namespace Geotools.UnitTests.IO
 			IGeometry geometry = factory.CreateFromWKT(wkt);
 			MultiPolygon multiPolygon = (MultiPolygon)geometry;
 		
-			//AssertEquals("Multilinestring 1",2,multiPolygon.NumGeometries);
+			//Assertion.AssertEquals("Multilinestring 1",2,multiPolygon.NumGeometries);
 			IGeometry g = multiPolygon.GetGeometryN(0);
 			Polygon poly1 = (Polygon)multiPolygon.GetGeometryN(0);
 			LinearRing shell = poly1.Shell;
 			LinearRing hole = poly1.Holes[0];
-			AssertEquals("MPS 1",10.0,shell.GetCoordinates()[0].X);
-			AssertEquals("MPS 2",10.0,shell.GetCoordinates()[0].Y);
-			AssertEquals("MPS 3",10.0,shell.GetCoordinates()[1].X);
-			AssertEquals("MPS 4",20.0,shell.GetCoordinates()[1].Y);
-			AssertEquals("MPS 5",20.0,shell.GetCoordinates()[2].Y);
-			AssertEquals("MPS 6",20.0,shell.GetCoordinates()[2].Y);
-			AssertEquals("MPS 7",20.0,shell.GetCoordinates()[3].X);
-			AssertEquals("MPS 8",15.0,shell.GetCoordinates()[3].Y);
-			AssertEquals("MPS 9",10.0,shell.GetCoordinates()[4].X);
-			AssertEquals("MPS 10",10.0,shell.GetCoordinates()[4].Y);
+			Assertion.AssertEquals("MPS 1",10.0,shell.GetCoordinates()[0].X);
+			Assertion.AssertEquals("MPS 2",10.0,shell.GetCoordinates()[0].Y);
+			Assertion.AssertEquals("MPS 3",10.0,shell.GetCoordinates()[1].X);
+			Assertion.AssertEquals("MPS 4",20.0,shell.GetCoordinates()[1].Y);
+			Assertion.AssertEquals("MPS 5",20.0,shell.GetCoordinates()[2].Y);
+			Assertion.AssertEquals("MPS 6",20.0,shell.GetCoordinates()[2].Y);
+			Assertion.AssertEquals("MPS 7",20.0,shell.GetCoordinates()[3].X);
+			Assertion.AssertEquals("MPS 8",15.0,shell.GetCoordinates()[3].Y);
+			Assertion.AssertEquals("MPS 9",10.0,shell.GetCoordinates()[4].X);
+			Assertion.AssertEquals("MPS 10",10.0,shell.GetCoordinates()[4].Y);
 
-			AssertEquals("MPS 11",50.0,hole.GetCoordinates()[0].X);
-			AssertEquals("MPS 12",40.0,hole.GetCoordinates()[0].Y);
-			AssertEquals("MPS 13",50.0,hole.GetCoordinates()[1].X);
-			AssertEquals("MPS 14",50.0,hole.GetCoordinates()[1].Y);
-			AssertEquals("MPS 15",60.0,hole.GetCoordinates()[2].X);
-			AssertEquals("MPS 16",50.0,hole.GetCoordinates()[2].Y);
-			AssertEquals("MPS 17",60.0,hole.GetCoordinates()[3].X);
-			AssertEquals("MPS 18",40.0,hole.GetCoordinates()[3].Y);
-			AssertEquals("MPS 19",50.0,hole.GetCoordinates()[4].X);
-			AssertEquals("MPS 20",40.0,hole.GetCoordinates()[4].Y);
+			Assertion.AssertEquals("MPS 11",50.0,hole.GetCoordinates()[0].X);
+			Assertion.AssertEquals("MPS 12",40.0,hole.GetCoordinates()[0].Y);
+			Assertion.AssertEquals("MPS 13",50.0,hole.GetCoordinates()[1].X);
+			Assertion.AssertEquals("MPS 14",50.0,hole.GetCoordinates()[1].Y);
+			Assertion.AssertEquals("MPS 15",60.0,hole.GetCoordinates()[2].X);
+			Assertion.AssertEquals("MPS 16",50.0,hole.GetCoordinates()[2].Y);
+			Assertion.AssertEquals("MPS 17",60.0,hole.GetCoordinates()[3].X);
+			Assertion.AssertEquals("MPS 18",40.0,hole.GetCoordinates()[3].Y);
+			Assertion.AssertEquals("MPS 19",50.0,hole.GetCoordinates()[4].X);
+			Assertion.AssertEquals("MPS 20",40.0,hole.GetCoordinates()[4].Y);
 
 			string wkt2 = multiPolygon.ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 			
 		}
 		#endregion
@@ -315,11 +311,11 @@ namespace Geotools.UnitTests.IO
 			GeometryCollection geometryCollection = (GeometryCollection)geometry;
 			Point point = (Point)geometryCollection[0];
 			LineString  linestring= (LineString)geometryCollection[1];
-			AssertEquals("GeometryCollection 1",3.0,point.x);
-			AssertEquals("GeometryCollection 2",4.0,point.y);
-			AssertEquals("GeometryCollection 3",5,linestring.GetNumPoints());
+			Assertion.AssertEquals("GeometryCollection 1",3.0,point.X);
+			Assertion.AssertEquals("GeometryCollection 2",4.0,point.Y);
+			Assertion.AssertEquals("GeometryCollection 3",5,linestring.GetNumPoints());
 			string wkt2 = geometryCollection.ToText();
-			AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
+			Assertion.AssertEquals("wkt",true,Compare.WktStrings(wkt,wkt2));
 		}
 		#endregion
 

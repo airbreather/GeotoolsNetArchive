@@ -3,6 +3,9 @@
  * $Header$
  * $Log$
  * 
+ * 4     12/27/02 10:42a Awcoats
+ * Added BinaryCompare()
+ * 
  * 3     10/31/02 11:01a Awcoats
  * changed namespace from UrbanScience.Geographic to Geotools.
  * 
@@ -55,6 +58,62 @@ namespace Geotools.UnitTests.Utilities
 			a1=a1.Replace("\t","");
 			b1=b1.Replace("\t","");
 			return a1==b1;
+		}
+
+		public static int BinaryCompare(string filename1, string filename2)
+		{
+			FileStream stream1 = new FileStream(filename1, FileMode.Open);
+			FileStream stream2 = new FileStream(filename2, FileMode.Open);
+
+			//todo check files are the same length before even starting.
+			long length1 = stream1.Length;
+			long length2 = stream2.Length;
+
+			if (length1 != length2)
+			{
+				Console.WriteLine(String.Format("File 1: {0} bytes" , length1) );
+				Console.WriteLine(String.Format("File 2: {0} bytes" , length2) );
+			}
+
+			// this should make things a litte quicker
+			BufferedStream bf1 = new BufferedStream(stream1);
+			BufferedStream bf2 = new BufferedStream(stream2);
+
+			
+			BinaryReader reader1 = new BinaryReader(bf1);
+			BinaryReader reader2 = new BinaryReader(bf2);
+			int index1=0;
+			int index2=0;
+			bool readMore = (index1<stream1.Length) && (index2<stream2.Length);
+			
+			int iDiffCount=0;
+			while (readMore)
+			{
+				byte a = reader1.ReadByte();
+				byte b = reader2.ReadByte();
+				if (a!=b)
+				{
+					iDiffCount++;
+					if (iDiffCount<100) 
+					{
+						Console.WriteLine(String.Format("Difference at {0} a:=0x{1:x} b=0x{2:x}",index1,a,b));
+					}
+				}
+				index1++;
+				index2++;
+
+				readMore = (index1<stream1.Length) && (index2<stream2.Length);
+
+				
+				if (iDiffCount>100)
+				{
+					Console.WriteLine("More than 100 differences.");
+					break;
+				}
+			}
+			reader1.Close();
+			reader2.Close();
+			return iDiffCount;
 		}
 		#endregion
 	}
