@@ -30,7 +30,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Initializes a new instance of the PointInRing class.
 	/// </summary>
-	internal interface IPointInRing 
+	public interface IPointInRing 
 	{
 
 		bool IsInside(Coordinate pt);

@@ -33,7 +33,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for MCPointInRing.
 	/// </summary>
-	internal class MCPointInRing : IPointInRing
+	public class MCPointInRing : IPointInRing
 	{
 		private class MCSelecter : MonotoneChainSelectAction
 		{

@@ -28,7 +28,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for HCoordinate.
 	/// </summary>
-	internal class HCoordinate
+	public class HCoordinate
 	{
 
 		/// <summary>

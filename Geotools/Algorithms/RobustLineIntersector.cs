@@ -29,7 +29,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for RobustLineIntersector.
 	/// </summary>
-	internal class RobustLineIntersector : LineIntersector
+	public class RobustLineIntersector : LineIntersector
 	{
 		#region Constructors
 		/// <summary>

@@ -31,7 +31,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for PointLocator.
 	/// </summary>
-	internal class PointLocator
+	public class PointLocator
 	{
 		/// <summary>
 		/// 

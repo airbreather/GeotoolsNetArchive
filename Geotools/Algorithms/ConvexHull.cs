@@ -30,7 +30,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for ConvexHull.
 	/// </summary>
-	internal class ConvexHull
+	public class ConvexHull
 	{
 		private PointLocator _pointLocator = new PointLocator();
 		private CGAlgorithms _cga;

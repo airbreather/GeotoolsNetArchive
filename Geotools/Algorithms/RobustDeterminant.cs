@@ -29,7 +29,7 @@ namespace Geotools.Algorithms
 	///		sign of a 2x2 determinant for double precision values robustly.
 	///		It is a direct translation of code developed by Olivier Devillers.
 	/// </summary>
-	internal class RobustDeterminant
+	public class RobustDeterminant
 	{
 		#region Constructors
 		#endregion

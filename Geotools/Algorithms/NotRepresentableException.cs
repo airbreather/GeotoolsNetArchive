@@ -26,7 +26,7 @@ namespace Geotools.Geometries
 	/// <summary>
 	/// The exception that is thrown when a non-fatal application error occurs related to NotRepresentable functionality.
 	/// </summary>
-	internal class NotRepresentableException : System.ApplicationException
+	public class NotRepresentableException : System.ApplicationException
 	{
 		/// <summary>
 		/// Initializes a new instance of the NotRepresentableException class.

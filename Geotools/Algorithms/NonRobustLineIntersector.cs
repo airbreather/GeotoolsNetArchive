@@ -30,7 +30,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for NonRobustLineIntersector.
 	/// </summary>
-	internal class NonRobustLineIntersector : LineIntersector
+	public class NonRobustLineIntersector : LineIntersector
 	{
 		#region Constructors
 		/// <summary>
