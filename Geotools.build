@@ -74,6 +74,7 @@
 		
 		<call target="Debug"/>
 		<call target="unittest"/>
+		<call target="systemtest"/>
 	
     </target>
     
