@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geotools.SystemTests", "Geotools.SystemTests.csproj", "{F27861CE-8230-4756-B00D-BADC13FB0B96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geotools", "..\Geotools\Geotools.csproj", "{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Debug.ActiveCfg = Debug|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Debug.Build.0 = Debug|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Release.ActiveCfg = Release|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Release.Build.0 = Release|.NET
+		{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}.Debug.ActiveCfg = Debug|.NET
+		{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}.Debug.Build.0 = Debug|.NET
+		{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}.Release.ActiveCfg = Release|.NET
+		{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
