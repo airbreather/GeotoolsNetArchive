@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
-<project name="Main" default="Debug" onfailure="email" >
+<project name="Main" default="dailybuild" onfailure="email" >
 
 	<property name="target" value="Debug"/>
 	<property name="docs.dir" value="docs"/>
+	<property name="nunit.output" value="Plain"/>
 
     <!--
     	Calls all sub-nant tasks to do a debug build
@@ -48,21 +49,27 @@
     </target>
     
     <target name="unittest" description="run unit tests">
-        <nunit basedir="Geotools.UnitTests" haltonerror="true" haltonfailure="true">		
+        <nunit basedir="Geotools.UnitTests" haltonerror="true" haltonfailure="false">		
             <test class="Geotools.UnitTests.AllTests" assembly="Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll"  />
         </nunit>
     </target>
     
+    <target name="unittest2"  description="runs unit tests">
+    	<nunit2  haltonerror="false" haltonfailure="false" failonerror="false" >
+      	<test assemblyname="C:\CC\GeotoolsDailyBuild\Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll" fork="true" type="${nunit.output}"/>    	</nunit2>
+   </target>
+  
     
     <target name="dailybuild" description="Compiles system from scratch using latest source code" >
 		<echo message="Doing Daily Build"/>
-		<call target="clean"/>
+		<property name="nunit.output" value="Xml"/>
 		<!--
+			<call target="clean"/>
 			<call target="delete"/>
 			<call target="sourcesafe"/>
 		-->
-		<call target="debug"/>
-		<!--<call target="unittest"/>-->
+		<call target="Debug"/>
+		<call target="unittest2"/>
 		<!--<call target="doc"/>-->
 		<!--<call target="deploy"/>-->
     </target>
@@ -83,7 +90,7 @@
                     <property name="OutputDirectory" value="docs\MSDN" />
                     <property name="HtmlHelpName" value="Geotools" />
                     <property name="HtmlHelpCompilerFilename" value="hhc.exe" />
-                    <property name="IncludeFavorites" value="False" />
+                    <property name="IncludeFavorites" value="true" />
                     <property name="Title" value="Geotools.Net" />
                     <property name="SplitTOCs" value="False" />
                     <property name="DefaulTOC" value="" />
@@ -98,8 +105,8 @@
                     <property name="DocumentPrivates" value="False" />
                     <property name="DocumentEmptyNamespaces" value="False" />
                     <property name="IncludeAssemblyVersion" value="False" />
-                    <property name="CopyrightText" value="UrbanScience Applications Inc." />
-                    <property name="CopyrightHref" value="http://www.urbanscience.com" />
+                    <property name="CopyrightText" value="Geotools.Net" />
+                    <property name="CopyrightHref" value="http://sourceforge.net/projects/geotoolsnet" />
                  </documenter>             
             </documenters> 
         </ndoc>
