@@ -253,7 +253,7 @@ namespace Geotools.Geometries
 		///<param name="coordinates">The array to search for the minimum coordinate.</param>
 		///<returns> the minimum coordinate in the array, found using CompareTo method.  Returns
 		///null if coordinates is null or empty.</returns>
-		protected static Coordinate MinCoordinate(ArrayList coordinates) 
+		protected static Coordinate MinCoordinate(Coordinates coordinates) 
 		{
 			Coordinate coord = null;
 			if ( coordinates != null && coordinates.Count > 0 )
@@ -270,7 +270,7 @@ namespace Geotools.Geometries
 		///</summary>
 		///<param name="coordinates">The array to rearrange.</param>
 		///<param name="firstCoordinate">The coordinate to make first.</param>
-		protected static void Scroll(ArrayList coordinates, Coordinate firstCoordinate) 
+		protected static void Scroll(Coordinates coordinates, Coordinate firstCoordinate) 
 		{
 			int index = coordinates.IndexOf( firstCoordinate );
 			if ( index > -1)
@@ -932,10 +932,10 @@ namespace Geotools.Geometries
 		/// encountered,  returns 0 if the other iteration is also complete. If b  completes before a, 
 		/// a positive number is returned; if a  before b, a negative number.  
 		///</summary>
-		///<param name="a"> a Collection of Comparables </param>
-		///<param name="b"> a Collection of Comparables </param>
+		///<param name="a"> a Collection of Coordinates </param>
+		///<param name="b"> a Collection of Coordinates </param>
 		///<returns> the first non-zero compareTo result, if any;  otherwise, zero</returns>
-		protected virtual int Compare(ArrayList a, ArrayList b)		// todo change to coordinates
+		protected virtual int Compare(Coordinates a, Coordinates b)	
 		{
 			Coordinate coordA = new Coordinate();
 			Coordinate coordB = new Coordinate();
@@ -944,8 +944,8 @@ namespace Geotools.Geometries
 			{
 				for(int i = 0; i < a.Count; i++)
 				{
-					coordA = a[i] as Coordinate;
-					coordB = b[i] as Coordinate;
+					coordA = a[i];
+					coordB = b[i];
 					if((coordA != null) && (coordB != null))
 					{
 						compare =  coordA.CompareTo(coordB);
