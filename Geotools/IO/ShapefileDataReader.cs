@@ -41,7 +41,7 @@ namespace Geotools.IO
 	/// To create a ShapefileDataReader, use the static methods on the Shapefile class.
 	/// </para>
 	/// </remarks>
-	public class ShapefileDataReader : IGeometryDataReader
+	public class ShapefileDataReader : IEnumerable, IDataReader, IDisposable, IDataRecord,IGetGeometry
 	{
 		
 		internal class ShapefileDataReaderEnumerator : IEnumerator
