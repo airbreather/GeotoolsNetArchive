@@ -10,7 +10,7 @@ namespace Geotools.Index
 	/// <summary>
 	/// Summary description for ISpatialIndex.
 	/// </summary>
-	internal interface ISpatialIndex
+	public interface ISpatialIndex
 	{
 		/// <summary>
 		/// Adds a spatial item to the index with the given envelope

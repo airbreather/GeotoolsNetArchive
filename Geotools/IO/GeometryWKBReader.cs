@@ -34,7 +34,7 @@ namespace Geotools.IO
 	/// <remarks>The Well-known Binary format is defined in the 
 	///  OpenGIS Simple Features Specification for SQL.
 	/// </remarks> 
-	public class GeometryWKBReader
+	public class GeometryWkbReader
 	{
 		private GeometryFactory _geometryFactory;
 		private BinaryReader _bReader;
@@ -45,7 +45,7 @@ namespace Geotools.IO
 		/// Creates a GeometryWKTReader that creates objects using the given GeometryFactory.
 		/// </summary>
 		/// <param name="geometryFactory">The factory used to create Geometries.</param>
-		public GeometryWKBReader(GeometryFactory geometryFactory) 
+		public GeometryWkbReader(GeometryFactory geometryFactory) 
 		{
 			_geometryFactory = geometryFactory;
 		}		

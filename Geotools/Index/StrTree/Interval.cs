@@ -24,7 +24,7 @@ using System;
 
 namespace Geotools.Index.STRTree
 {
-	internal class Interval 
+	public class Interval 
 	{
 		private double _min;
 		private double _max;

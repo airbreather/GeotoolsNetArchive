@@ -36,7 +36,7 @@ namespace Geotools.IO
 	/// <para>The GeometryWKTWriter will output coordinates rounded to the precision model. No more than 
 	/// the maximum number of necessary decimal places will be output.</para>
 	/// </remarks>
-	public class GeometryWKTWriter
+	public class GeometryWktWriter
 	{
 		/// <summary>
 		/// Converts doubles to string without scientific notation.
@@ -50,7 +50,7 @@ namespace Geotools.IO
 		/// <summary>
 		/// Initializes a new instance of the GeometryWKTWriter class.
 		/// </summary>
-		public GeometryWKTWriter()
+		public GeometryWktWriter()
 		{
 			//
 			// TODO: Add constructor logic here

@@ -24,7 +24,7 @@ using System;
 
 namespace Geotools.Index.STRTree
 {
-	internal class ItemBoundable : IBoundable 
+	public class ItemBoundable : IBoundable 
 	{
 		private object _bounds;
 		private object _item;

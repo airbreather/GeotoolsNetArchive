@@ -49,7 +49,7 @@ namespace Geotools.Index.Quadtree
 	 * This data structure is also known as an <i>MX-CIF quadtree</i>
 	 * following the usage of Samet and others.
 	 */
-	internal class Quadtree: ISpatialIndex
+	public class Quadtree: ISpatialIndex
 	{
 		private Root _root;
 
@@ -146,10 +146,10 @@ namespace Geotools.Index.Quadtree
 			//this method ensures that the extents are greater than minExtent.
 			//Perhaps we should rename them to "ensurePositiveExtent" and "defaultExtent".
 			//[Jon Aquino]
-			double minx = itemEnv.MinX;
-			double maxx = itemEnv.MaxX;
-			double miny = itemEnv.MinY;
-			double maxy = itemEnv.MaxY;
+			double minx = itemEnv.MinimumX;
+			double maxx = itemEnv.MaximumX;
+			double miny = itemEnv.MinimumY;
+			double maxy = itemEnv.MaximumY;
 			// has a non-zero extent
 			if (minx != maxx && miny != maxy) return itemEnv;
 

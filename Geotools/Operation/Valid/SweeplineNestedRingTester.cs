@@ -122,7 +122,7 @@ namespace Geotools.Operation.Valid
 			{
 				LinearRing ring = (LinearRing) _rings[i];
 				Envelope env = ring.GetEnvelopeInternal();
-				SweepLineInterval sweepInt = new SweepLineInterval(env.MinX, env.MaxX, ring);
+				SweepLineInterval sweepInt = new SweepLineInterval(env.MinimumX, env.MaximumX, ring);
 				_sweepLine.Add(sweepInt);
 			}
 			

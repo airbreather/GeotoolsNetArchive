@@ -663,7 +663,7 @@ namespace Geotools.Geometries
 		///<returns>Returns the Well-known Text representation of this Geometry</returns>
 		public virtual string ToText() 
 		{
-			GeometryWKTWriter writer = new GeometryWKTWriter();
+			GeometryWktWriter writer = new GeometryWktWriter();
 			return writer.WriteFormatted(this);
 		}
 
@@ -1058,10 +1058,10 @@ namespace Geotools.Geometries
 			//if the envelope is null get all zeros
 			if(!_envelope.IsNull())
 			{
-				minX = _envelope.MinX;
-				minY = _envelope.MinY;
-				maxX = _envelope.MaxX;
-				maxY = _envelope.MaxY;
+				minX = _envelope.MinimumX;
+				minY = _envelope.MinimumY;
+				maxX = _envelope.MaximumX;
+				maxY = _envelope.MaximumY;
 			}
 			else
 			{

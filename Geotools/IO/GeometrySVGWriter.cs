@@ -34,7 +34,7 @@ namespace Geotools.IO
 	/// <para>The GeometrySVGWriter will output coordinates rounded to the precision model. No more than 
 	/// the maximum number of necessary decimal places will be output.</para>
 	/// </remarks>
-	public class GeometrySVGWriter
+	public class GeometrySvgWriter
 	{
 
 		private int _radius =2;
@@ -49,11 +49,11 @@ namespace Geotools.IO
 		/// <summary>
 		/// Initializes a new instance of the GeometrySVGWriter class.
 		/// </summary>
-		public GeometrySVGWriter(PrecisionModel precisionModel): this(precisionModel,"",5)
+		public GeometrySvgWriter(PrecisionModel precisionModel): this(precisionModel,"",5)
 		{
 
 		}
-		public GeometrySVGWriter(PrecisionModel precisionModel, string xmlNamespace, int decimalPlaces)
+		public GeometrySvgWriter(PrecisionModel precisionModel, string xmlNamespace, int decimalPlaces)
 		{
 			_formatterString = CreateFormatter(decimalPlaces);
 			_namespace = xmlNamespace;

@@ -88,8 +88,8 @@ namespace Geotools.Algorithms
 			{
 				MonotoneChain mc = (MonotoneChain) mcList[i];
 				Envelope mcEnv = mc.GetEnvelope();
-				_interval.Min = mcEnv.MinY;
-				_interval.Max = mcEnv.MaxY;
+				_interval.Min = mcEnv.MinimumY;
+				_interval.Max = mcEnv.MaximumY;
 				_tree.Insert( _interval, mc );
 			}
 

@@ -32,7 +32,7 @@ namespace Geotools.Index.STRTree
 	/// P. Rigaux, Michel Scholl and Agnes Voisard. Spatial Databases With
 	/// Application To GIS. Morgan Kaufmann, San Francisco, 2002.
 	/// </summary>
-	internal abstract class AbstractSTRtree
+	public abstract class AbstractSTRtree
 	{
 		protected AbstractNode _root;
 
@@ -62,10 +62,10 @@ namespace Geotools.Index.STRTree
 		public void Build() 
 		{
 			//Assert.isTrue(!built);
-			if (!_built)
-			{
-				throw new InvalidOperationException("Needs to be built.");
-			}
+			//if (!_built)
+			//{
+			//	throw new InvalidOperationException("Needs to be built.");
+			//}
 			_root = _itemBoundables.Count <= 0
 				?CreateNode(0)
 				:CreateHigherLevels(_itemBoundables, -1);

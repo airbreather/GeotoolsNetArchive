@@ -24,7 +24,7 @@ using System;
 
 namespace Geotools.Index.STRTree
 {
-	internal interface IIntersectsOp 
+	public interface IIntersectsOp 
 	{
 		bool Intersects(object aBounds, object bBounds);
 	}

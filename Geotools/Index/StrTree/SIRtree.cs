@@ -28,9 +28,9 @@ namespace Geotools.Index.STRTree
 	/// <summary>
 	/// Summary description for SIRtree.
 	/// </summary>
-	internal class SIRtree : AbstractSTRtree
+	public class SIRtree : AbstractSTRtree
 	{
-		internal class IntersectsOp : IIntersectsOp
+		public class IntersectsOp : IIntersectsOp
 		{
 			public bool Intersects(object aBounds, object bBounds) 
 			{
@@ -38,7 +38,7 @@ namespace Geotools.Index.STRTree
 			}
 		}
 
-		internal class Comparator : IComparer
+		public class Comparator : IComparer
 		{
 			SIRtree _parent;
 			public Comparator(SIRtree parent)
@@ -54,7 +54,7 @@ namespace Geotools.Index.STRTree
 			}
 		}
 
-		internal class Computer : AbstractNode
+		public class Computer : AbstractNode
 		{
 			SIRtree _parent;
 			public Computer(int level, SIRtree parent): base(level)

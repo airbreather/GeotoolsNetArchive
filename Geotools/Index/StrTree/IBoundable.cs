@@ -25,7 +25,7 @@ using System;
 namespace Geotools.Index.STRTree
 {
 	
-	internal interface IBoundable 
+	public interface IBoundable 
 	{
 		object GetBounds();
 	}

@@ -161,10 +161,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "Algorithms\vssver.scc"
-                    BuildAction = "None"
-                />
                 <Folder RelPath = "bin\" />
                 <File
                     RelPath = "CoordinateSystems\AbstractInformation.cs"
@@ -412,10 +408,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CoordinateSystems\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "CoordinateSystems\WGS84ConversionInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -481,10 +473,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CoordinateTransformations\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "CoordinateTransformations\MathTransformations\AbridgedMolodenski.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -503,10 +491,6 @@
                     RelPath = "CoordinateTransformations\MathTransformations\Geocentric.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CoordinateTransformations\MathTransformations\vssver.scc"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "CoordinateTransformations\Projections\AlbersProjection.cs"
@@ -539,8 +523,94 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CoordinateTransformations\Projections\vssver.scc"
-                    BuildAction = "None"
+                    RelPath = "Data\ColumnStructure.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\DbaseFieldDescriptor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\DbaseFileHeader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\DbaseFileReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\DbaseFileWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\IGeometryDataReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\MultiLineHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\PointHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\PolygonHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\RowStructure.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\Shapefile.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapefileDataReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapefileException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapefileHeader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapefileReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapefileWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapeHandler.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Data\ShapeType.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "Geometries\Coordinate.cs"
@@ -934,10 +1004,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Index\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Index\BinTree\BinTree.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1045,10 +1111,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Index\Quadtree\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Index\StrTree\AbstractNode.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1089,10 +1151,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Index\StrTree\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Index\Sweepline\ISweepLineOverlapAction.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1117,6 +1175,16 @@
                     BuildAction = "None"
                 />
                 <File
+                    RelPath = "IO\BigEndianBinaryReader.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IO\BigEndianBinaryWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IO\CoordinateSystemWktReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1133,6 +1201,11 @@
                 />
                 <File
                     RelPath = "IO\CoordinateSystemXmlWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "IO\GeometryDataReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -1162,13 +1235,14 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IO\ParseException.cs"
+                    RelPath = "IO\IGetGeometry.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IO\vssver.scc"
-                    BuildAction = "None"
+                    RelPath = "IO\ParseException.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "IO\WktStreamTokenizer.cs"
@@ -1184,10 +1258,6 @@
                     RelPath = "Operation\IsSimpleOp.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Operation\vssver.scc"
-                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Operation\Buffer\BufferEdgeBuilder.cs"
@@ -1387,10 +1457,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Operation\Valid\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "Positioning\CoordinatePoint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -1464,10 +1530,6 @@
                     RelPath = "Utilities\UniqueCoordinateArrayFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utilities\vssver.scc"
-                    BuildAction = "None"
                 />
             </Include>
         </Files>

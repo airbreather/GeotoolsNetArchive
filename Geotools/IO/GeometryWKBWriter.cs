@@ -35,7 +35,7 @@ namespace Geotools.IO
 	///  <para>Binary format is defined in the 
 	///  OpenGIS Simple Features Specification for SQL</para>
 	/// </remarks> 
-	public class GeometryWKBWriter
+	public class GeometryWkbWriter
 	{
 		private BinaryWriter _bWriter;
 		private GeometryFactory _geometryFactory;
@@ -46,7 +46,7 @@ namespace Geotools.IO
 		/// The constructor for the binary writer.
 		/// </summary>
 		/// <param name="geometryFactory">The geometry used by this method.</param>
-		public GeometryWKBWriter(GeometryFactory geometryFactory)
+		public GeometryWkbWriter(GeometryFactory geometryFactory)
 		{
 			_geometryFactory = geometryFactory;
 		}

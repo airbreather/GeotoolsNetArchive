@@ -39,8 +39,8 @@ namespace Geotools.Index.Quadtree
 			this._env = env;
 			this._level = level;
 			_centre = new Coordinate();
-			_centre.X = ( env.MinX + env.MaxX ) / 2;
-			_centre.Y = ( env.MinY + env.MaxY ) / 2;
+			_centre.X = ( env.MinimumX + env.MaximumX ) / 2;
+			_centre.Y = ( env.MinimumY + env.MaximumY ) / 2;
 		}
 		#endregion
 
@@ -163,28 +163,28 @@ namespace Geotools.Index.Quadtree
 			switch (index) 
 			{
 				case 0:
-					minx = _env.MinX;
+					minx = _env.MinimumX;
 					maxx = _centre.X;
-					miny = _env.MinY;
+					miny = _env.MinimumY;
 					maxy = _centre.Y;
 					break;
 				case 1:
 					minx = _centre.X;
-					maxx = _env.MaxX;
-					miny = _env.MinY;
+					maxx = _env.MaximumX;
+					miny = _env.MinimumY;
 					maxy = _centre.Y;
 					break;
 				case 2:
-					minx = _env.MinX;
+					minx = _env.MinimumX;
 					maxx = _centre.X;
 					miny = _centre.Y;
-					maxy = _env.MaxY;
+					maxy = _env.MaximumY;
 					break;
 				case 3:
 					minx = _centre.X;
-					maxx = _env.MaxX;
+					maxx = _env.MaximumX;
 					miny = _centre.Y;
-					maxy = _env.MaxY;
+					maxy = _env.MaximumY;
 					break;
 			}
 			Envelope sqEnv = new Envelope( minx, maxx, miny, maxy );

@@ -45,7 +45,7 @@ namespace Geotools.Index.STRTree
 	/// here as Rectangles (using the Composite design pattern). [Jon Aquino]</para>
 	/// </remarks> 
 
-	internal class STRtree : AbstractSTRtree, ISpatialIndex
+	public class STRtree : AbstractSTRtree, ISpatialIndex
 	{
 		#region Internal Classes
 		internal class XComparator : IComparer
@@ -136,7 +136,7 @@ namespace Geotools.Index.STRTree
 		#region Methods
 		private double CentreX(Envelope e) 
 		{
-			return Avg( e.MinX, e.MaxX );
+			return Avg( e.MinimumX, e.MaximumX );
 		}
 
 		private double Avg(double a, double b) 
@@ -146,7 +146,7 @@ namespace Geotools.Index.STRTree
 
 		private double CentreY(Envelope e) 
 		{
-			return Avg( e.MinY, e.MaxY );
+			return Avg( e.MinimumY, e.MaximumY );
 		}
 	
 		protected override IComparer GetComparator() 

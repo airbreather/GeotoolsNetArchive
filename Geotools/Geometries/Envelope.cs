@@ -143,7 +143,7 @@ namespace Geotools.Geometries
 		/// null Envelope.
 		/// </summary>
 		/// <returns>The minimum x-coordinate</returns>
-		public double MinX 
+		public double MinimumX 
 		{
 			get
 			{
@@ -156,7 +156,7 @@ namespace Geotools.Geometries
 		/// indicates that this is a null Envelope.
 		/// </summary>
 		/// <returns>The maximum x-coordinate</returns>
-		public double MaxX 
+		public double MaximumX 
 		{
 			get
 			{
@@ -169,7 +169,7 @@ namespace Geotools.Geometries
 		/// indicates that this is a null Envelope.
 		/// </summary>
 		/// <returns>The minimum y-coordinate</returns>
-		public double MinY
+		public double MinimumY
 		{
 			get
 			{
@@ -182,7 +182,7 @@ namespace Geotools.Geometries
 		/// indicates that this is a null Envelope.
 		/// </summary>
 		/// <returns>The maximum y-coordinate</returns>
-		public double MaxY 
+		public double MaximumY 
 		{
 			get
 			{
@@ -340,10 +340,10 @@ namespace Geotools.Geometries
 			}
 			if (IsNull()) 
 			{
-				_minX = other.MinX;
-				_maxX = other.MaxX;
-				_minY = other.MinY;
-				_maxY = other.MaxY;
+				_minX = other.MinimumX;
+				_maxX = other.MaximumX;
+				_minY = other.MinimumY;
+				_maxY = other.MaximumY;
 			}
 			else 
 			{
@@ -396,10 +396,10 @@ namespace Geotools.Geometries
 		/// <returns>True if the Envelope's overlap</returns>
 		public bool Intersects(Envelope other) 
 		{
-			return !(other.MinX > _maxX ||
-				other.MaxX < _minX ||
-				other.MinY > _maxY ||
-				other.MaxY < _minY);
+			return !(other.MinimumX > _maxX ||
+				other.MaximumX < _minX ||
+				other.MinimumY > _maxY ||
+				other.MaximumY < _minY);
 		}
 
 		/// <summary>
@@ -464,10 +464,10 @@ namespace Geotools.Geometries
 		/// <returns>True if other is contained in this Envelope</returns>
 		public bool Contains(Envelope other) 
 		{
-			return other.MinX >= _minX &&
-				other.MaxX <= _maxX &&
-				other.MinY >= _minY &&
-				other.MaxY <= _maxY;
+			return other.MinimumX >= _minX &&
+				other.MaximumX <= _maxX &&
+				other.MinimumY >= _minY &&
+				other.MaximumY <= _maxY;
 		}
 
 		/// <summary>
@@ -482,42 +482,42 @@ namespace Geotools.Geometries
 		public double Distance(Envelope env)
 		{
 			if ( Intersects(env) ) return 0;
-			if ( _maxX < env.MinX) 
+			if ( _maxX < env.MinimumX) 
 			{
 				// this is left of env
-				if (MaxY < env.MinY) 
+				if (MaximumY < env.MinimumY) 
 				{
 					// this is below left of env
-					return Distance(_maxX, MaxY, env.MinX, env.MinY);
+					return Distance(_maxX, MaximumY, env.MinimumX, env.MinimumY);
 				}
-				else if (_minY > env.MaxY) 
+				else if (_minY > env.MaximumY) 
 				{
 					// this is above left of env
-					return Distance(_maxX, _minY, env.MinX, env.MaxY);
+					return Distance(_maxX, _minY, env.MinimumX, env.MaximumY);
 				}
 				else 
 				{
 					// this is directly left of env
-					return env.MinX - _maxX;
+					return env.MinimumX - _maxX;
 				}
 			}
 			else 
 			{
 				// this is right of env
-				if (_maxY < env.MinY) 
+				if (_maxY < env.MinimumY) 
 				{
 					// this is below right of env
-					return Distance(_minX, _maxY, env.MaxX, env.MinY);
+					return Distance(_minX, _maxY, env.MaximumX, env.MinimumY);
 				}
-				else if (_minY > env.MaxY) 
+				else if (_minY > env.MaximumY) 
 				{
 					// this is above right of env
-					return Distance(_minX, _minY, env.MaxX, env.MaxY);
+					return Distance(_minX, _minY, env.MaximumX, env.MaximumY);
 				}
 				else 
 				{
 					// this is directly right of env
-					return _minX - env.MaxX;
+					return _minX - env.MaximumX;
 				}
 			}
 		}
@@ -539,10 +539,10 @@ namespace Geotools.Geometries
 				}
 				else
 				{
-					returnValue = _maxX == env.MaxX &&
-						_maxY == env.MaxY &&
-						_minX == env.MinX &&
-						_minY == env.MinY;
+					returnValue = _maxX == env.MaximumX &&
+						_maxY == env.MaximumY &&
+						_minX == env.MinimumX &&
+						_minY == env.MinimumY;
 				}
 			}
 			return returnValue;

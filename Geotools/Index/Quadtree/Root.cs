@@ -94,8 +94,8 @@ namespace Geotools.Index.Quadtree
 			// Do NOT create a new quad for zero-area envelopes - this would lead
 			// to infinite recursion. Instead, use a heuristic of simply returning
 			// the smallest existing quad containing the query
-			bool isZeroX = IntervalSize.IsZeroWidth( itemEnv.MinX, itemEnv.MaxX );
-			bool isZeroY = IntervalSize.IsZeroWidth( itemEnv.MinX, itemEnv.MaxX );
+			bool isZeroX = IntervalSize.IsZeroWidth( itemEnv.MinimumX, itemEnv.MaximumX );
+			bool isZeroY = IntervalSize.IsZeroWidth( itemEnv.MinimumX, itemEnv.MaximumX );
 			NodeBase node;
 			if (isZeroX || isZeroY)
 			{

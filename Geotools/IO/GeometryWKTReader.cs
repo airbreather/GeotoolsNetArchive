@@ -55,7 +55,7 @@ namespace Geotools.IO
 	///  <para>The GeometryWKTReader will convert the input numbers to the precise
 	///  internal representation.</para>
 	/// </remarks> 
-	public class GeometryWKTReader
+	public class GeometryWktReader
 	{
 		private GeometryFactory _geometryFactory;
 		private PrecisionModel _precisionModel;
@@ -66,7 +66,7 @@ namespace Geotools.IO
 		/// Creates a GeometryWKTReader that creates objects using the given GeometryFactory.
 		/// </summary>
 		/// <param name="geometryFactory">The factory used to create Geometrys.</param>
-		public GeometryWKTReader(GeometryFactory geometryFactory) 
+		public GeometryWktReader(GeometryFactory geometryFactory) 
 		{
 			_geometryFactory = geometryFactory;
 			_precisionModel = geometryFactory.PrecisionModel;

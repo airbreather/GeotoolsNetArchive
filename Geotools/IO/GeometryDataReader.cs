@@ -35,7 +35,7 @@ namespace Geotools.IO
 	{
 
 		IDataReader _reader;
-		GeometryWKBReader _wkbReader;
+		GeometryWkbReader _wkbReader;
 		GeometryFactory _geometryFactory;
 		Geometry _geometry;
 
@@ -47,7 +47,7 @@ namespace Geotools.IO
 		{
 			_reader = reader;
 			_geometryFactory = geometryFactory;
-			_wkbReader = new GeometryWKBReader( geometryFactory );
+			_wkbReader = new GeometryWkbReader( geometryFactory );
 		}
 		#endregion
 

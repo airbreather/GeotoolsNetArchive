@@ -73,8 +73,8 @@ namespace Geotools.Index.Quadtree
 		public Coordinate GetCentre()
 		{
 			return new Coordinate(
-				( _env.MinX + _env.MaxX ) / 2,
-				( _env.MinY + _env.MaxY ) / 2
+				( _env.MinimumX + _env.MaximumX ) / 2,
+				( _env.MinimumY + _env.MaximumY ) / 2
 				);
 		}
 		/// <summary>
@@ -99,8 +99,8 @@ namespace Geotools.Index.Quadtree
 		{
 			double quadSize = DoubleBits.PowerOf2(level);
 			//double quadSize = pow2.power(level);
-			_pt.X = Math.Floor(itemEnv.MinX / quadSize) * quadSize;
-			_pt.Y = Math.Floor(itemEnv.MinY / quadSize) * quadSize;
+			_pt.X = Math.Floor(itemEnv.MinimumX / quadSize) * quadSize;
+			_pt.Y = Math.Floor(itemEnv.MinimumY / quadSize) * quadSize;
 			_env.Initialize( _pt.X, _pt.X + quadSize, _pt.Y, _pt.Y + quadSize );
 		}
 		#endregion

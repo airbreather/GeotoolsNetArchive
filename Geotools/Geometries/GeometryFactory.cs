@@ -72,7 +72,7 @@ namespace Geotools.Geometries
 			{
 				throw new ArgumentException("String must contain well known text representation of geometry.");
 			}
-			GeometryWKTReader reader = new GeometryWKTReader(this);
+			GeometryWktReader reader = new GeometryWktReader(this);
 			return reader.Create(wkt);
 		}
 
@@ -119,7 +119,7 @@ namespace Geotools.Geometries
 			{
 				throw new ArgumentNullException("bReader");
 			}
-			GeometryWKBReader wkbReader = new GeometryWKBReader(this);
+			GeometryWkbReader wkbReader = new GeometryWkbReader(this);
 			return wkbReader.Create(bReader);
 		}
 		#endregion
@@ -261,16 +261,16 @@ namespace Geotools.Geometries
 			{
 				return new Point( null, precisionModel, SRID );
 			}
-			if ( envelope.MinX == envelope.MaxX && envelope.MinY == envelope.MaxY ) 
+			if ( envelope.MinimumX == envelope.MaximumX && envelope.MinimumY == envelope.MaximumY ) 
 			{
-				return new Point( new Coordinate(envelope.MinX, envelope.MinY), precisionModel, SRID );
+				return new Point( new Coordinate(envelope.MinimumX, envelope.MinimumY), precisionModel, SRID );
 			}
 			Coordinates coords = new Coordinates();
-			coords.Add( new Coordinate( envelope.MinX, envelope.MinY ) );
-			coords.Add(	new Coordinate( envelope.MaxX, envelope.MinY ) );
-			coords.Add( new Coordinate( envelope.MaxX, envelope.MaxY ) );
-			coords.Add( new Coordinate( envelope.MinX, envelope.MaxY ) );
-			coords.Add( new Coordinate( envelope.MinX, envelope.MinY ) );
+			coords.Add( new Coordinate( envelope.MinimumX, envelope.MinimumY ) );
+			coords.Add(	new Coordinate( envelope.MaximumX, envelope.MinimumY ) );
+			coords.Add( new Coordinate( envelope.MaximumX, envelope.MaximumY ) );
+			coords.Add( new Coordinate( envelope.MinimumX, envelope.MaximumY ) );
+			coords.Add( new Coordinate( envelope.MinimumX, envelope.MinimumY ) );
 			return new Polygon( new LinearRing( coords, precisionModel, SRID), precisionModel, SRID);
 		}
 		#endregion

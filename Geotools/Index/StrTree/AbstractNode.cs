@@ -28,7 +28,7 @@ namespace Geotools.Index.STRTree
 	/// <summary>
 	/// A node of the STR tree. A leaf node may not have child nodes, but may have child boundables: ItemBoundables.
 	/// </summary>
-	internal abstract class AbstractNode : IBoundable 
+	public abstract class AbstractNode : IBoundable 
 	{
 		private ArrayList _childBoundables = new ArrayList();
 		private object _bounds = null;

@@ -166,15 +166,15 @@ namespace Geotools.Index.Quadtree
 		public static int GetSubnodeIndex( Envelope env, Coordinate centre )
 		{
 			int subnodeIndex = -1;
-			if ( env.MinX >= centre.X ) 
+			if ( env.MinimumX >= centre.X ) 
 			{
-				if ( env.MinY >= centre.Y ) subnodeIndex = 3;
-				if ( env.MaxY <= centre.Y ) subnodeIndex = 1;
+				if ( env.MinimumY >= centre.Y ) subnodeIndex = 3;
+				if ( env.MaximumY <= centre.Y ) subnodeIndex = 1;
 			}
-			if ( env.MaxX <= centre.X ) 
+			if ( env.MaximumX <= centre.X ) 
 			{
-				if ( env.MinY >= centre.Y ) subnodeIndex = 2;
-				if ( env.MaxY <= centre.Y) subnodeIndex = 0;
+				if ( env.MinimumY >= centre.Y ) subnodeIndex = 2;
+				if ( env.MaximumY <= centre.Y) subnodeIndex = 0;
 			}
 			return subnodeIndex;
 		}
