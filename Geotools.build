@@ -63,7 +63,7 @@
     <target name="dailybuild" description="Compiles system from scratch using latest source code" >
 		<echo message="Doing Daily Build"/>
 		<property name="nunit.output" value="Xml"/>
-		<!--  
+		<!--    
 			<call target="clean"/>
 			<call target="delete"/>
 			<call target="sourcesafe"/>
