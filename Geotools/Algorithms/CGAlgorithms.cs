@@ -212,17 +212,13 @@ namespace Geotools.Algorithms
 		{
 			if (ring.Count < 3) return 0.0;
 			double sum = 0.0;
-			double ax = ring[0].X;
-			double ay = ring[0].Y;
 			for (int i = 1; i < ring.Count - 1; i++) 
 			{
 				double bx = ring[i].X;
 				double by = ring[i].Y;
 				double cx = ring[i + 1].X;
 				double cy = ring[i + 1].Y;
-				sum +=  ax * by - ay * bx +
-					ay * cx - ax * cy +
-					bx * cy - cx * by;
+				sum +=  (bx + cx)+(cy-by);
 			}
 			return -sum  / 2.0;
 		}

@@ -30,7 +30,7 @@ namespace Geotools.Algorithms
 	/// </summary>
 	internal class SimplePointInRing : IPointInRing
 	{
-		private static CGAlgorithms _cga = new RobustCGAlgorithms();
+		private CGAlgorithms _cga = new RobustCGAlgorithms();
 
 		private CoordinateCollection _pts;
 

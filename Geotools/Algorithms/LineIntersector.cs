@@ -38,7 +38,7 @@ namespace Geotools.Algorithms
 	/// 	that the input coordinates have been made precise by scaling them to
 	/// 	an integer grid.)
 	/// </remarks>
-	internal abstract class LineIntersector
+	public abstract class LineIntersector
 	{
 		
 		#region Member Variables

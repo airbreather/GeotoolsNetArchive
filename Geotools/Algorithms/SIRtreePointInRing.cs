@@ -64,13 +64,17 @@ namespace Geotools.Algorithms
 		/// </summary>
 		private void BuildIndex()
 		{
-		
 			Envelope env = _ring.GetEnvelopeInternal();
 			_sirTree = new SIRtree();
 
-			CoordinateCollection pts = CoordinateCollection.RemoveRepeatedPoints(_ring.GetCoordinates());
+			CoordinateCollection pts = _ring.GetCoordinates();
 			for (int i = 1; i < pts.Count; i++) 
 			{
+				//JTS 1.3 optimization
+				if (pts[i-1].Equals(pts[i]))
+				{
+					continue;
+				}
 				LineSegment seg = new LineSegment(pts[i - 1], pts[i]);
 				_sirTree.Insert(seg.P0.Y, seg.P1.Y, seg);
 			}

@@ -28,9 +28,9 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for SimplePointInAreaLocator.
 	/// </summary>
-	internal class SimplePointInAreaLocator
+	public class SimplePointInAreaLocator
 	{
-		private static CGAlgorithms _cga = new RobustCGAlgorithms();
+		
 
 		#region Constructors
 		#endregion
@@ -92,10 +92,12 @@ namespace Geotools.Algorithms
 		private static bool ContainsPointInPolygon(Coordinate p, Polygon poly)
 		{
 
+			CGAlgorithms cga = new RobustCGAlgorithms();
+
 			if ( poly.IsEmpty() ) return false;
 
 			LinearRing shell = (LinearRing) poly.GetExteriorRing();
-			if ( ! _cga.IsPointInRing( p, shell.GetCoordinates() ) )
+			if ( ! cga.IsPointInRing( p, shell.GetCoordinates() ) )
 			{
 				return false;
 			}
@@ -104,7 +106,7 @@ namespace Geotools.Algorithms
 			for (int i = 0; i < poly.GetNumInteriorRing(); i++) 
 			{
 				LinearRing lr = poly.GetInteriorRingN( i );
-				if ( _cga.IsPointInRing( p, lr.GetCoordinates() ) )
+				if ( cga.IsPointInRing( p, lr.GetCoordinates() ) )
 				{
 					return false;
 				}
