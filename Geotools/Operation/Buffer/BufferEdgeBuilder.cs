@@ -53,7 +53,6 @@ namespace Geotools.Operation.Buffer
 			this._cga = cga;
 			this._distance = distance;
 			this._precisionModel = precisionModel;
-			//lineBuilder = new BufferMultiLineBuilder(cga, li);
 			_lineBuilder = new BufferLineBuilder(_cga, li, precisionModel, quadrantSegments);
 			
 		}

@@ -22,6 +22,7 @@
 #region Using
 using System;
 using System.Collections;
+using System.Diagnostics;
 using Geotools.Graph;
 using Geotools.Geometries;
 using Geotools.Algorithms;
@@ -89,7 +90,8 @@ namespace Geotools.Operation.Buffer
 			this._cga = _cga;
 			this._li = li;
 			this._precisionModel = precisionModel;
-			_angleInc = Math.PI / 2.0 / quadrantSegments;
+			int limitedQuadSegs = quadrantSegments < 1 ? 1 : quadrantSegments;
+			_angleInc = Math.PI / 2.0 / limitedQuadSegs;
 			_lineList = new ArrayList();
 			// ensure array has exactly one element
 			_lineList.Add(arrayTypeCoordinate);
@@ -257,10 +259,11 @@ namespace Geotools.Operation.Buffer
 		{
 			
 			Coordinate bufPt = new Coordinate(pt);
-			if (this._precisionModel != null)
-			{
+			Debug.Assert(_precisionModel != null);
+			//if (this._precisionModel != null)
+			//{
 				this._precisionModel.MakePrecise(bufPt);
-			}
+			//}
 			// don't add duplicate points
 			Coordinate lastPt = null;
 			if (_ptList.Count >= 1)

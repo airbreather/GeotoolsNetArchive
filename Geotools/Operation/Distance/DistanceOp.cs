@@ -35,7 +35,7 @@ namespace Geotools.Operation.Distance
 	/// </summary>
 	internal class DistanceOp
 	{
-		private static PointLocator _ptLocator = new PointLocator();
+		private PointLocator _ptLocator = new PointLocator();
 		public static double Distance(Geometry g0, Geometry g1)
 		{
 			DistanceOp distOp = new DistanceOp(g0, g1);
@@ -87,6 +87,7 @@ namespace Geotools.Operation.Distance
 			ArrayList polys0 = PolygonExtracterFilter.GetPolygons(_geom[0]);
 			ArrayList polys1 = PolygonExtracterFilter.GetPolygons(_geom[1]);
 
+			// test if geometry is wholly inside the other
 			if (polys1.Count > 0) 
 			{
 				ArrayList insidePts0 = ConnectedElementPointFilter.GetCoordinates(_geom[0]);
@@ -105,15 +106,23 @@ namespace Geotools.Operation.Distance
 
 			ArrayList pts0 = PointExtracterFilter.GetPoints(_geom[0]);
 			ArrayList pts1 = PointExtracterFilter.GetPoints(_geom[1]);
-			if (pts0.Count > 0 || pts1.Count > 0) 
+		
+			ComputeMinDistanceLines(lines0, lines1);
+			if (_minDistance <= 0.0)
 			{
-				throw new NotImplementedException("Points not yet implemented.");
+				return;
 			}
-
-			ComputeMinDistance(lines0, lines1);
-			if (_minDistance <= 0.0) return;
-
-			ComputeMinDistance(pts0, pts1);
+			ComputeMinDistanceLinesPoints(lines0, pts1);
+			if (_minDistance <= 0.0) 
+			{
+				return;
+			}
+			ComputeMinDistanceLinesPoints(lines1, pts0);
+			if (_minDistance <= 0.0)
+			{
+					return;
+			}
+			ComputeMinDistancePoints(pts0, pts1);
 		}
 
 		private void ComputeInside(ArrayList pts, ArrayList polys)
@@ -138,7 +147,7 @@ namespace Geotools.Operation.Distance
 			}
 		}
 
-		private void ComputeMinDistance(ArrayList lines0, ArrayList lines1)
+		private void ComputeMinDistanceLines(ArrayList lines0, ArrayList lines1)
 		{
 			for (int i = 0; i < lines0.Count; i++) 
 			{
@@ -150,6 +159,36 @@ namespace Geotools.Operation.Distance
 				}
 			}
 		}
+		private void ComputeMinDistancePoints(ArrayList points0, ArrayList points1)
+		{
+			for (int i = 0; i < points0.Count; i++) 
+			{
+				Point pt0 = (Point) points0[i];
+				for (int j = 0; j < points1.Count; j++) 
+				{
+					Point pt1 = (Point) points1[j];
+					double dist = pt0.GetCoordinate().Distance(pt1.GetCoordinate());
+					UpdateMinDistance(dist);
+					if (_minDistance <= 0.0) return;
+				}
+			}
+		}
+
+		private void ComputeMinDistanceLinesPoints(ArrayList lines, ArrayList points)
+		{
+			for (int i = 0; i < lines.Count; i++) 
+			{
+				LineString line = (LineString) lines[i];
+				for (int j = 0; j < points.Count; j++) 
+				{
+					Point pt = (Point) points[j];
+					ComputeMinDistance(line, pt);
+					if (_minDistance <= 0.0) return;
+				}
+			}
+		}
+
+
 		private void ComputeMinDistance(LineString line0, LineString line1)
 		{
 			if (line0.GetEnvelopeInternal().Distance(line1.GetEnvelopeInternal())> _minDistance)
@@ -165,7 +204,30 @@ namespace Geotools.Operation.Distance
 						coord0[i], coord0[i + 1],
 						coord1[j], coord1[j + 1] );
 					UpdateMinDistance(dist);
+					if (_minDistance <= 0.0)
+					{
+						return;
+					}
 				}
+			}
+		}
+
+		private void ComputeMinDistance(LineString line, Point pt)
+		{
+			if (line.GetEnvelopeInternal().Distance(pt.GetEnvelopeInternal())> _minDistance)
+			{
+				return;
+			}
+			CoordinateCollection coord0 = line.GetCoordinates();
+			Coordinate coord = pt.GetCoordinate();
+			// brute force approach!
+			for (int i = 0; i < coord0.Count - 1; i++) 
+			{
+				double dist = CGAlgorithms.DistancePointLine(
+					coord, coord0[i], coord0[i + 1] );
+				UpdateMinDistance(dist);
+				if (_minDistance <= 0.0) return;
+
 			}
 		}
 

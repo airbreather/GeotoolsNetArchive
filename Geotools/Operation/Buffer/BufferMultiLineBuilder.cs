@@ -52,7 +52,7 @@ namespace Geotools.Operation.Buffer
 
 		private double _angleInc;
 		private double _distance = 0.0;
-		LineList _lineList;
+		private LineList _lineList;
 		private Coordinate _so, _s1, _s2;
 		private LineSegment _seg0 = new LineSegment();
 		private LineSegment _seg1 = new LineSegment();

@@ -33,8 +33,9 @@ namespace Geotools.Operation
 	/// </summary>
 	internal class GeometryGraphOperation
 	{
-		public static CGAlgorithms _cga = new RobustCGAlgorithms();
-		public static LineIntersector _li = new RobustLineIntersector();
+		public CGAlgorithms _cga = new RobustCGAlgorithms();
+		public LineIntersector _li = new RobustLineIntersector();
+	
 
 		// The operation's arguments are placed into an array so they can be accessed by index.
 		protected GeometryGraph[] _arg = null;  // the arg(s) of the operation  TODO array of GeometryGraph...

@@ -36,9 +36,7 @@ namespace Geotools.Operation.Buffer
 	internal class RightmostEdgeFinder
 	{
 
-		private static CGAlgorithms _cga;
-
-		//private Coordinate extremeCoord;
+		private CGAlgorithms _cga;
 		private int _minIndex = -1;
 		private Coordinate _minCoord = null;
 		private DirectedEdge _minDe = null;
