@@ -103,6 +103,26 @@ namespace Geotools.Geometries
 
 		#region Methods
 
+		
+		/// <summary>
+		/// Adds one matrix to another.
+		/// </summary>
+		/// <remarks>
+		/// Addition is defined by taking the maximum dimension value of each position
+		/// in the summand matrices.
+		/// </remarks>
+		/// <param name="im">im the matrix to add</param>
+		public void Add(IntersectionMatrix im)
+		{
+			for (int i = 0; i < 3; i++) 
+			{
+				for (int j = 0; j < 3; j++) 
+				{
+					SetAtLeast(i, j, im.Get(i, j));
+				}
+			}
+		}
+
 		/// <summary>
 		/// Returns an exact copy of this object.
 		/// </summary>
