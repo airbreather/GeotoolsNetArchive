@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 6     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -271,7 +274,7 @@ namespace Geotools.UnitTests.Geometries
 			//create a coordinate
 			Coordinate coord = new Coordinate(1.7, 2.3, 3.5);
 
-			coord.MakePrecise();
+			this._pm.MakePrecise(coord);
 
 			Assertion.AssertEquals("MakePrecise1: ", 2.0, coord.X);
 			Assertion.AssertEquals("MakePrecise2: ", 2.0, coord.Y);

@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.2  2003/06/05 01:53:36  awcoats
+ * Renamed Coordinates to CoordinateCollection.
+ *
  * Revision 1.1  2003/01/02 20:32:36  awcoats
  * *** empty log message ***
  *
@@ -117,7 +120,7 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("ToString-1: ", "(2, 4.1, NaN),(6.2, 8.4, NaN)", coords.ToString());
 		}
 
-		public void test_ReverseCoordinateOrder()
+		/*public void test_ReverseCoordinateOrder()
 		{
 			CoordinateCollection coords = Coords1();
 			CoordinateCollection coordsReverse = coords.ReverseCoordinateOrder();
@@ -125,7 +128,7 @@ namespace Geotools.UnitTests.Geometries
 			{
 				Assertion.AssertEquals("ReverseCoordinateOrder: ", true, coords[i].Equals(coordsReverse[9-i]));
 			}
-		}
+		}*/
 
 		public void test_HasRepeatedPoints()
 		{

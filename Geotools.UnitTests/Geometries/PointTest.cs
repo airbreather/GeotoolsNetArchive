@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.2  2003/06/05 01:53:36  awcoats
+ * Renamed Coordinates to CoordinateCollection.
+ *
  * Revision 1.1  2003/01/02 20:32:36  awcoats
  * *** empty log message ***
  *
@@ -362,91 +365,94 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_CompareToSameClass()
 		{
-//These tests can only be run if the method CompareToSameClass is changed from protected to public
-//			//create new points
-//			Point point = gf.CreatePoint(_coor);
-//
-//			//create a new coordinate to test against
-//			Coordinate coord1 = new Coordinate(0.0, 0.0);
-//			Point point1 = new Point(coord1, _precMod, _sRID);
-//
-//			//create a new coordinate to test against
-//			Coordinate coord2 = new Coordinate(1.0, 2.0);
-//			Point point2 = new Point(coord2, _precMod, _sRID);
-//
-//			//create a new coordinate to test against
-//			Coordinate coord3 = new Coordinate(2.0, 3.0);
-//			Point point3 = new Point(coord3, _precMod, _sRID);
-//
-//			//create a new coordinate to test against
-//			Coordinate coord4 = new Coordinate(0.0, 3.0);
-//			Point point4 = new Point(coord4, _precMod, _sRID);		
-//
-//			//create a new coordinate to test against
-//			Coordinate coord5 = new Coordinate(2.0, 0.0);
-//			Point point5 = new Point(coord5, _precMod, _sRID);
-//
-//			//create a new coordinate to test against
-//			Coordinate coord6 = new Coordinate(2.0, 2.0);
-//			Point point6 = new Point(coord6, _precMod, _sRID);
-//
-//			//create a new coordinate to test against
-//			Coordinate coord7 = new Coordinate(1.0, 3.0);
-//			Point point7 = new Point(coord7, _precMod, _sRID);
-//
-//			//Compare to a point where both coordinates are less than those of the original point
-//			Assertion.AssertEquals("CompareToSameClass1: ", 1, point.CompareToSameClass(point1));
-//
-//			//Compare to a point where both coordinates are equal to those of the original point
-//			Assertion.AssertEquals("CompareToSameClass2: ", 0, point.CompareToSameClass(point2));
-//
-//			//Compare to a point where both coordinates are greater than those of the original point
-//			Assertion.AssertEquals("CompareToSameClass3: ", -1, point.CompareToSameClass(point3));
-//
-//			//Compare to a point where the Y is greater than and the X is less than those of the original point
-//			Assertion.AssertEquals("CompareToSameClass4: ", 1, point.CompareToSameClass(point4));
-//
-//			//Compare to a point where the X is greater than and the Y is less than those of the original point
-//			Assertion.AssertEquals("CompareToSameClass5: ", -1, point.CompareToSameClass(point5));
-//
-//			//Compare to a point where the Y is greater than and the X is equal to those of the original point
-//			Assertion.AssertEquals("CompareToSameClass6: ", -1, point.CompareToSameClass(point6));
-//
-//			//Compare to a point where the X is greater than and the Y is equal to those of the original point
-//			Assertion.AssertEquals("CompareToSameClass7: ", -1, point.CompareToSameClass(point7));
+				GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
+		
+			//These tests can only be run if the method ComputeEnvelopeInternal is changed from protected to public
+
+			//create new points
+			Point point = gf.CreatePoint(_coor);
+
+			//create a new coordinate to test against
+			Coordinate coord1 = new Coordinate(0.0, 0.0);
+			Point point1 = new Point(coord1, _precMod, _sRID);
+
+			//create a new coordinate to test against
+			Coordinate coord2 = new Coordinate(1.0, 2.0);
+			Point point2 = new Point(coord2, _precMod, _sRID);
+
+			//create a new coordinate to test against
+			Coordinate coord3 = new Coordinate(2.0, 3.0);
+			Point point3 = new Point(coord3, _precMod, _sRID);
+
+			//create a new coordinate to test against
+			Coordinate coord4 = new Coordinate(0.0, 3.0);
+			Point point4 = new Point(coord4, _precMod, _sRID);		
+
+			//create a new coordinate to test against
+			Coordinate coord5 = new Coordinate(2.0, 0.0);
+			Point point5 = new Point(coord5, _precMod, _sRID);
+
+			//create a new coordinate to test against
+			Coordinate coord6 = new Coordinate(2.0, 2.0);
+			Point point6 = new Point(coord6, _precMod, _sRID);
+
+			//create a new coordinate to test against
+			Coordinate coord7 = new Coordinate(1.0, 3.0);
+			Point point7 = new Point(coord7, _precMod, _sRID);
+
+			//Compare to a point where both coordinates are less than those of the original point
+			Assertion.AssertEquals("CompareToSameClass1: ", 1, point.CompareToSameClass(point1));
+
+			//Compare to a point where both coordinates are equal to those of the original point
+			Assertion.AssertEquals("CompareToSameClass2: ", 0, point.CompareToSameClass(point2));
+
+			//Compare to a point where both coordinates are greater than those of the original point
+			Assertion.AssertEquals("CompareToSameClass3: ", -1, point.CompareToSameClass(point3));
+
+			//Compare to a point where the Y is greater than and the X is less than those of the original point
+			Assertion.AssertEquals("CompareToSameClass4: ", 1, point.CompareToSameClass(point4));
+
+			//Compare to a point where the X is greater than and the Y is less than those of the original point
+			Assertion.AssertEquals("CompareToSameClass5: ", -1, point.CompareToSameClass(point5));
+
+			//Compare to a point where the Y is greater than and the X is equal to those of the original point
+			Assertion.AssertEquals("CompareToSameClass6: ", -1, point.CompareToSameClass(point6));
+
+			//Compare to a point where the X is greater than and the Y is equal to those of the original point
+			Assertion.AssertEquals("CompareToSameClass7: ", -1, point.CompareToSameClass(point7));
 		}
 
 		public void  test_ComputeEnvelopeInternal()
 		{
-//These tests can only be run if the method ComputeEnvelopeInternal is changed from protected to public
-//			//create new points
-//			Point point = gf.CreatePoint(_coor);
-//
-//			Envelope env = point.ComputeEnvelopeInternal();
-//
-//			//the max x value for a point should equal the x value
-//            Assertion.AssertEquals("ComputeEnvInt1: ", 1.0, env.MaxX);
-//			//the min x value for a point should equal the x value
-//			Assertion.AssertEquals("ComputeEnvInt2: ", 1.0, env.MinX);
-//
-//			//the max y value for a point should equal the y value
-//			Assertion.AssertEquals("ComputeEnvInt3: ", 2.0, env.MaxY);
-//			//the min y value for a point should equal the y value
-//			Assertion.AssertEquals("ComputeEnvInt4: ", 2.0, env.MinY);
-//
-//			Point point2 = new Point(null, _precMod, _sRID);
-//
-//			Envelope env2 = point2.ComputeEnvelopeInternal();
-//
-//			//the max x value for a point with null coordinates should always return zero
-//			Assertion.AssertEquals("ComputeEnvInt5: ", 0.0, env2.MaxX);
-//			//the min x value for a point with null coordinates should always return zero
-//			Assertion.AssertEquals("ComputeEnvInt6: ", 0.0, env2.MinX);
-//
-//			//the max y value for a point with null coordinates should always return zero
-//			Assertion.AssertEquals("ComputeEnvInt7: ", 0.0, env2.MaxY);
-//			//the min y value for a point with null coordinates should always return zero
-//			Assertion.AssertEquals("ComputeEnvInt8: ", 0.0, env2.MinY);
+			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
+			//create new points
+			Point point = gf.CreatePoint(_coor);
+
+			Envelope env = point.GetEnvelopeInternal();
+
+			//the max x value for a point should equal the x value
+            Assertion.AssertEquals("ComputeEnvInt1: ", 1.0, env.MaximumX);
+			//the min x value for a point should equal the x value
+			Assertion.AssertEquals("ComputeEnvInt2: ", 1.0, env.MinimumX);
+
+			//the max y value for a point should equal the y value
+			Assertion.AssertEquals("ComputeEnvInt3: ", 2.0, env.MaximumY);
+			//the min y value for a point should equal the y value
+			Assertion.AssertEquals("ComputeEnvInt4: ", 2.0, env.MinimumY);
+
+			Point point2 = new Point(null, _precMod, _sRID);
+
+			Envelope env2 = point2.GetEnvelopeInternal();
+
+			//the max x value for a point with null coordinates should always return zero
+			Assertion.AssertEquals("ComputeEnvInt5: ", -1.0, env2.MaximumX);
+			//the min x value for a point with null coordinates should always return zero
+			Assertion.AssertEquals("ComputeEnvInt6: ", 0.0, env2.MinimumX);
+
+			//the max y value for a point with null coordinates should always return zero
+			Assertion.AssertEquals("ComputeEnvInt7: ", -1.0, env2.MaximumY);
+			//the min y value for a point with null coordinates should always return zero
+			Assertion.AssertEquals("ComputeEnvInt8: ", 0.0, env2.MinimumY);
 		}
 
 	}
