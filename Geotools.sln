@@ -3,6 +3,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geotools", "Geotools\Geotoo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geotools.UnitTests", "Geotools.UnitTests\Geotools.UnitTests.csproj", "{29893648-C10B-40EB-BA62-5A0BDC3F4205}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geotools.SystemTests", "Geotools.SystemTests\Geotools.SystemTests.csproj", "{F27861CE-8230-4756-B00D-BADC13FB0B96}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -19,6 +21,10 @@ Global
 		{29893648-C10B-40EB-BA62-5A0BDC3F4205}.Debug.Build.0 = Debug|.NET
 		{29893648-C10B-40EB-BA62-5A0BDC3F4205}.Release.ActiveCfg = Release|.NET
 		{29893648-C10B-40EB-BA62-5A0BDC3F4205}.Release.Build.0 = Release|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Debug.ActiveCfg = Debug|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Debug.Build.0 = Debug|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Release.ActiveCfg = Release|.NET
+		{F27861CE-8230-4756-B00D-BADC13FB0B96}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
