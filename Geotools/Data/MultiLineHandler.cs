@@ -103,11 +103,11 @@ namespace Geotools.Data
 				length = finish - start;
 				CoordinateCollection points = new CoordinateCollection();
 				points.Capacity=length;
-				Coordinate external;
+				Coordinate coordinate;
 				for (int i = 0; i < length; i++)
 				{
-					external = new Coordinate(file.ReadDouble(),file.ReadDouble());
-					points.Add( geometryFactory.PrecisionModel.ToInternal(external));
+					coordinate = new Coordinate(file.ReadDouble(),file.ReadDouble());
+					points.Add( coordinate );
 				}
 				lines[part] = geometryFactory.CreateLineString(points);
 
@@ -155,9 +155,8 @@ namespace Geotools.Data
 				CoordinateCollection points = multi.GetGeometryN(part).GetCoordinates();
 				for (int i = 0; i < points.Count; i++)
 				{
-					external = geometryFactory.PrecisionModel.ToExternal(points[i]);
-					file.Write(external.X);
-					file.Write(external.Y);
+					file.Write(points[i].X);
+					file.Write(points[i].Y);
 				}
 			}
 		}
