@@ -990,7 +990,7 @@ namespace Geotools.Geometries
 			}
 		}
 
-		///<summary>
+		/*///<summary>
 		/// Throws an exception if the spatial reference IDs differ  
 		///</summary>
 		///<param name="geometry">The Geometry with which to compare this Geometry.</param>
@@ -1001,9 +1001,9 @@ namespace Geotools.Geometries
 			{
 				throw new ArgumentException("Expected SRIDs to be equal, but they were not");
 			}
-		}
+		}*/
 
-		///<summary>
+		/*///<summary>
 		/// Throws an exception if the PrecisionModels differ.  
 		///</summary>
 		///<param name="geometry">The Geometry with which to compare this Geometry.</param>
@@ -1015,6 +1015,7 @@ namespace Geotools.Geometries
 				throw new ArgumentException("Expected precision models to be equal, but they were not");
 			}
 		}
+		*/
 
 		///<summary>
 		/// Returns the minimum and maximum x and y value1s in this Geometry, or a null Envelope if this Geometry
