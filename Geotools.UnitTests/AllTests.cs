@@ -18,25 +18,12 @@ namespace Geotools.UnitTests
 
 		public static string GetUnitTestRootDirectory()
 		{
-			string dir = @"Geotools.UnitTests\bin\Debug";
-			string startDir = Directory.GetCurrentDirectory();
-			if (startDir.IndexOf(dir)>=0)
-			{
-				// we are executing from with NUnitGUI, so change the directory.
-				startDir = startDir.Replace(dir,"");
-				// remove trailing \
-				char[] c= new char[]{'\\'};
-				startDir = startDir.TrimEnd(c);
-			}
-			else
-			{
-				// we are in the Construction directory.
-			}
-			//return @"C:\Projects\OGISv1\4CONSTRUCTION\Geotools.UnitTests";
-			// need to determine working directory.
-			//
-			//Console.WriteLine("startdir"+System.Web.HttpUtility.HtmlEncode(Directory.GetCurrentDirectory()));
-			return @"C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\Geotools.UnitTests";
+			// gets the filename of the dll (as it was originally compiled).
+			// we can then determine the root.
+			string dll = Assembly.GetExecutingAssembly().CodeBase.ToLower();
+			string dir = dll.Replace("/bin/debug/geotools.unittests.dll","");
+			dir = dir.Replace("file:///","");
+			return dir;
 		}
 	}
 	// This class bundles all tests into a single suite.
