@@ -2,9 +2,8 @@
 /* 
  * $Header$
  * $Log$
- * Revision 1.2  2003/01/02 20:38:20  awcoats
- * *** empty log message ***
- *
+ * 
+ * 5     5/25/04 2:50p Jzdecourcy
  * 
  * 4     11/04/02 3:20p Rabergman
  * Changed using namespaces
@@ -23,8 +22,9 @@
 #region Using
 using System;
 using System.IO;
-using Geotools.Geometries;
+//using Geotools.Geometries;
 using Geotools.IO;
+using com.vividsolutions.jts.geom;
 #endregion
 
 namespace Geotools.UnitTests.Utilities
@@ -56,13 +56,13 @@ namespace Geotools.UnitTests.Utilities
 			GeometryFactory fact = new GeometryFactory(pm, 0);
 
 			//read wkt
-			Geometry a = (Geometry)fact.CreateFromWKT(wkt);
+			Geometry a = new GeometryWKTReader(fact).Create(wkt);
 
 			//write wkb
 			FileStream fs = new FileStream("TestFile.wkb", FileMode.Create);
 			BinaryWriter bw = new BinaryWriter(fs);
-			GeometryWkbWriter bWriter = new GeometryWkbWriter(fact);
-			bWriter.Write(a, bw, (byte)1);
+			GeometryWKBWriter bWriter = new GeometryWKBWriter(bw, fact);
+			bWriter.Write(a, WKBByteOrder.Ndr);
 			bw.Close();
 			fs.Close();
 
@@ -73,12 +73,12 @@ namespace Geotools.UnitTests.Utilities
 			{
 				bytes[i] = (byte)fs.ReadByte();
 			}
-			GeometryWkbReader bReader = new GeometryWkbReader(fact);
+			GeometryWKBReader bReader = new GeometryWKBReader(fact);
 			Geometry geom = bReader.Create(bytes);
 			fs.Close();
 
 			//write to wkt & compare with original text.
-			bool results = ( Compare.WktStrings(wkt,a.ToText()));
+			bool results = ( Compare.WktStrings(wkt,a.toText()));
 			return results;
 		}
 		#endregion

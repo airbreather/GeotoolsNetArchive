@@ -65,11 +65,6 @@
             </Settings>
             <References>
                 <Reference
-                    Name = "Geotools"
-                    Project = "{A956CDFC-DC41-44FF-B0B4-DF995F57BF0E}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "System.Data"
                     AssemblyName = "System.Data"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
@@ -78,11 +73,6 @@
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
-                />
-                <Reference
-                    Name = "JTS"
-                    AssemblyName = "JTS"
-                    HintPath = "..\bin\JTS.dll"
                 />
                 <Reference
                     Name = "System"
@@ -105,9 +95,19 @@
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
                 <Reference
+                    Name = "Geotools"
+                    Project = "{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
                     HintPath = "..\bin\nunit.framework.dll"
+                />
+                <Reference
+                    Name = "JTS"
+                    AssemblyName = "JTS"
+                    HintPath = "..\bin\JTS.dll"
                 />
             </References>
         </Build>

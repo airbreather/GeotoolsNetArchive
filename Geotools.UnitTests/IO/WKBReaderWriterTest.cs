@@ -3,6 +3,8 @@
  * $Header$
  * $Log$
  * 
+ * 6     5/25/04 2:50p Jzdecourcy
+ * 
  * 5     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
  * 
@@ -22,7 +24,7 @@
 #region Using
 using System;
 using NUnit.Framework;
-using Geotools.Geometries;
+//using Geotools.Geometries;
 using Geotools.IO;
 using Geotools.UnitTests.Utilities;
 #endregion

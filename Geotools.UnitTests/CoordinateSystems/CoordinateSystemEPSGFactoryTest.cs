@@ -1,9 +1,8 @@
 /* 
  * $Header$
  * $Log$
- * Revision 1.2  2003/01/02 20:31:57  awcoats
- * *** empty log message ***
- *
+ * 
+ * 10    5/25/04 2:50p Jzdecourcy
  * 
  * 9     1/02/03 11:18a Awcoats
  * commeted out Test_Constructor2 because gave a warning when the epsg.mdb
@@ -99,7 +98,7 @@ namespace Geotools.UnitTests.CoordinateSystems
 			connection.Close();
 		}
 		
-		/*
+		[Ignore("Don't need this for now - too hard to configure.")]
 		public void Test_TestSqlServer() 
 		{
 			string connectionString = @"initial catalog=EPSG;data source=localhost;Integrated Security=SSPI;";
@@ -112,7 +111,6 @@ namespace Geotools.UnitTests.CoordinateSystems
 			Assertion.AssertEquals("LinearUnit - Remarks","Also known as International metre.",linearUnit.Remarks);
 			connection.Close();
 		}
-		*/
 		#endregion
 
 		#region LinearUnit
