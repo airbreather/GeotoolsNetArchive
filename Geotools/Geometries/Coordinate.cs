@@ -142,11 +142,11 @@ namespace Geotools.Geometries
 		#region Methods
 
 		/// <summary>
-		/// Creates a copy of this object.
+		/// Creates a copy of this Coordinate.
 		/// </summary>
-		/// <returns>Returns an exact copy of this object.</returns>
-		/// <remarks>Creates a new object that is an exact replica of the first.</remarks>
-		public object Clone()
+		/// <returns>Returns an exact copy of this Coordinate.</returns>
+		/// <remarks>Creates a new Coordinate that is an exact replica of the first.</remarks>
+		public Coordinate Clone()
 		{
 			return new Coordinate( _x, _y, _z );
 		}
