@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.2  2003/01/02 20:37:30  awcoats
+ * *** empty log message ***
+ *
  * 
  * 6     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -39,7 +42,7 @@ namespace Geotools.UnitTests.IO
 	public class GeometryWktWriterTest  
 	{
 		GeometryFactory _factory = new GeometryFactory();
-		GeometryWKTWriter _writer = new GeometryWKTWriter();
+		GeometryWktWriter _writer = new GeometryWktWriter();
 		
 
 		#region Point
