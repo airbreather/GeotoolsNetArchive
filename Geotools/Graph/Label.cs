@@ -47,7 +47,7 @@ namespace Geotools.Graph
   	/// triplet of attributes &lt;Left, On, Right&gt;.</para>
   	/// <para>
   	/// It is up to the client code to associate the 0 and 1 TopologyLocations
-  	/// with specific geometries.</para>
+  	/// with specific geometries. test</para>
 	/// </remarks>
 	internal class Label
 	{
