@@ -284,8 +284,6 @@ namespace Geotools.SystemTests.TestRunner
 			Run run = GetTestRun(filename);
 			int testCount=0;
 			int failCount=0;
-			int opCount=0;
-			int resultCount=0;
 			foreach(TestRunner.TestCase testcase in run)
 			{
 				foreach(TestRunner.Test test in testcase)

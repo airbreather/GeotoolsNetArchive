@@ -54,7 +54,7 @@ namespace Geotools.SystemTests.TestRunner
 		/// <param name="a">The geometry to be written to svg.</param>
 		public void CreateSVG(string filename, Geotools.Geometries.PrecisionModel pm, Geometry a)
 		{
-			GeometrySVGWriter svgWriter = new GeometrySVGWriter(pm);
+			GeometrySvgWriter svgWriter = new GeometrySvgWriter(pm);
 			StreamWriter sw = new StreamWriter(filename);
 			double minx, miny, maxx, maxy;
 			a.Extent2D(out minx, out miny, out maxx, out maxy);
@@ -74,7 +74,7 @@ namespace Geotools.SystemTests.TestRunner
 		{
 			Geotools.Geometries.PrecisionModel pm = new Geotools.Geometries.PrecisionModel(1, 0, 0);
 			GeometryFactory fact = new GeometryFactory(pm, 0);
-			GeometrySVGWriter svgWriter = new GeometrySVGWriter(fact.PrecisionModel);
+			GeometrySvgWriter svgWriter = new GeometrySvgWriter(fact.PrecisionModel);
 			StreamWriter sw = new StreamWriter(filename);
 			GeometryCollection geomCollection= fact.CreateGeometryCollection(new Geometry[]{a,b,c});
 			double minx, miny, maxx, maxy;
@@ -97,7 +97,7 @@ namespace Geotools.SystemTests.TestRunner
 		{
 			Geotools.Geometries.PrecisionModel pm = new Geotools.Geometries.PrecisionModel(1, 0, 0);
 			GeometryFactory fact = new GeometryFactory(pm, 0);
-			GeometrySVGWriter svgWriter = new GeometrySVGWriter(fact.PrecisionModel);
+			GeometrySvgWriter svgWriter = new GeometrySvgWriter(fact.PrecisionModel);
 			StreamWriter sw = new StreamWriter(filename);
 			GeometryCollection geomCollection= fact.CreateGeometryCollection(new Geometry[]{a,b});
 			double minx, miny, maxx, maxy;
