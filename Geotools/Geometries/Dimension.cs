@@ -29,7 +29,7 @@ namespace Geotools.Geometries
 	/// Dimension describes the dimension for a geometry.  Has a variety of representations for each
 	/// dimension type.
 	/// </summary>
-	internal class Dimension
+	public class Dimension
 	{
 		/// <summary>
 		/// Dimension value of a point (0).
