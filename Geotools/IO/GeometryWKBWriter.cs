@@ -81,6 +81,19 @@ namespace Geotools.IO
 			return _bWriter;
 		}
 
+		public byte[] Write(Geometry geometry)
+		{
+			if (geometry==null)
+			{
+				throw new ArgumentNullException("geometry");
+			}
+			MemoryStream stream = new MemoryStream();
+			BinaryWriter binaryWriter = new BinaryWriter(stream);
+			Write(geometry, binaryWriter, 0);
+			binaryWriter.Close();
+			byte[] wkb=stream.ToArray();
+			return wkb;
+		}
 		/// <summary>
 		/// Writes the type number for this geometry.
 		/// </summary>
@@ -90,35 +103,35 @@ namespace Geotools.IO
 			//Determine the type of the geometry.
 			switch( geometry.GetGeometryType() )
 			{
-				//Points are type 1.
+					//Points are type 1.
 				case "Point":
 					_bWriter.Write(1);
 					break;
-				//Linestrings are type 2.
+					//Linestrings are type 2.
 				case "LineString":
 					_bWriter.Write(2);
 					break;
-				//Polygons are type 3.
+					//Polygons are type 3.
 				case "Polygon":
 					_bWriter.Write(3);
 					break;
-				//Mulitpoints are type 4.
+					//Mulitpoints are type 4.
 				case "MultiPoint":
 					_bWriter.Write(4);
 					break;
-				//Multilinestrings are type 5.
+					//Multilinestrings are type 5.
 				case "MultiLineString":
 					_bWriter.Write(5);
 					break;
-				//Multipolygons are type 6.
+					//Multipolygons are type 6.
 				case "MultiPolygon":
 					_bWriter.Write(6);
 					break;
-				//Geometrycollections are type 7.
+					//Geometrycollections are type 7.
 				case "GeometryCollection":
 					_bWriter.Write(7);
 					break;
-				//If the type is not of the above 7 throw an exception.
+					//If the type is not of the above 7 throw an exception.
 				default:
 					throw new ArgumentException("Invalid Geometry Type");
 			}
@@ -132,42 +145,42 @@ namespace Geotools.IO
 		{
 			switch( geometry.GetGeometryType() )
 			{
-				//Write the point.
+					//Write the point.
 				case "Point":
 					Point point = (Point)geometry;
 					WritePoint(point);
 					break;
-				//Write the Linestring.
+					//Write the Linestring.
 				case "LineString":
 					LineString ls = (LineString)geometry;
 					WriteLineString(ls, format);
 					break;
-				//Write the Polygon.
+					//Write the Polygon.
 				case "Polygon":
 					Polygon poly = (Polygon)geometry;
 					WritePolygon(poly, format);
 					break;
-				//Write the Multipoint.
+					//Write the Multipoint.
 				case "MultiPoint":
 					MultiPoint mp = (MultiPoint)geometry;
 					WriteMultiPoint(mp, format);
 					break;
-				//Write the Multilinestring.
+					//Write the Multilinestring.
 				case "MultiLineString":
 					MultiLineString mls = (MultiLineString)geometry;
 					WriteMultiLineString(mls, format);
 					break;
-				//Write the Multipolygon.
+					//Write the Multipolygon.
 				case "MultiPolygon":
 					MultiPolygon mPoly = (MultiPolygon)geometry;
 					WriteMultiPolygon(mPoly, format);
 					break;
-				//Write the Geometrycollection.
+					//Write the Geometrycollection.
 				case "GeometryCollection":
 					GeometryCollection gc = (GeometryCollection)geometry;
 					WriteGeometryCollection(gc, format);
 					break;
-				//If the type is not of the aboce 7 throw an exception.
+					//If the type is not of the aboce 7 throw an exception.
 				default:
 					throw new ArgumentException("Invalid Geometry Type");
 			}
@@ -224,7 +237,7 @@ namespace Geotools.IO
 				LinearRing lr = poly.GetInteriorRingN( i );
 
 				//Write the (lineString)LinearRing.
-                WriteLineString((LineString)lr, format);
+				WriteLineString((LineString)lr, format);
 			}
 		}
 
