@@ -25,13 +25,12 @@ using System;
 namespace Geotools.Geometries
 {
 	/// <summary>
-	/// <para>
 	/// A MultiSurface of Polygons. MultiPolygons do not have cut lines, spikes or punctures. 
 	/// </summary>
 	/// <remarks>
 	/// For a precise definition of multipolygons, see the 
 	/// <A HREF="http://www.opengis.org/techno/specs.htm">
-	///  OpenGIS Simple Features Specification for SQL</A>.</para>
+	///  OpenGIS Simple Features Specification for SQL</A>.
 	/// <para>
 	///  The element Polygons in a MultiPolygon may touch
 	///  at only a finite number of points (e.g. they may not touch in a line
