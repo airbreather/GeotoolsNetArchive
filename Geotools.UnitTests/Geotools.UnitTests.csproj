@@ -100,14 +100,14 @@
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "..\bin\nunit.framework.dll"
-                />
-                <Reference
                     Name = "JTS"
                     AssemblyName = "JTS"
                     HintPath = "..\bin\JTS.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "..\bin\nunit.framework.dll"
                 />
             </References>
         </Build>
@@ -479,10 +479,6 @@
                     RelPath = "Utilities\TestAirDistance.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Utilities\vssver.scc"
-                    BuildAction = "None"
                 />
             </Include>
         </Files>

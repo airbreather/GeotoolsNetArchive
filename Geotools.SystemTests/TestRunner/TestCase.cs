@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections;
-using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 
 #endregion
 
@@ -162,7 +162,7 @@ namespace Geotools.SystemTests.TestRunner
 		/// </summary>
 		/// <param name="precisionModel">The precision model for this run.</param>
 		/// <returns>OGC.SimpleFeatures.IGeometry object.</returns>
-		public IGeometry CreateAGeometry(Geotools.Geometries.PrecisionModel precisionModel)
+		public Geometry CreateAGeometry(PrecisionModel precisionModel)
 		{
 			// create the GeometryFactory object...
 			Geotools.Geometries.GeometryFactory geometryFactory = new Geotools.Geometries.GeometryFactory(precisionModel, -1);
@@ -177,7 +177,7 @@ namespace Geotools.SystemTests.TestRunner
 		/// <param name="precisionModel">The precision model for this run.</param>
 		/// <returns>OGC.SimpleFeatures.IGeometry object.</returns>
 		
-		public IGeometry CreateBGeometry(Geotools.Geometries.PrecisionModel precisionModel)
+		public Geometry CreateBGeometry(PrecisionModel precisionModel)
 		{
 			// create the GeometryFactory object...
 			Geotools.Geometries.GeometryFactory geometryFactory = new Geotools.Geometries.GeometryFactory(precisionModel, -1);

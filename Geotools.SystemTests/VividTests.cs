@@ -19,7 +19,7 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
-using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 using Geotools.SystemTests.TestRunner;
 namespace Geotools.SystemTests.TestRunner
 {

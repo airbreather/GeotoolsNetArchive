@@ -20,7 +20,7 @@
 
 using System;
 using System.IO;
-using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 using Geotools.IO;
 
 #endregion using Statements
@@ -52,9 +52,9 @@ namespace Geotools.SystemTests.TestRunner
 		/// <param name="filename">The name of the svg file.</param>
 		/// <param name="pm">The precision model for the geometries</param>
 		/// <param name="a">The geometry to be written to svg.</param>
-		public void CreateSVG(string filename, Geotools.Geometries.PrecisionModel pm, Geometry a)
+		public void CreateSVG(string filename, PrecisionModel pm, Geometry a)
 		{
-			GeometrySvgWriter svgWriter = new GeometrySvgWriter(pm);
+			GeometrySVGWriter svgWriter = new GeometrySVGWriter(pm);
 			StreamWriter sw = new StreamWriter(filename);
 			double minx, miny, maxx, maxy;
 			a.Extent2D(out minx, out miny, out maxx, out maxy);

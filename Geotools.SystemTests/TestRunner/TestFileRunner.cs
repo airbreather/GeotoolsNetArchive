@@ -21,7 +21,7 @@
 using System;
 using System.Configuration;
 using System.Collections;
-using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 
 
 #endregion using Statements
@@ -96,7 +96,7 @@ namespace Geotools.SystemTests.TestRunner
 		/// </summary>
 		/// <param name="r">The Run object.</param>
 		/// <returns>UrbanScience.Geographic.Geometries.PrecisionModel</returns>
-		private Geotools.Geometries.PrecisionModel CreatePrecisionModel(Run r)
+		private PrecisionModel CreatePrecisionModel(Run r)
 		{
 			// if the type is FLOATING, call the constructor with no parameters...
 			if(r.PrecisionModel.Type == "FLOATING")

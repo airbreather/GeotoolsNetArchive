@@ -19,7 +19,7 @@
 #region using Statements
 
 using System;
-using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 
 #endregion
 
