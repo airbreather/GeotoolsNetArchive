@@ -21,6 +21,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Diagnostics;
 using Geotools.Geometries;
 using Geotools.Utilities;
 #endregion
@@ -164,11 +165,7 @@ namespace Geotools.IO
 			return _geometryFactory.CreatePoint(coord);
 		}
 
-		/// <summary>
-		/// Creates a linestring from the wkb.
-		/// </summary>
-		/// <returns>A geometry.</returns>
-		private Geometry CreateWKBLineString()
+		private Coordinates ReadCoordinates()
 		{
 			//Get the number of points in this linestring.
 			int numPoints = (int)_bReader.ReadUInt32();
@@ -188,10 +185,29 @@ namespace Geotools.IO
 				//Add the coordinate to the coordinates array.
 				coords.Add(coord);
 			}
+			return coords;
+		}
+		/// <summary>
+		/// Creates a linestring from the wkb.
+		/// </summary>
+		/// <returns>A geometry.</returns>
+		private LineString CreateWKBLineString()
+		{
+			Coordinates coords = ReadCoordinates();
 			//Create and return the linestring.
 			return _geometryFactory.CreateLineString(coords);
 		}
 
+		/// <summary>
+		/// Creates a linar ring from WKB.
+		/// </summary>
+		/// <returns></returns>
+		private LinearRing CreateWKBLinearRing()
+		{
+			Coordinates coords = ReadCoordinates();
+			//Create and return the linearring.
+			return _geometryFactory.CreateLinearRing(coords);
+		}
 		/// <summary>
 		/// Creates a Polygon from the wkb.
 		/// </summary>
@@ -200,55 +216,17 @@ namespace Geotools.IO
 		{
 			//Get the Number of rings in this Polygon.
 			int numRings = (int)_bReader.ReadUInt32();
+			Debug.Assert(numRings>=1, "Number of rings in polygon must be 1 or more.");
 
-			//Get the number of points in the first ring.
-			int numPoints = (int)_bReader.ReadUInt32();
-
-			//Create a new array of coordinates.
-			Coordinates coords = new Coordinates();
-
-			//Loop on the number of points in the ring.
-			for(int i = 0; i < numPoints; i++)
-			{
-				//Create a new point.
-				Point point = CreateWKBPoint() as Point;
-
-				//Add the coordinates of the point to the coordinate.
-				Coordinate coord = new Coordinate(point.X, point.Y);
-
-				//Add the coordinate to the coordinates array.
-				coords.Add(coord);
-			}
-			//Create a new linearring with the points.
-			LinearRing shell = _geometryFactory.CreateLinearRing(coords);
-
+			LinearRing shell = CreateWKBLinearRing();
+			
 			//Create a new array of linearrings for the interior rings.
 			LinearRing[] interiorRings = new LinearRing[numRings-1];
-
-			//Loop on the number of remaining rings.
 			for(int i = 0; i < numRings-1; i++)
 			{
-				//Get the number of points in this ring.
-				numPoints = (int)_bReader.ReadUInt32();
-
-				//Create a new array of coordinates.
-				coords = new Coordinates();
-
-				//Loop on the number of points in this ring.
-				for(int j = 0; j < numPoints; j++)
-				{
-					//Create a new point.
-					Point point = CreateWKBPoint() as Point;
-
-					//Add the coordinates of the point to the coordinate.
-					Coordinate coord = new Coordinate(point.X, point.Y);
-
-					//Add the coordinate to the coordinates array.
-					coords.Add(coord);
-				}
-				//Fill the LinearRing array.
-				interiorRings[i] = _geometryFactory.CreateLinearRing(coords);
+				interiorRings[i] = CreateWKBLinearRing();
 			}
+				
 			//Create and return the Poylgon.
 			return _geometryFactory.CreatePolygon(shell, interiorRings);
 		}
@@ -268,6 +246,9 @@ namespace Geotools.IO
 			//Loop on the number of points.
 			for(int i = 0; i < numPoints; i++)
 			{
+				// read Point header
+				_bReader.ReadByte();
+				_bReader.ReadUInt32();
 				//Create the next point and add it to the point array.
 				points[i] = (Point)CreateWKBPoint();
 			}
@@ -290,6 +271,10 @@ namespace Geotools.IO
 			//Loop on the number of linestrings.
 			for(int i = 0; i < numLineStrings; i++)
 			{
+				//read Point header
+				_bReader.ReadByte();
+				_bReader.ReadUInt32();
+
 				//Create the next linestring and add it to the array.
 				lineStrings[i] = (LineString)CreateWKBLineString();
 			}
@@ -312,6 +297,9 @@ namespace Geotools.IO
 			//Loop on the number of polygons.
 			for(int i = 0; i < numPolygons; i++)
 			{
+				// read polygon header
+				_bReader.ReadByte();
+				_bReader.ReadUInt32();
 				//Create the next polygon and add it to the array.
 				polygons[i] = (Polygon)CreateWKBPolygon();
 			}

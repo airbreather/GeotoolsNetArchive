@@ -76,7 +76,7 @@ namespace Geotools.IO
 			WriteType(geometry);
 
 			//Write the geometry
-			WriteGeometry(geometry);
+			WriteGeometry(geometry, format);
 
 			return _bWriter;
 		}
@@ -128,7 +128,7 @@ namespace Geotools.IO
 		/// Writes the geometry to the binary writer.
 		/// </summary>
 		/// <param name="geometry">The geometry to be written.</param>
-		private void WriteGeometry(Geometry geometry)
+		private void WriteGeometry(Geometry geometry, byte format)
 		{
 			switch( geometry.GetGeometryType() )
 			{
@@ -140,32 +140,32 @@ namespace Geotools.IO
 				//Write the Linestring.
 				case "LineString":
 					LineString ls = (LineString)geometry;
-					WriteLineString(ls);
+					WriteLineString(ls, format);
 					break;
 				//Write the Polygon.
 				case "Polygon":
 					Polygon poly = (Polygon)geometry;
-					WritePolygon(poly);
+					WritePolygon(poly, format);
 					break;
 				//Write the Multipoint.
 				case "MultiPoint":
 					MultiPoint mp = (MultiPoint)geometry;
-					WriteMultiPoint(mp);
+					WriteMultiPoint(mp, format);
 					break;
 				//Write the Multilinestring.
 				case "MultiLineString":
 					MultiLineString mls = (MultiLineString)geometry;
-					WriteMultiLineString(mls);
+					WriteMultiLineString(mls, format);
 					break;
 				//Write the Multipolygon.
 				case "MultiPolygon":
 					MultiPolygon mPoly = (MultiPolygon)geometry;
-					WriteMultiPolygon(mPoly);
+					WriteMultiPolygon(mPoly, format);
 					break;
 				//Write the Geometrycollection.
 				case "GeometryCollection":
 					GeometryCollection gc = (GeometryCollection)geometry;
-					WriteGeometryCollection(gc);
+					WriteGeometryCollection(gc, format);
 					break;
 				//If the type is not of the aboce 7 throw an exception.
 				default:
@@ -176,7 +176,7 @@ namespace Geotools.IO
 		/// <summary>
 		/// Writes a point.
 		/// </summary>
-		/// <param name="point">THe point to be written.</param>
+		/// <param name="point">The point to be written.</param>
 		private void WritePoint(Point point)
 		{
 			//Write the x coordinate.
@@ -189,7 +189,7 @@ namespace Geotools.IO
 		/// Writes a linestring.
 		/// </summary>
 		/// <param name="ls">The linestring to be written.</param>
-		private void WriteLineString(LineString ls)
+		private void WriteLineString(LineString ls, byte format)
 		{
 			//Write the number of points in this linestring.
 			_bWriter.Write( ls.GetNumPoints() );
@@ -206,7 +206,7 @@ namespace Geotools.IO
 		/// Writes a polygon.
 		/// </summary>
 		/// <param name="poly">The polygon to be written.</param>
-		private void WritePolygon(Polygon poly)
+		private void WritePolygon(Polygon poly, byte format)
 		{
 			//Get the number of rings in this polygon.
 			int numRings = poly.GetNumInteriorRing() + 1;
@@ -215,7 +215,7 @@ namespace Geotools.IO
 			_bWriter.Write(numRings);
 
 			//Get the shell of this polygon.
-			WriteLineString(poly.Shell);
+			WriteLineString(poly.Shell, format);
 
 			//Loop on the number of rings - 1 because we already wrote the shell.
 			for(int i = 0; i < numRings-1; i++)
@@ -224,7 +224,7 @@ namespace Geotools.IO
 				LinearRing lr = poly.GetInteriorRingN( i );
 
 				//Write the (lineString)LinearRing.
-                WriteLineString((LineString)lr);
+                WriteLineString((LineString)lr, format);
 			}
 		}
 
@@ -232,7 +232,7 @@ namespace Geotools.IO
 		/// Writes a multipoint.
 		/// </summary>
 		/// <param name="mp">The multipoint to be written.</param>
-		private void WriteMultiPoint(MultiPoint mp)
+		private void WriteMultiPoint(MultiPoint mp, byte format)
 		{
 			//Get the number of points in this multipoint.
 			int numPoints = mp.GetNumPoints();
@@ -243,6 +243,12 @@ namespace Geotools.IO
 			//Loop on the number of points.
 			for(int i = 0; i < numPoints; i++)
 			{
+				//write the multipoint header
+				_bWriter.Write(format);
+				_bWriter.Write(4);
+
+				_bWriter.Write(numPoints);
+
 				//Write each point.
 				WritePoint((Point)mp[i]);
 			}
@@ -252,7 +258,7 @@ namespace Geotools.IO
 		/// Writes a multilinestring.
 		/// </summary>
 		/// <param name="mls">The multilinestring to be written.</param>
-		private void WriteMultiLineString(MultiLineString mls)
+		private void WriteMultiLineString(MultiLineString mls, byte format)
 		{
 			//Get the number of linestrings in this multilinestring.
 			int numLineStrings = mls.GetNumGeometries();
@@ -264,7 +270,7 @@ namespace Geotools.IO
 			for(int i = 0; i < numLineStrings; i++)
 			{
 				//Write each linestring.
-				WriteLineString((LineString)mls[i]);
+				WriteLineString((LineString)mls[i], format);
 			}
 		}
 
@@ -272,7 +278,7 @@ namespace Geotools.IO
 		/// Writes a multipolygon.
 		/// </summary>
 		/// <param name="mp">The mulitpolygon to be written.</param>
-		private void WriteMultiPolygon(MultiPolygon mp)
+		private void WriteMultiPolygon(MultiPolygon mp, byte format)
 		{
 			//Get the number of polygons in this multipolygon.
 			int numpolygons = mp.GetNumGeometries();
@@ -283,8 +289,12 @@ namespace Geotools.IO
 			//Loop on the number of polygons.
 			for(int i = 0; i < numpolygons; i++)
 			{
+				//Write the polygon header
+				_bWriter.Write(format);
+				_bWriter.Write(6);
+
 				//Write each polygon.
-				WritePolygon((Polygon)mp[i]);
+				WritePolygon((Polygon)mp[i], format);
 			}
 		}
 
@@ -292,7 +302,7 @@ namespace Geotools.IO
 		/// Writes a geometrycollection.
 		/// </summary>
 		/// <param name="gc">The geometrycollection to be written.</param>
-		private void WriteGeometryCollection(GeometryCollection gc)
+		private void WriteGeometryCollection(GeometryCollection gc, byte format)
 		{
 			//Get the number of geometries in this geometrycollection.
 			int numGeometries = gc.GetNumGeometries();
@@ -307,7 +317,7 @@ namespace Geotools.IO
 				WriteType(gc[i]);
 
 				//Write each geometry.
-				WriteGeometry(gc[i]);
+				WriteGeometry(gc[i], format);
 			}
 		}
 		#endregion
