@@ -18,10 +18,13 @@
  *
  */
 
+//TODO add cast of Coordinate[] to Coordinates
+
 #region Using
 using System;
 using System.Collections;
 using System.Text;
+using Geotools.Utilities;
 #endregion
 
 namespace Geotools.Geometries
@@ -29,25 +32,81 @@ namespace Geotools.Geometries
 	/// <summary>
 	/// Coordinates class is a typed collection class for the Coordinate class.
 	/// </summary>
-	public class Coordinates : ArrayList
+	public class Coordinates : CollectionBase
 	{
+		#region Constructors
 		/// <summary>
-		/// Creates a new, empty instance of Coordinates.
+		/// Creates a new, empty instance of Coordinates, with a default initial capacity.
 		/// </summary>
-		public Coordinates():base()
+		public Coordinates()
 		{
+		}
+
+		/// <summary>
+		/// Creates a new, empty instance of Coordinates that is empty and has the specified initial capacity.
+		/// </summary>
+		public Coordinates(int capacity)
+		{
+			InnerList.Capacity = capacity;
 		}
 
 		/// <summary>
 		/// Creates a new instance of Coordinates adding each coordinate in coords to this instance.
 		/// </summary>
-		/// <param name="coords">The set of coordinates to be used to create this set.</param>
-		public Coordinates(Coordinates coords) : base()
+		/// <param name="coordinates">The set of coordinates to be used to create this set.</param>
+		public Coordinates(Coordinates coordinates)
 		{
-			foreach(Coordinate coord in coords)
+			for(int i = 0; i < coordinates.Count; i++)
 			{
-				Add(coord, true);
+				Add(coordinates[i]);
 			}
+		}
+		#endregion
+
+		#region Properties
+		/// <summary>
+		/// Gets or sets the number of elements that the CoordinateCollection can contain.
+		/// </summary>
+		public int Capacity
+		{
+			get
+			{
+				return InnerList.Capacity;
+			}
+			set
+			{
+				InnerList.Capacity=value;
+			}
+		}
+		/// <summary>
+		/// Represents the Coordinate object entry at the specified index.
+		/// </summary>
+		/// <param name="index">The zero-based index of the entry to locate in the collection.</param>
+		public Coordinate this [int index]
+		{
+			get
+			{
+				return (Coordinate)InnerList[index];
+			}
+			set
+			{
+				InnerList[index]=value;
+			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		/// <summary>
+		/// Adds a new coordinate to this set of coordinates.
+		/// </summary>
+		/// <remarks>Succesive duplicate coordinates are allowed.</remarks>
+		/// <param name="coord">The coordinate to be added to the set.</param>
+		/// <returns>An integer containing the index of the newly added coordinate.</returns>
+		public int Add(Coordinate coord)
+		{
+			return InnerList.Add(coord);
 		}
 
 		/// <summary>
@@ -59,7 +118,7 @@ namespace Geotools.Geometries
 		/// </param>
 		/// <returns>If the add is successful, an integer containing the index of the newly added coordinate.
 		///   If repeats are not allowed and the coordinate to be added is a repeat a -1 is returned.</returns>
-		public int Add(object coord, bool allowRepeated)
+		public int Add(Coordinate coord, bool allowRepeated)
 		{
 			if (!allowRepeated)
 			{
@@ -72,110 +131,63 @@ namespace Geotools.Geometries
 					}
 				}
 			}
-			return base.Add(coord);
+			return Add(coord);
 		}
-		/// <summary>
-		/// Represents the Coordinate object entry at the specified index.
-		/// </summary>
-		/// <param name="index">The zero-based index of the entry to locate in the collection.</param>
-		public new Coordinate this [int index]
+		public void AddRange(Coordinates coordinates)
 		{
-			get
-			{
-				return (Coordinate)base[index];
-			}
-			set
-			{
-				base[index]=value;
-			}
+			InnerList.AddRange(coordinates);
 		}
-		
+		public void AddRange(Coordinate[] coordinates)
+		{
+			InnerList.AddRange(coordinates);
+		}
+
 		/// <summary>
-		/// Creates an exact replica of this set of coordinates.
+		/// Creates a deep copy of these coordinates.
 		/// </summary>
 		/// <returns>A new set of coordinates containing the same coordinates as the original.</returns>
-		public new Coordinates Clone()
+		public Coordinates Clone()
 		{
-			Coordinates coords = new Coordinates();
-			foreach(Coordinate coord in this)
-			{
-				coords.Add(coord);
-			}
-			return coords;
+			return new Coordinates(this);
 		}
-	
 		/// <summary>
-		/// Returns a string representation of the Coordinates object.
+		/// Determines whether a Coordinate is in the CoordinateCollection.
 		/// </summary>
-		/// <remarks>The format is: (x1, y1, NaN),(x2, y2, NaN)...</remarks>
-		/// <returns>A string containing the set of coordinates.</returns>
-		public override string ToString()
+		/// <param name="coordinate">The Coordinate to locate in the collection</param>
+		/// <returns></returns>
+		public bool Contains(Coordinate coordinate)
 		{
-			StringBuilder sb = new StringBuilder();
-			foreach( object obj in this )
-			{
-				Coordinate coord = obj as Coordinate;
-				sb.Append( coord.ToString() + "," );
-			}
-			//sb.Remove( sb.Length -1, 1 );		// remove the last comma
-			return sb.ToString().TrimEnd(new char[]{','});
+			return InnerList.Contains(coordinate);
+		}
+		/// <summary>
+		/// Copies the Coordinates into a one-dimensional Coordinate array, starting at the beginning of the target array.
+		/// </summary>
+		/// <param name="coordinates">The coordinate array to be populated.  Must have 0 based indexing.</param>
+		public void CopyTo(Coordinate[] coordinates)
+		{
+			InnerList.CopyTo(coordinates);
 		}
 
 		/// <summary>
-		/// Reverses the order of the coordinates in this set of coordinates.
+		/// Copies the entire CoordinateCollection to a one-dimensional Coordinate Array, starting at the specified index of the target array.
 		/// </summary>
-		/// <returns>The set of coordinates with the corder of the coordinates reversed.</returns>
-		public Coordinates ReverseCoordinateOrder()
+		/// <param name="coordinates">The one-dimensional Array that is the destination of the elements copied from Coordinate Collection. The Array must have zero-based indexing. </param>
+		/// <param name="arrayIndex">The zero-based index in coordinates at which copying begins. </param>
+		public void CopyTo(Coordinate[] coordinates, int arrayIndex)
 		{
-			Coordinates coordinates = new Coordinates();
-			for(int i = 0; i < base.Count; i++)
-			{
-				coordinates.Add(base[base.Count-1-i]);
-			}
-			return coordinates;
+			InnerList.CopyTo(coordinates,arrayIndex);
 		}
-
 		/// <summary>
-		/// Determines if this set of coordinates contains repeating points.
+		/// Copies a range of elements from the CoordinateCollection to a one-dimensional Coordinate Array, starting at the specified index of the target array.
 		/// </summary>
-		/// <param name="coord">THe set of coorinates to be examined.</param>
-		/// <returns>A bool based on the presence of repeating points.</returns>
-		public static bool HasRepeatedPoints(Coordinates coord)
+		/// <param name="index">The zero-based index in the source Coordinate Collection at which copying begins. </param>
+		/// <param name="coordinates">The one-dimensional Array that is the destination of the elements copied from Coordinate Collection. The Array must have zero-based indexing. </param>
+		/// <param name="arrayIndex">The zero-based index in coordinates at which copying begins. </param>
+		/// <param name="count">The number of elements to copy.</param>
+		public void CopyTo(int index,Coordinate[] coordinates,int arrayIndex,int count)
 		{
-			for (int i = 1; i < coord.Count; i++) 
-			{
-				if (coord[i - 1].Equals( coord[i] ) ) 
-				{
-					return true;
-				}
-			}
-			return false;
+			InnerList.CopyTo(index,coordinates,arrayIndex,count);
 		}
-
-		/// <summary>
-		/// If the coordinate array has repeated points, constructs new array
-		/// containing no repeated points.
-		/// </summary>
-		/// <param name="coord">The set of coordinates to be examined.</param>
-		/// <returns>A new set of coordinates with no repeating points.</returns>
-		public static Coordinates RemoveRepeatedPoints(Coordinates coord)
-		{
-			if ( !HasRepeatedPoints(coord) ) 
-			{
-				return coord;
-			}
-			Coordinates newCoords = new Coordinates();
-			newCoords.Add( coord[0] );		// add the first coordinate
-			for ( int i = 1; i < coord.Count; i++ )
-			{
-				if ( !coord[i-1].Equals( coord[i] ) )		// if this coord does not equal the last coords, add otherwise skip.
-				{
-					newCoords.Add( coord[i],false );
-				}
-			}
-			return newCoords;
-		}
-
 		/// <summary>
 		/// Determines if the two objects are of the same type and if they contain the elements.
 		/// </summary>
@@ -193,7 +205,6 @@ namespace Geotools.Geometries
 			}
 			return true;
 		}
-
 		/// <summary>
 		/// Returns a unique integer for this object.
 		/// </summary>
@@ -201,7 +212,152 @@ namespace Geotools.Geometries
 		/// <returns>An integer containing the hash code.</returns>
 		public override int GetHashCode()
 		{
-			return base.GetHashCode();
+			return InnerList.GetHashCode();
 		}
+		/// <summary>
+		/// Returns the zero-based index of the first occurrence of a Coordinate in the Collection. 
+		/// </summary>
+		/// <param name="coordinate"></param>
+		/// <returns></returns>
+		public int IndexOf(Coordinate coordinate)
+		{
+			return InnerList.IndexOf(coordinate);
+		}
+		/// <summary>
+		/// Reverse the order of the coordinates in this collection.
+		/// </summary>
+		public void Reverse()
+		{
+			InnerList.Reverse();
+		}
+		/// <summary>
+		/// Sorts the elements in the collection
+		/// </summary>
+		public void Sort()
+		{
+			InnerList.Sort();
+		}
+		/// <summary>
+		/// Sorts the elements in the entire Coordinate colelction using the specified comparer
+		/// </summary>
+		/// <param name="comparer">The CoordinateCompare (implements IComparer) to use when comparing elements. </param>
+		public void Sort(CoordinateCompare comparer)
+		{
+			InnerList.Sort(comparer);
+		}
+		/// <summary>
+		/// Returns a string representation of the Coordinates object.
+		/// </summary>
+		/// <remarks>The format is: (x1, y1, NaN),(x2, y2, NaN)...</remarks>
+		/// <returns>A string containing the set of coordinates.</returns>
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach( object obj in this )
+			{
+				Coordinate coord = obj as Coordinate;
+				sb.Append( coord.ToString() + "," );
+			}
+			//sb.Remove( sb.Length -1, 1 );		// remove the last comma
+			return sb.ToString().TrimEnd(new char[]{','});
+		}
+		#endregion
+
+		#region JTS Methods
+
+		/// <summary>
+		/// Determines if this set of coordinates contains repeating points.
+		/// </summary>
+		/// <param name="coord">The set of coorinates to be examined.</param>
+		/// <returns>A bool based on the presence of repeating points.</returns>
+		public static bool HasRepeatedPoints(Coordinates coord)
+		{
+			for (int i = 1; i < coord.Count; i++) 
+			{
+				if (coord[i - 1].Equals( coord[i] ) ) 
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		/// <summary>
+		/// Returns a Coordinate collection that is the reverse order of the coordinates in this collection.
+		/// </summary>
+		/// <remarks>If a new collection is not required call Reverse() instead.</remarks>
+		/// <returns>The set of coordinates with the order of the coordinates reversed.</returns>
+		public Coordinates ReverseCoordinateOrder()
+		{
+			Coordinates coordinates = new Coordinates();
+			int numpoints = this.Count;
+			coordinates.Capacity = (numpoints - 1);
+			for(int i = 0; i < Count; i++)
+			{
+				coordinates[numpoints - 1 -i] = this[i];
+			}
+			return coordinates;
+		}
+
+		/// <summary>
+		/// If the coordinate array has repeated points, constructs new array
+		/// containing no repeated points.
+		/// </summary>
+		/// <param name="coord">The set of coordinates to be examined.</param>
+		/// <returns>A new set of coordinates with no repeating points.</returns>
+		public static Coordinates RemoveRepeatedPoints(Coordinates coord)
+		{
+			if ( !HasRepeatedPoints(coord) ) 
+			{
+				return coord;
+			}
+			Coordinates newCoords = new Coordinates();
+			for ( int i = 0; i < coord.Count; i++ )
+			{
+				newCoords.Add( coord[i],false );
+			}
+			return newCoords;
+		}
+		#endregion
+
+		#region JTS1.3 Extentions
+		/// <summary>
+		/// Returns the minimum coordinate, using the usual lexicographic comparison.
+		/// </summary>
+		/// <param name="coordinates">The Coordinate Collection to search</param>
+		/// <returns>The minimum coordinate in the Collection, found using CompareTo
+		/// </returns>
+		protected static Coordinate minCoordinate(Coordinates coordinates)
+		{
+			Coordinate minCoord = null;
+			for (int i = 0; i < coordinates.Count; i++) 
+			{
+				if (minCoord == null || minCoord.CompareTo(coordinates[i]) > 0) 
+				{
+					minCoord = coordinates[i];
+				}
+			}
+			return minCoord;
+		}
+
+		/// <summary>
+		/// Shifts the positions until firstCoordinate is first.
+		/// </summary>
+		/// <param name="firstCoordinate">The Coordinate to make first</param>
+		protected void scroll(Coordinate firstCoordinate) 
+		{
+			int i = IndexOf(firstCoordinate);
+			if (i < 0) return;
+			
+			Coordinates newCoordinates = new Coordinates(Count);
+			//copy from i to the end of the collection into the new array
+			Array.Copy(this.InnerList,i,newCoordinates.InnerList,0,(Count - i));
+			//copy the start of the array onto the end of this
+			Array.Copy(this.InnerList,0,newCoordinates.InnerList,(Count - i),i);			
+		}
+
+
+		#endregion
+
 	}
 }
