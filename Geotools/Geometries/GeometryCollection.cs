@@ -439,14 +439,12 @@ namespace Geotools.Geometries
 		public override int CompareToSameClass(object obj)
 		{
 			// create new array of coordinates to sort.
-			ArrayList theseElements = new ArrayList();
-			theseElements.AddRange( GetCoordinates() );
+			Coordinates theseElements = new Coordinates(GetCoordinates());
 			theseElements.Sort();
 
 			// get other's elements in arraylist and sort.
 			Geometry other = obj as Geometry;
-			ArrayList otherElements = new ArrayList();
-			otherElements.AddRange( other.GetCoordinates() );
+			Coordinates otherElements = new Coordinates(other.GetCoordinates());
 			otherElements.Sort();
 
 			return Compare(theseElements, otherElements);
