@@ -151,6 +151,11 @@ namespace Geotools.Geometries
 			return new Coordinate( _x, _y, _z );
 		}
 
+		object ICloneable.Clone()
+		{
+			return new Coordinate( _x, _y, _z );
+		}
+
 		/// <summary>
 		/// Copies the values of other into this object.
 		/// </summary>
