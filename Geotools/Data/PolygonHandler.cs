@@ -115,9 +115,10 @@ namespace Geotools.Data
 				points.Capacity=length;
 				for (int i = 0; i < length; i++)
 				{
-					Coordinate external = new Coordinate(file.ReadDouble(), file.ReadDouble() );
-					Coordinate internalCoord = geometryFactory.PrecisionModel.ToInternal(external);
-					points.Add(internalCoord);
+					Coordinate coordinate = new Coordinate(file.ReadDouble(), file.ReadDouble() );
+					//Coordinate internalCoord = geometryFactory.PrecisionModel.ToInternal(external);
+					//points.Add(internalCoord);
+					points.Add(coordinate);
 				}
 				LinearRing ring = geometryFactory.CreateLinearRing(points);
 				//Debug.Assert(ring.IsValid()==false,"Ring is not valid.");
@@ -277,7 +278,8 @@ namespace Geotools.Data
 			Coordinate external;
 			foreach (Coordinate point in points)
 			{
-				external = geometryFactory.PrecisionModel.ToExternal(point);
+				//external = geometryFactory.PrecisionModel.ToExternal(point);
+				external =point;
 				file.Write(external.X);
 				file.Write(external.Y);
 			}

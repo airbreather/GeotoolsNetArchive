@@ -69,8 +69,8 @@ namespace Geotools.Data
 			double x= file.ReadDouble();
 			double y= file.ReadDouble();
 			Coordinate external = new Coordinate(x,y);
-			
-			return geometryFactory.CreatePoint( geometryFactory.PrecisionModel.ToInternal(external) );
+			//return geometryFactory.CreatePoint( geometryFactory.PrecisionModel.ToInternal(external) );
+			return geometryFactory.CreatePoint(external );
 
 		}
 
@@ -84,7 +84,8 @@ namespace Geotools.Data
 		public override void Write(Geometry geometry, System.IO.BinaryWriter file, GeometryFactory geometryFactory)
 		{
 			file.Write(int.Parse(Enum.Format(typeof(ShapeType), this.ShapeType,"d")));
-			Coordinate external = geometryFactory.PrecisionModel.ToExternal( geometry.GetCoordinates()[0] );
+			//Coordinate external = geometryFactory.PrecisionModel.ToExternal( geometry.GetCoordinates()[0] );
+			Coordinate external =  geometry.GetCoordinates()[0];
 			file.Write(external.X);
 			file.Write(external.Y);
 		}

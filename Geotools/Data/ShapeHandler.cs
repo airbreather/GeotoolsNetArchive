@@ -64,8 +64,8 @@ namespace Geotools.Data
 			// get envelopse in external coordinates
 			Coordinate min = new Coordinate(envelope.MinimumX, envelope.MinimumY); 
 			Coordinate max = new Coordinate(envelope.MaximumX, envelope.MaximumY);
-			min = precisionModel.ToExternal(min);
-			max = precisionModel.ToExternal(max);
+			precisionModel.MakePrecise(min);
+			precisionModel.MakePrecise(max);
 			Envelope bounds = new Envelope(min.X, max.X, min.Y, max.Y);
 			return bounds;
 		}
