@@ -1,0 +1,171 @@
+/*
+ copied from http://www.vividsolutions.com/jts/jts.css
+
+*/
+BODY
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 10pt;
+    BACKGROUND-IMAGE: url(../images/v_bg.gif);
+    FONT-FAMILY: Verdana, Arial;
+    BACKGROUND-COLOR: white
+}
+.MenuBody
+{
+    BACKGROUND: #303786
+}
+H2
+{
+    PADDING-LEFT: 5px;
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 12pt;
+    MARGIN-BOTTOM: 5px;
+    PADDING-BOTTOM: 2px;
+    COLOR: white;
+    PADDING-TOP: 2px;
+    FONT-FAMILY: Verdana, Arial;
+    BACKGROUND-COLOR: #3c43a4
+}
+H3
+{
+    FONT-WEIGHT: normal;
+    MARGIN-BOTTOM: 2pt;
+    BACKGROUND-COLOR: lightskyblue
+}
+H4
+{
+    FONT-WEIGHT: normal;
+    BACKGROUND-COLOR: limegreen
+}
+H5
+{
+    FONT-WEIGHT: normal;
+    BACKGROUND-COLOR: burlywood
+}
+H6
+{
+    BORDER-TOP: medium none;
+    FONT-WEIGHT: 500;
+    MARGIN-BOTTOM: 2px;
+    PADDING-BOTTOM: 4px;
+    COLOR: #9999cc;
+    BORDER-BOTTOM: darkblue thin solid;
+    font-size: 28pt; 
+    font-weight: 700;
+    font-family: Century Gothic; 	    
+}
+TH
+{
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 10pt;
+    COLOR: white;
+    FONT-STYLE: normal;
+    BACKGROUND-COLOR: steelblue
+}
+.initialLetter
+{
+    COLOR: lightblue
+}
+.foo
+{
+    COLOR: goldenrod
+}
+.wktA
+{
+    FONT-SIZE: 8pt;
+    COLOR: blue
+}
+.wktB
+{
+    FONT-SIZE: 8pt;
+    COLOR: red
+}
+.methodTitle
+{
+    COLOR: yellow;
+    BACKGROUND-COLOR: steelblue
+}
+.wktR
+{
+    FONT-SIZE: 8pt
+}
+.precisionModel
+{
+    FONT-SIZE: 8pt
+}
+.resultTrue
+{
+    COLOR: green
+}
+.resultFalse
+{
+    COLOR: red
+}
+.MenuItem
+{
+    MARGIN-BOTTOM: 5px;
+    COLOR: white
+}
+.MenuTitle
+{
+    FONT-SIZE: 14pt;
+    COLOR: #3366ff;
+    TEXT-ALIGN: center
+}
+TD
+{
+    FONT-SIZE: 10pt
+}
+.orgName
+{
+    FONT-WEIGHT: lighter;
+    FONT-SIZE: 8pt;
+    FONT-STYLE: italic
+}
+.creditName
+{
+    PADDING-LEFT: 10px;
+    FONT-WEIGHT: bolder
+}
+.creditTitle
+{
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    FONT-WEIGHT: bolder;
+    COLOR: yellow;
+    BACKGROUND-COLOR: steelblue
+}
+.newsTitle
+{
+    PADDING-RIGHT: 10px;
+    PADDING-LEFT: 10px;
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 8pt;
+    COLOR: yellow;
+    FONT-STYLE: italic;
+    BACKGROUND-COLOR: steelblue
+}
+H1
+{
+    BORDER-TOP: medium none;
+    FONT-WEIGHT: 500;
+    MARGIN-BOTTOM: 2px;
+    PADDING-BOTTOM: 4px;
+    COLOR: #a0a0c0;
+    BORDER-BOTTOM: darkblue thin solid;
+    FONT-STYLE: normal
+}
+.testTitle
+{
+    FONT-WEIGHT: bolder;
+    FONT-SIZE: 16pt
+}
+.caption
+{
+    FONT-SIZE: 8pt;
+    FONT-STYLE: italic
+}
+.bigCaption
+{
+    FONT-WEIGHT: bolder
+}
