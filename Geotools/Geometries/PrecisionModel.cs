@@ -47,19 +47,18 @@ namespace Geotools.Geometries
 	///  before creating JTS structures. Non-constructive internal operations will
 	///  assume that coordinates are rounded to the precision model.</para>
 	///
-	///  <para>JTS methods will not handle inputs with different precision models.</para>
+	///  <para>JTS methods do not handle inputs with different precision models.</para>
 	///
-	///  <para>The Fixed Precision Model will be specified by a scale factor and an offset point.
-	///  The scale factor specifies how many JTS units represent one world unit.
+	///  <para>The Fixed Precision Model is specified by a scale factor.
+	///  The scale factor specifies the grid which coordinates are rounded onto.
 	///  World coordinates are mapped to JTS coordinates according to the following
 	///  equations:
 	///  <list type="bullet">
-	///  <item><term>Pt.x = truncate( (inputPt.x - offset.x) * scale )</term><description>Your Description</description></item>
-	///  <item><term>Pt.y = truncate( (inputPt.y - offset.y) * scale )</term><description>Your Description</description></item>
+	///  <item><term>Pt.x = round( (inputPt.x * scale ) / scale</term><description></description></item>
+	///  <item><term>Pt.y = round( (inputPt.y * scale ) / scale</term><description></description></item>
 	///  </list>
-	///  Scaled coordinates will be represented internally as integral
-	///  double-precision values. This is known as the "precise internal
-	///  representation". </para>
+	///  Coordinates are represented as a pair (or three in the case of a 3D coordinate)
+	///  of double-precision values. </para>
 	///  
 	///  <para>Under the Floating Precision Model, coordinates can have the full precision available with .NET
 	///  double-precision floating point numbers.  Input coordinates are not assumed to be rounded off, and
@@ -72,8 +71,11 @@ namespace Geotools.Geometries
 	///  positive or negative zero, PositiveInfinity, NegativeInfinity, and Not-a-Number (NaN).
 	///  Double complies with the IEC 60559:1989 (IEEE 754) standard for binary floating-point arithmetic.
 	///  </para>
-	/// </remarks>	 
-	public class PrecisionModel
+	/// </remarks>
+	
+	//TODO implement ISerializable?.
+ 
+	public class PrecisionModel:IComparable
 	{
 		// The types of Precision Model which could be implemented.
 		// (Note that JTS does not necessarily support all of these.)
@@ -111,11 +113,13 @@ namespace Geotools.Geometries
 
 		/// <summary>
 		/// Amount by which to subtract the x-coordinate before multiplying by the scale, to obtain a precise coordinate.
+		/// NO LONGER USED (JTS 1.3)
 		/// </summary>
 		protected double _offsetX = 0;
 
 		/// <summary>
 		/// Amount by which to subtract the y-coordinate before multiplying by the scale, to obtain a precise coordinate.
+		/// NO LONGER USED (JTS 1.3)
 		/// </summary>
 		protected double _offsetY = 0;
 
@@ -132,21 +136,35 @@ namespace Geotools.Geometries
 		/// Constructor for Fixed Precision Model.
 		/// </summary>
 		/// <remarks>Fixed-precision coordinates are represented as precise
-		/// internal coordinates, which are integers stored in double-precision. Input coordinates are 
-		/// transformed into precise internal coordinates according to the given scale, x-offset and y-offset.
+		/// internal coordinates, which are rounded to the grid defined by the scale factor. 
 		/// </remarks>
 		/// <param name="scale">Amount by which to multiply a coordinate after subtracting
 		///  the offset, to obtain a precise coordinate</param>
-		/// <param name="offsetX">Amount by which to subtract the x-coordinate before
-		///  multiplying by the scale, to obtain a precise coordinate.</param>
-		/// <param name="offsetY">Amount by which to subtract the y-coordinate before
-		///  multiplying by the scale, to obtain a precise coordinate.</param>
+		/// <param name="offsetX">NOT USED (JTS 1.3)</param>
+		/// <param name="offsetY">NOT USED (JTS 1.3)</param>
+		[Obsolete("The PrecisionModel(scale,offsetX,offsetY) is depreciated in JTS 1.3")]
 		public PrecisionModel(double scale, double offsetX, double offsetY)
 		{
 			_modelType = FIXED;
-			_scale = scale;
+			Scale = scale;
 			_offsetX = offsetX;
 			_offsetY = offsetY;
+		}
+
+		/// <summary>
+		/// Constructor for Fixed Precision Model.
+		/// </summary>
+		/// <remarks>Fixed-precision coordinates are represented as precise
+		/// internal coordinates, which are rounded to the grid defined by the scale factor. 
+		/// </remarks>
+		/// <param name="scale">Amount by which to multiply a coordinate after subtracting
+		///  the offset, to obtain a precise coordinate</param>
+		public PrecisionModel(double scale)
+		{
+			_modelType = FIXED;
+			Scale = scale;
+			_offsetX = 0;
+			_offsetY = 0;
 		}
 
 		/// <summary>
@@ -180,12 +198,22 @@ namespace Geotools.Geometries
 		/// to obtain a precise coordinate.  If scale is 0, this PrecisionModel represents 
 		/// a floating precision model.  Coordinates are left with the implicit precision of the
 		/// floating-point representation.
+		/// 
+		/// This method is private because PrecisionModel is intended to be an immutable (value)
+		/// type.
 		/// </summary>
-		public double Scale
+		/// <remarks>
+		/// JTS 1.3 has a private set and public get, despite what it's help may call for.
+		/// </remarks>
+		private double Scale
 		{
 			get
 			{
 				return _scale;
+			}
+			set
+			{
+				_scale = Math.Abs(value);
 			}
 		}
 
@@ -221,17 +249,13 @@ namespace Geotools.Geometries
 		/// </summary>
 		/// <param name="val">The double to be used for comparison.</param>
 		/// <returns>
-		/// Returns the closest floating-point value to val that is equal to a mathematical integer.
-		/// Returns the largest (closest to positive infinity) double value that is not greater than 
-		/// the argument and is equal to a mathematical integer. Special cases: If the argument value 
-		/// is already equal to a mathematical integer, then the result is the same as the argument. 
-		/// If the argument is NaN or an infinity or positive zero or negative zero, then the result is the same as the argument.
+		/// The numeric value rounded to the PrecisionModel grid.
 		/// </returns>
 		public static double MakePrecise(double val)
 		{
 			return Math.Round( val );
 		}
-		
+
 		/// <summary>
 		/// Returns true if the model type of this object is Floating and false otherwise.
 		/// </summary>
@@ -247,6 +271,7 @@ namespace Geotools.Geometries
 		/// <param name="externalCoordinate">The original coordinate.</param>
 		/// <param name="internalCoordinate">The coordinate whose values will be changed to the
 		/// fixed precise representation of external.</param>
+		[Obsolete("ToInternal(externalCoordinate,internalCoordinate) was depreciated in JTS 1.3")]
 		public void ToInternal(Coordinate externalCoordinate, Coordinate internalCoordinate) 
 		{
 			if ( IsFloating() ) 
@@ -256,8 +281,10 @@ namespace Geotools.Geometries
 			}
 			else 
 			{
-				internalCoordinate.X = MakePrecise((externalCoordinate.X - _offsetX)*_scale);
-				internalCoordinate.Y = MakePrecise((externalCoordinate.Y - _offsetY)*_scale);
+				//internalCoordinate.X = MakePrecise((externalCoordinate.X - _offsetX)*_scale);
+				//internalCoordinate.Y = MakePrecise((externalCoordinate.Y - _offsetY)*_scale);
+				internalCoordinate.X = MakePrecise(externalCoordinate.X);
+				internalCoordinate.Y = MakePrecise(externalCoordinate.Y);
 			}
 
 			internalCoordinate.Z = externalCoordinate.Z;
@@ -269,6 +296,7 @@ namespace Geotools.Geometries
 		/// <param name="externalCoordinate">The original coordinate.</param>
 		/// <returns>Returns the coordinate whose values will be changed to the fixed precise representation
 		/// of externalCoordinate.</returns>
+		[Obsolete("ToInternal(externalCoordinate) was depreciated in JTS 1.3")]
 		public Coordinate ToInternal( Coordinate externalCoordinate ) 
 		{
 			Coordinate internalCoordinate = new Coordinate();
@@ -283,6 +311,7 @@ namespace Geotools.Geometries
 		/// <param name="internalCoordinate">The originalCoordinate.</param>
 		/// <returns>Returns the coordinate whose values will be changed to the external
 		/// representation of internalCoordinate.</returns>
+		[Obsolete("ToExternal(internalCoordinate) was depreciated in JTS 1.3")]
 		public Coordinate ToExternal(Coordinate internalCoordinate) 
 		{
 			Coordinate externalCoordinate = new Coordinate();
@@ -296,32 +325,24 @@ namespace Geotools.Geometries
 		/// <param name="internalCoordinate">The original coordinate.</param>
 		/// <param name="externalCoordinate">The coordinate whose values will be changed to the external
 		/// representation of internalCoordinate.</param>
+		[Obsolete("ToExternal(internalCoordinate,externalCoordinate) was depreciated in JTS 1.3")]
 		public void ToExternal(Coordinate internalCoordinate, Coordinate externalCoordinate) 
 		{
-			if (IsFloating()) 
-			{
-				externalCoordinate.X = internalCoordinate.X;
-				externalCoordinate.Y = internalCoordinate.Y;
-			}
-			else 
-			{
-				externalCoordinate.X = (internalCoordinate.X / _scale) + _offsetX;
-				externalCoordinate.Y = (internalCoordinate.Y / _scale) + _offsetY;
-			}
+			externalCoordinate.X = internalCoordinate.X;
+			externalCoordinate.Y = internalCoordinate.Y;
 			externalCoordinate.Z = internalCoordinate.Z;
 		}
 
 		/// <summary>
-		/// Sets p1 to the value of external point p0 rounded to this precision model.
+		/// Rounds a Coordinate to the PrecisionModel grid
 		/// </summary>
-		/// <param name="p0">The original coordinate.</param>
-		/// <param name="p1">The coordinate whose values will be changed to the external representation of internal.</param>
-		public void Round(Coordinate p0, Coordinate p1) 
+		public void MakePrecise(Coordinate coord) 
 		{
-			ToInternal(p0, p1);
-			ToExternal(p1, p1);
-		}
+			if (IsFloating()) return;
 
+			coord.X = MakePrecise(coord.X);
+			coord.Y = MakePrecise(coord.Y);
+		}
 
 		/// <summary>
 		/// Writes out the string representation of this object.  If IsFloating() is true, then
@@ -339,8 +360,8 @@ namespace Geotools.Geometries
 			else 
 			{
 				description = "Fixed ( Scale = " + _scale;
-				description += "   Offset: X = " + _offsetX;
-				description += ", Y = " + _offsetY;
+				//description += "   Offset: X = " + _offsetX;
+				//description += ", Y = " + _offsetY;
 				description += " )";
 			}
 			return description;
@@ -358,7 +379,7 @@ namespace Geotools.Geometries
 			if ( pm != null )
 			{
 				if (   ( _modelType == pm.ModelType ) && ( _scale == pm.Scale ) &&
-			 	       ( _offsetX == pm.OffsetX ) && ( _offsetY == pm.OffsetY )   )
+					( _offsetX == pm.OffsetX ) && ( _offsetY == pm.OffsetY )   )
 				{
 					returnValue = true;
 				}
@@ -375,6 +396,44 @@ namespace Geotools.Geometries
 			return base.GetHashCode();
 		}
 
+	#endregion
+
+	#region JTS1.3
+		/// <summary>
+		/// Compares this PrecisionModel object with the specified object for order.
+		/// </summary>
+		/// <remarks>
+		/// A PrecisionModel is greater than another if it provides greater precision.
+		/// </remarks>
+		/// <param name="o">The PrecisionModel with which this PrecisionModel is being compared.</param>
+		/// <returns>
+		/// Returns a positive number, 0, or a negative integer, depending on whether this PrecisionModel
+		/// is greater than, equal to, or less than the other PrecisionModel.
+		/// </returns>
+		public int CompareTo(object o) 
+		{	
+			PrecisionModel other = o as PrecisionModel;
+			if ( other != null )
+			{
+				if (_modelType == FLOATING && other._modelType == FLOATING) return 0;
+				if (_modelType == FLOATING && other._modelType != FLOATING) return 1;
+				if (_modelType != FLOATING && other._modelType == FLOATING) return -1;
+				if (_modelType == FIXED && other._modelType == FIXED) 
+				{
+					if (_scale > other._scale)
+						return 1;
+					else if (_scale < other._scale)
+						return -1;
+					else
+						return 0;
+				}
+			}
+			else
+			{
+				throw new ArgumentException("Argument o is not of type PrecisionModel", "o" );
+			}
+			return 0;
+		}
 	#endregion
 
 	} // public class PrecisionModel
