@@ -481,45 +481,21 @@ namespace Geotools.Geometries
 		/// <returns>A double containing the distance between the two envelopes.</returns>
 		public double Distance(Envelope env)
 		{
-			if ( Intersects(env) ) return 0;
-			if ( _maxX < env.MinimumX) 
+			if (Intersects(env))
 			{
-				// this is left of env
-				if (MaximumY < env.MinimumY) 
-				{
-					// this is below left of env
-					return Distance(_maxX, MaximumY, env.MinimumX, env.MinimumY);
-				}
-				else if (_minY > env.MaximumY) 
-				{
-					// this is above left of env
-					return Distance(_maxX, _minY, env.MinimumX, env.MaximumY);
-				}
-				else 
-				{
-					// this is directly left of env
-					return env.MinimumX - _maxX;
-				}
+				return 0;
 			}
-			else 
-			{
-				// this is right of env
-				if (_maxY < env.MinimumY) 
-				{
-					// this is below right of env
-					return Distance(_minX, _maxY, env.MaximumX, env.MinimumY);
-				}
-				else if (_minY > env.MaximumY) 
-				{
-					// this is above right of env
-					return Distance(_minX, _minY, env.MaximumX, env.MaximumY);
-				}
-				else 
-				{
-					// this is directly right of env
-					return _minX - env.MaximumX;
-				}
-			}
+			double dx = 0.0;
+			if (_maxX < env._minX) dx = env._minX - _maxX;
+			if (_minX > env._maxX) dx = _minX - env._maxX;
+			double dy = 0.0;
+			if (_maxY < env._minY) dy = env._minY - _maxY;
+			if (_minY > env._maxY) dy = _minY - env._maxY;
+
+			// if either is zero, the envelopes overlap either vertically or horizontally
+			if (dx == 0.0) return dy;
+			if (dy == 0.0) return dx;
+			return Math.Sqrt(dx * dx + dy * dy);
 		}
 
 		/// <summary>
