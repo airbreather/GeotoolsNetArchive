@@ -104,7 +104,7 @@ namespace Geotools.Utilities
 			// perform a read. It should return false if the last record record has already been read.
 			if ( reader.Read() )
 			{
-				throw new InvalidOperationException(String.Format("Database had more than one record for code = {0} in {1}",code, table));
+				throw new InvalidOperationException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Database had more than one record for code = {0} in {1}",code, table));
 			}
 			// close the reader. This will close the database connection if the command behaviour is set to CommandBehavior.CloseConnection. 
 			reader.Close();

@@ -106,9 +106,9 @@ namespace Geotools.Utilities
 			string number = this.GetStringValue();
 			if (this.GetTokenType()==TokenType.Number)
 			{
-				return double.Parse(number);
+				return double.Parse(number, System.Globalization.CultureInfo.InvariantCulture);
 			}
-			throw new ParseException(String.Format("The token '{0}' is not a number at line {1} column {2}.", number, this.LineNumber, this.Column));;
+			throw new ParseException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "The token '{0}' is not a number at line {1} column {2}.", number, this.LineNumber, this.Column));;
 
 		}
 		/// <summary>
