@@ -127,15 +127,15 @@ namespace Geotools.Algorithms
 				return DONT_INTERSECT;
 			}
 
-			int Qp1 = RobustCGAlgorithms.orientationIndex(q1, q2, p1);
-			int Qp2 = RobustCGAlgorithms.orientationIndex(q1, q2, p2);
+			int Qp1 = RobustCGAlgorithms.OrientationIndex(q1, q2, p1);
+			int Qp2 = RobustCGAlgorithms.OrientationIndex(q1, q2, p2);
 
 			if ((Qp1>0 && Qp2>0) || (Qp1<0 && Qp2<0)) 
 			{
 				return DONT_INTERSECT;
 			}
 
-			boolean collinear = Pq1 == 0
+			bool collinear = Pq1 == 0
 				&& Pq2 == 0
 				&& Qp1 == 0
 				&& Qp2 == 0;
