@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.2  2003/01/02 20:38:20  awcoats
+ * *** empty log message ***
+ *
  * 
  * 4     11/04/02 3:20p Rabergman
  * Changed using namespaces
@@ -58,7 +61,7 @@ namespace Geotools.UnitTests.Utilities
 			//write wkb
 			FileStream fs = new FileStream("TestFile.wkb", FileMode.Create);
 			BinaryWriter bw = new BinaryWriter(fs);
-			GeometryWKBWriter bWriter = new GeometryWKBWriter(fact);
+			GeometryWkbWriter bWriter = new GeometryWkbWriter(fact);
 			bWriter.Write(a, bw, (byte)1);
 			bw.Close();
 			fs.Close();
@@ -70,7 +73,7 @@ namespace Geotools.UnitTests.Utilities
 			{
 				bytes[i] = (byte)fs.ReadByte();
 			}
-			GeometryWKBReader bReader = new GeometryWKBReader(fact);
+			GeometryWkbReader bReader = new GeometryWkbReader(fact);
 			Geometry geom = bReader.Create(bytes);
 			fs.Close();
 
