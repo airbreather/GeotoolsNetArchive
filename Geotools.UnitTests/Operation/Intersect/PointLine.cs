@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:37:51  awcoats
+ * *** empty log message ***
+ *
  * 
  * 5     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -44,7 +47,7 @@ namespace Geotools.UnitTests.Operation.Intersect
 			Coordinate coordLine2 = new Coordinate(10.0,10.0);
 			Coordinate coordPoint1 = new Coordinate(5.0,5.0);
 
-			Coordinates coordinates = new Coordinates();
+			CoordinateCollection coordinates = new CoordinateCollection();
 			coordinates.Add(coordLine1);
 			coordinates.Add(coordLine2);
 
@@ -71,7 +74,7 @@ namespace Geotools.UnitTests.Operation.Intersect
 			Coordinate coordLine2 = new Coordinate(10.0,10.0);
 			Coordinate coordPoint1 = new Coordinate(6.0,6.0);
 
-			Coordinates coordinates = new Coordinates();
+			CoordinateCollection coordinates = new CoordinateCollection();
 			coordinates.Add(coordLine1);
 			coordinates.Add(coordLine2);
 

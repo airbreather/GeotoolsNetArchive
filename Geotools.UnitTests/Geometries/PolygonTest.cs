@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 9     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -48,15 +51,15 @@ namespace Geotools.UnitTests.Geometries
 		PrecisionModel _precMod = new PrecisionModel(1.0, 2.0, 3.0);
 		GeometryFactory _gf = new GeometryFactory();
 		int _sRID = 3;
-		Coordinates _coords1 = new Coordinates();
-		Coordinates _coords2 = new Coordinates();
+		CoordinateCollection _coords1 = new CoordinateCollection();
+		CoordinateCollection _coords2 = new CoordinateCollection();
 		LinearRing _exterior1;
 		LinearRing _exterior2;
 		LinearRing _interior2;
 
 		private Polygon Poly1()
 		{
-			_coords1 = new Coordinates();
+			_coords1 = new CoordinateCollection();
 			Coordinate coord = new Coordinate(5, 1);
 			_coords1.Add(coord);
 			coord = new Coordinate(6, 2);
@@ -85,7 +88,7 @@ namespace Geotools.UnitTests.Geometries
 
 		private Polygon Poly2()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(10, 13);
 			_coords2.Add(coord);
 			coords.Add(coord);
@@ -153,7 +156,7 @@ namespace Geotools.UnitTests.Geometries
 			_gf = new GeometryFactory(_precMod, _sRID);
 			_exterior2 = _gf.CreateLinearRing(coords);
 
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			coord = new Coordinate(10, 16);
 			_coords2.Add(coord);
 			coords.Add(coord);
@@ -278,7 +281,7 @@ namespace Geotools.UnitTests.Geometries
 		{
 			Polygon polygon = Poly1();
 
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(3.0, 1.0);
 			coords.Add(coord);
 			coord = new Coordinate(7.0, 1.0);
@@ -291,7 +294,7 @@ namespace Geotools.UnitTests.Geometries
 			coords.Add(coord);
 
 			Geometry env = polygon.GetEnvelope() as Geometry;
-			Coordinates coords2 = env.GetCoordinates();
+			CoordinateCollection coords2 = env.GetCoordinates();
 			Assertion.AssertEquals("Envelope-1: ", coords[0], coords2[0]);
 			Assertion.AssertEquals("Envelope-2: ", coords[1], coords2[1]);
 			Assertion.AssertEquals("Envelope-3: ", coords[2], coords2[2]);
@@ -300,7 +303,7 @@ namespace Geotools.UnitTests.Geometries
 
 			polygon = Poly2();
 			
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			coord = new Coordinate(7.0, 13.0);
 			coords.Add(coord);
 			coord = new Coordinate(15.0, 13.0);
@@ -362,7 +365,7 @@ namespace Geotools.UnitTests.Geometries
 			Polygon poly = Poly1();
 			Assertion.AssertEquals("IsEmpty-1: ", false, poly.IsEmpty());
 
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			_gf = new GeometryFactory(_precMod, _sRID);
 			LinearRing lr = _gf.CreateLinearRing(coords);
 			poly = _gf.CreatePolygon(lr);
@@ -439,7 +442,7 @@ namespace Geotools.UnitTests.Geometries
 		{
 			Polygon polygon = Poly1();
 
-			Coordinates coords = polygon.GetCoordinates();
+			CoordinateCollection coords = polygon.GetCoordinates();
 
 			for(int i = 0; i < coords.Count; i++)
 			{
@@ -471,7 +474,7 @@ namespace Geotools.UnitTests.Geometries
 			MultiLineString mls = poly.GetBoundary() as MultiLineString;
 			Assertion.AssertEquals("GetBoundary-1: ", 1, mls.GetNumGeometries());
 			Assertion.AssertEquals("GetBoundary-2: ", 9, mls.GetNumPoints());
-			Coordinates coords = mls.GetCoordinates();
+			CoordinateCollection coords = mls.GetCoordinates();
 			for(int i = 0; i < 9; i++)
 			{
 				Assertion.AssertEquals("GetBoundary-3: ", true, coords[i].Equals(_exterior1.GetCoordinateN(i)));

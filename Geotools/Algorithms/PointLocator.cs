@@ -166,7 +166,7 @@ namespace Geotools.Algorithms
 		/// <returns></returns>
 		private int Locate( Coordinate p, LineString l )
 		{
-			Coordinates pt = l.GetCoordinates();
+			CoordinateCollection pt = l.GetCoordinates();
 			if ( !l.IsClosed() ) 
 			{
 				if ( p.Equals( pt[0] ) || p.Equals( pt[pt.Count - 1] ) ) 

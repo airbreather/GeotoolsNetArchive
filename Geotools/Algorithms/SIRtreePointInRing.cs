@@ -68,7 +68,7 @@ namespace Geotools.Algorithms
 			Envelope env = _ring.GetEnvelopeInternal();
 			_sirTree = new SIRtree();
 
-			Coordinates pts = Coordinates.RemoveRepeatedPoints(_ring.GetCoordinates());
+			CoordinateCollection pts = CoordinateCollection.RemoveRepeatedPoints(_ring.GetCoordinates());
 			for (int i = 1; i < pts.Count; i++) 
 			{
 				LineSegment seg = new LineSegment(pts[i - 1], pts[i]);

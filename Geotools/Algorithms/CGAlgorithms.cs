@@ -51,7 +51,7 @@ namespace Geotools.Algorithms
 		/// <param name="p">Point to test.</param>
 		/// <param name="ring">Simple polygon ring to test if point lies inside.</param>
 		/// <returns>Returns true if the point lies in the interior of the ring.</returns>
-		public abstract bool IsPointInRing(Coordinate p, Coordinates ring);
+		public abstract bool IsPointInRing(Coordinate p, CoordinateCollection ring);
 
 		/// <summary>
 		/// Tests whether a point lies on a linestring.
@@ -60,7 +60,7 @@ namespace Geotools.Algorithms
 		/// <param name="linestring">LineString to test.</param>
 		/// <returns>Returns true if the point is a vertex of the line or lies in the interior of a line
 		/// segment in the linestring.</returns>
-		public abstract bool IsOnLine(Coordinate p, Coordinates linestring);
+		public abstract bool IsOnLine(Coordinate p, CoordinateCollection linestring);
 
 		/// <summary>
 		/// Tests whether a ring is oriented counter-clockwise. The list of points is assumed to have the first and last points
@@ -68,7 +68,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="ring">Ring to test.</param>
 		/// <returns>Returns true if ring is oriented counter-clockwise.</returns>
-		public abstract bool IsCCW(Coordinates ring);
+		public abstract bool IsCCW(CoordinateCollection ring);
 
 		/// <summary>
 		/// Computes the orientation of a point q to the directed line segment p1-p2.  The
@@ -208,7 +208,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="ring"></param>
 		/// <returns></returns>
-		public static double SignedArea(Coordinates ring)
+		public static double SignedArea(CoordinateCollection ring)
 		{
 			if (ring.Count < 3) return 0.0;
 			double sum = 0.0;
@@ -232,7 +232,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		public static double Length(Coordinates pts)
+		public static double Length(CoordinateCollection pts)
 		{
 			if (pts.Count < 1) return 0.0;
 			double sum = 0.0;

@@ -113,14 +113,14 @@ namespace Geotools.Geometries
 		///  by this Geometry.  The Geometries contained by composite Geometries must be Geometry's;
 		///  that is, they must implement get Coordinates.  </remarks>
 		///<returns>Returns the vertices of this Geometry</returns>
-		public override Coordinates GetCoordinates()
+		public override CoordinateCollection GetCoordinates()
 		{
-			Coordinates coordinates = new Coordinates();
+			CoordinateCollection coordinates = new CoordinateCollection();
 			if(_geometries != null)
 			{
 				foreach(Geometry geom in _geometries)
 				{
-					Coordinates childCoords = geom.GetCoordinates();
+					CoordinateCollection childCoords = geom.GetCoordinates();
 					foreach(Coordinate coord in childCoords)
 					{
 						coordinates.Add(coord);
@@ -439,12 +439,12 @@ namespace Geotools.Geometries
 		public override int CompareToSameClass(object obj)
 		{
 			// create new array of coordinates to sort.
-			Coordinates theseElements = new Coordinates(GetCoordinates());
+			CoordinateCollection theseElements = new CoordinateCollection(GetCoordinates());
 			theseElements.Sort();
 
 			// get other's elements in arraylist and sort.
 			Geometry other = obj as Geometry;
-			Coordinates otherElements = new Coordinates(other.GetCoordinates());
+			CoordinateCollection otherElements = new CoordinateCollection(other.GetCoordinates());
 			otherElements.Sort();
 
 			return Compare(theseElements, otherElements);
@@ -536,3 +536,4 @@ namespace Geotools.Geometries
 
 	}
 }
+

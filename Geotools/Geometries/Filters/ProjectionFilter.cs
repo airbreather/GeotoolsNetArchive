@@ -74,7 +74,7 @@ namespace Geotools.Geometries
 				int targetSRID = int.Parse(_coordinateTransform.TargetCS.AuthorityCode);
 				MapProjection projection = (MapProjection)_coordinateTransform.MathTransform;
 
-				Coordinates projectedCoordinates = new Coordinates();
+				CoordinateCollection projectedCoordinates = new CoordinateCollection();
 				double x=0.0;
 				double y=0.0;
 				Coordinate coordinate;

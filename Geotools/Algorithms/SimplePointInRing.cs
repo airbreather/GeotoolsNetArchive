@@ -32,7 +32,7 @@ namespace Geotools.Algorithms
 	{
 		private static CGAlgorithms _cga = new RobustCGAlgorithms();
 
-		private Coordinates _pts;
+		private CoordinateCollection _pts;
 
 		#region Constructors
 		/// <summary>

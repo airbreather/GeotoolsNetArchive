@@ -58,7 +58,7 @@ namespace Geotools.Algorithms
 		/// <param name="p">Point to test.</param>
 		/// <param name="ring">Simple polygon ring to test if point lies inside.</param>
 		/// <returns>Returns true if the point lies in the interior of the ring.</returns>
-		public override bool IsPointInRing(Coordinate p, Coordinates ring)
+		public override bool IsPointInRing(Coordinate p, CoordinateCollection ring)
 		{
 			int		i, i1;		// point index; i1 = i-1 mod n
 			double	xInt;		// x intersection of e with ray
@@ -109,7 +109,7 @@ namespace Geotools.Algorithms
 		/// <param name="pt">LineString to test.</param>
 		/// <returns>Returns true if the point is a vertex of the line or lies in the interior of a line
 		/// segment in the linestring.</returns>
-		public override bool IsOnLine(Coordinate p, Coordinates pt)
+		public override bool IsOnLine(Coordinate p, CoordinateCollection pt)
 		{
 			for (int i = 1; i < pt.Count; i++) 
 			{
@@ -129,7 +129,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="ring">Ring to test.</param>
 		/// <returns>Returns true if ring is oriented counter-clockwise.</returns>
-		public override bool IsCCW(Coordinates ring)
+		public override bool IsCCW(CoordinateCollection ring)
 		{
 			Coordinate hip, p, prev, next;
 			int hii, i;

@@ -83,10 +83,10 @@ namespace Geotools.Geometries
 		///  by this Geometry.  The Geometries contained by composite Geometries must be Geometry's;
 		///  that is, they must implement get Coordinates.</remarks>
 		///<returns>Returns the vertices of this Geometry</returns>
-		public override Coordinates GetCoordinates()
+		public override CoordinateCollection GetCoordinates()
 		{
 			// point does not have a coordinates list so will need to create one and add the coordinate.
-			Coordinates pointCoord = new Coordinates();
+			CoordinateCollection pointCoord = new CoordinateCollection();
 			if ( !IsEmpty() )
 			{
 				pointCoord.Add( _coordinate );

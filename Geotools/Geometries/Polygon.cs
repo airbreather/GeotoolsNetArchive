@@ -154,9 +154,9 @@ namespace Geotools.Geometries
 		///  that is, they must implement get Coordinates.  
 		///</summary>
 		///<returns>Returns the vertices of this Geometry.</returns>
-		public override Coordinates GetCoordinates()
+		public override CoordinateCollection GetCoordinates()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			if( IsEmpty() )
 			{
 				return coords;
@@ -496,14 +496,14 @@ namespace Geotools.Geometries
 			{
 				return;
 			}
-			Coordinates uniqueCoordinates = new Coordinates();
+			CoordinateCollection uniqueCoordinates = new CoordinateCollection();
 			for ( int i=0; i < ring.GetNumPoints()-1; i++ )
 			{
 				uniqueCoordinates.Add( ring.GetCoordinateN( i ) );		// copy all but last one into uniquecoordinates
 			}
 			Coordinate minCoordinate = MinCoordinate( ring.GetCoordinates() );
 			Scroll( uniqueCoordinates, minCoordinate );
-			Coordinates ringCoordinates = ring.GetCoordinates();
+			CoordinateCollection ringCoordinates = ring.GetCoordinates();
 			ringCoordinates.Clear();
 			ringCoordinates.AddRange( uniqueCoordinates );
 			ringCoordinates.Add( (Coordinate)uniqueCoordinates[0].Clone() );		// add back in the closing point.

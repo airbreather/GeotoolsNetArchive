@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 13    12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -299,7 +302,7 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("Envelope-1: ", false, geom.IsEmpty());
 
 			//get the coordinates out of the geometry
-			Coordinates coords = geom.GetCoordinates();
+			CoordinateCollection coords = geom.GetCoordinates();
 			//check the first set of coordinates (minX, minY)
 			Assertion.AssertEquals("Envelope-2: ", 0.0, coords[0].X);
 			Assertion.AssertEquals("Envelope-3: ", 0.0, coords[0].Y);
@@ -349,9 +352,9 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("Envelope-21: ", 7.0, coords[4].X);
 			Assertion.AssertEquals("Envelope-22: ", 13.0, coords[4].Y);
 
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			mp = gf.CreateMultiPoint(coords);
 			geom = mp.GetEnvelope() as Geometry;
 
@@ -428,7 +431,7 @@ namespace Geotools.UnitTests.Geometries
 
 			//Set multipoint to be empty to test the else
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			MultiPoint mp2 = gf.CreateMultiPoint(coords);
 			
 			Assertion.AssertEquals("IsEmpty2: ", true, mp2.IsEmpty());
@@ -487,7 +490,7 @@ namespace Geotools.UnitTests.Geometries
 		public void test_Coordinates()
 		{
 			MultiPoint mp1 = CreateTester1();
-			Coordinates coords = mp1.GetCoordinates();
+			CoordinateCollection coords = mp1.GetCoordinates();
 
 			for(int i = 0; i < coords.Count; i++)
 			{
@@ -503,11 +506,11 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("NumPoints1: ", 23, mp.GetNumPoints());
 
 			//Create a null coordinate to test with
-			Coordinates testCoords = new Coordinates();
+			CoordinateCollection testCoords = new CoordinateCollection();
 			
 			//create a multipoint with a null coordinate to test else case
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
-			testCoords = new Coordinates();
+			testCoords = new CoordinateCollection();
 			MultiPoint mp2 = gf.CreateMultiPoint(testCoords);
 
 			Assertion.AssertEquals("NumPoints2: ", 0, mp2.GetNumPoints());

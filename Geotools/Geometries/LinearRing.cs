@@ -46,7 +46,7 @@ namespace Geotools.Geometries
 		/// <param name="SRID">
 		/// The ID of the Spatial Reference System used by this LinearRing.
 		/// </param>
-		internal LinearRing(Coordinates points, PrecisionModel precisionModel, int SRID) 
+		internal LinearRing(CoordinateCollection points, PrecisionModel precisionModel, int SRID) 
 			: base(points,precisionModel,SRID)
 		{
 			if (!IsEmpty() && !base.IsClosed()) 
@@ -127,7 +127,7 @@ namespace Geotools.Geometries
 			MapProjection projection = (MapProjection)coordinateTransform.MathTransform;
 			int newSRID = GetNewSRID(coordinateTransform);
 
-			Coordinates projectedCoordinates = new Coordinates();
+			CoordinateCollection projectedCoordinates = new CoordinateCollection();
 			double x=0.0;
 			double y=0.0;
 			Coordinate projectedCoordinate;

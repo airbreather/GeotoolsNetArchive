@@ -81,7 +81,7 @@ namespace Geotools.Algorithms
 			Envelope env = _ring.GetEnvelopeInternal();
 			_tree = new BinTree();
 
-			Coordinates pts = Coordinates.RemoveRepeatedPoints(_ring.GetCoordinates());
+			CoordinateCollection pts = CoordinateCollection.RemoveRepeatedPoints(_ring.GetCoordinates());
 			ArrayList mcList = MonotoneChainBuilder.GetChains(pts);
 
 			for (int i = 0; i < mcList.Count; i++) 

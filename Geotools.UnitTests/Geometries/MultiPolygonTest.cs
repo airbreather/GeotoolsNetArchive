@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 4     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -72,7 +75,7 @@ namespace Geotools.UnitTests.Geometries
 			Polygon[] polygons = new Polygon[2];
 			LineString[] rings = new LineString[2];
 
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(5, 1);
 			coords.Add(coord);
 			coord = new Coordinate(6, 2);
@@ -98,7 +101,7 @@ namespace Geotools.UnitTests.Geometries
 			polygons[0] = gf.CreatePolygon(exterior1);
 			rings[0] = exterior1 as LineString;
 
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			coord = new Coordinate(5, 1);
 			coords.Add(coord);
 			coord = new Coordinate(6, 2);
@@ -133,7 +136,7 @@ namespace Geotools.UnitTests.Geometries
 
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(10, 13);
 			coords.Add(coord);
 			coord = new Coordinate(11, 13);
@@ -179,7 +182,7 @@ namespace Geotools.UnitTests.Geometries
 
 			LinearRing exterior = gf.CreateLinearRing(coords);
 
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			coord = new Coordinate(10, 16);
 			coords.Add(coord);
 			coord = new Coordinate(11, 17);
@@ -197,7 +200,7 @@ namespace Geotools.UnitTests.Geometries
 
 			polygons[0] = gf.CreatePolygon(exterior, linearRings);
 
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			coord = new Coordinate(5, 1);
 			coords.Add(coord);
 			coord = new Coordinate(6, 2);

@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 15    12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -69,7 +72,7 @@ namespace Geotools.UnitTests.Geometries
 		//set up needed variables
 		PrecisionModel _precMod = new PrecisionModel(1.0, 2.0, 3.0);
 		int _sRID = 3;
-		Coordinates _coords = new Coordinates();
+		CoordinateCollection _coords = new CoordinateCollection();
 
 		
 
@@ -79,7 +82,7 @@ namespace Geotools.UnitTests.Geometries
 		/// <returns>A lineString</returns>
 		private LineString SimpleOpen()
 		{
-			_coords = new Coordinates();
+			_coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(0.0,0.0);
 			for(int i = 1; i < 12; i++)
 			{
@@ -120,7 +123,7 @@ namespace Geotools.UnitTests.Geometries
 		/// <returns>A lineString</returns>
 		private LineString NonSimpleOpen()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(0, 0);
 
 			coord = new Coordinate(2, 2);
@@ -171,7 +174,7 @@ namespace Geotools.UnitTests.Geometries
 		/// <returns>A lineString</returns>
 		private LineString SimpleClosed()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord ;//Coordinate(0, 0);
 
 			coord = new Coordinate(10, 13);
@@ -228,7 +231,7 @@ namespace Geotools.UnitTests.Geometries
 		/// <returns>A lineString</returns>
 		private LineString NonSimpleClosed()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(0, 0);
 
 			coord = new Coordinate(2, 2);
@@ -303,7 +306,7 @@ namespace Geotools.UnitTests.Geometries
 
 		private LineString ThrowsException()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 
 			Coordinate coord = new Coordinate(1,1);
 			coords.Add(coord);
@@ -406,7 +409,7 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("Envelope-1: ", false, geom.IsEmpty());
             
 			//get the coordinates out of the geometry
-			Coordinates coords = geom.GetCoordinates();
+			CoordinateCollection coords = geom.GetCoordinates();
 
 			//check the first set of coordinates (minX, minY)
 			Assertion.AssertEquals("Envelope-2: ", 1.0, coords[0].X);
@@ -428,7 +431,7 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("Envelope-10: ", 1.0, coords[4].X);
 			Assertion.AssertEquals("Envelope-11: ", 1.0, coords[4].Y);
 
-			Coordinates coords2 = new Coordinates();
+			CoordinateCollection coords2 = new CoordinateCollection();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString ls2 = gf.CreateLineString(coords2);
 			geom = ls2.GetEnvelope() as Geometry;
@@ -533,7 +536,7 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_IsEmpty()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString ls = gf.CreateLineString(coords);
 			Assertion.AssertEquals("IsEmpty-1: ", true, ls.IsEmpty());
@@ -569,7 +572,7 @@ namespace Geotools.UnitTests.Geometries
 			LineString ls2 = NonSimpleOpen();
 			LineString ls3 = SimpleClosed();
 			LineString ls4 = NonSimpleClosed();
-			Coordinates testCoords = new Coordinates();
+			CoordinateCollection testCoords = new CoordinateCollection();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString ls5 = gf.CreateLineString(testCoords);
 
@@ -583,8 +586,8 @@ namespace Geotools.UnitTests.Geometries
 		public void test_GetCoordinates()
 		{
 			LineString ls1 = SimpleOpen();
-			Coordinates coords = ls1.GetCoordinates();
-			Coordinates coords2 = new Coordinates();
+			CoordinateCollection coords = ls1.GetCoordinates();
+			CoordinateCollection coords2 = new CoordinateCollection();
 
 			Assertion.AssertEquals("GetCoordinates-1: ", true, _coords.Equals(coords)); 
 			Assertion.AssertEquals("GetCoordinates-1: ", false, coords2.Equals(coords)); 
@@ -648,7 +651,7 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_ToString()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(1.0, 2.0);
 			coords.Add(coord);
 			coord = new Coordinate(3.0, 4.0);
@@ -681,7 +684,7 @@ namespace Geotools.UnitTests.Geometries
 		public void test_Coordinates()
 		{
 			LineString ls1 = SimpleOpen();
-			Coordinates coords = ls1.GetCoordinates();
+			CoordinateCollection coords = ls1.GetCoordinates();
 
 			for(int i = 0; i < coords.Count; i++)
 			{

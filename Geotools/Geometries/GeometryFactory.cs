@@ -265,7 +265,7 @@ namespace Geotools.Geometries
 			{
 				return new Point( new Coordinate(envelope.MinimumX, envelope.MinimumY), precisionModel, SRID );
 			}
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			coords.Add( new Coordinate( envelope.MinimumX, envelope.MinimumY ) );
 			coords.Add(	new Coordinate( envelope.MaximumX, envelope.MinimumY ) );
 			coords.Add( new Coordinate( envelope.MaximumX, envelope.MaximumY ) );
@@ -323,7 +323,7 @@ namespace Geotools.Geometries
 		/// <remarks>Throws an argument exception if the number of coordiates is less than 1.</remarks>
 		/// <param name="coordinates">The coordinates to be used to create the linear ring.</param>
 		/// <returns>A new linear ring.</returns>
-		public LinearRing CreateLinearRing(Coordinates coordinates) 
+		public LinearRing CreateLinearRing(CoordinateCollection coordinates) 
 		{
 			
 			LinearRing linearRing = new LinearRing(coordinates, _precisionModel, _SRID);
@@ -350,7 +350,7 @@ namespace Geotools.Geometries
 		/// </summary>
 		/// <param name="points">The set of points to be used to create the multipoint.</param>
 		/// <returns>A new multipoint.</returns>
-		public MultiPoint CreateMultiPoint(Coordinates points) 
+		public MultiPoint CreateMultiPoint(CoordinateCollection points) 
 		{
 			// for each point create the point object
 			Point[] pts = new Point[ points.Count ];
@@ -478,7 +478,7 @@ namespace Geotools.Geometries
 		/// </summary>
 		/// <param name="coordinates">The set of coordinates to be used to create the linestring.</param>
 		/// <returns>A new line string.</returns>
-		public LineString CreateLineString(Coordinates coordinates) 
+		public LineString CreateLineString(CoordinateCollection coordinates) 
 		{
 			return new LineString(coordinates, _precisionModel, _SRID);
 		}

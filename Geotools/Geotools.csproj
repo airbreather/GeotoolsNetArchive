@@ -612,7 +612,7 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Geometries\Coordinates.cs"
+                    RelPath = "Geometries\CoordinateCollection.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

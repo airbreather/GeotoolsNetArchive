@@ -37,7 +37,7 @@ namespace Geotools.Geometries
 		/// <summary>
 		///  The points of this LineString.
 		/// </summary>
-		protected Coordinates _points;
+		protected CoordinateCollection _points;
 
 		#region Constructors
 
@@ -50,11 +50,11 @@ namespace Geotools.Geometries
 		/// </param>
 		/// <param name="precisionModel">The specification of the grid of allowable points for this LineString.</param>
 		/// <param name="SRID"> The ID of the Spatial Reference System used by this LineString.</param>
-		internal LineString(Coordinates points, PrecisionModel precisionModel, int SRID) : base( precisionModel, SRID)
+		internal LineString(CoordinateCollection points, PrecisionModel precisionModel, int SRID) : base( precisionModel, SRID)
 		{
 			if (points == null) 
 			{
-				points = new Coordinates();
+				points = new CoordinateCollection();
 			}
 			if (HasNullElements(points))
 			{
@@ -87,7 +87,7 @@ namespace Geotools.Geometries
 		/// Gets the set of coordinates for this linestring.
 		/// </summary>
 		/// <returns>The coordinates of the linestring.</returns>
-		public override Coordinates GetCoordinates()
+		public override CoordinateCollection GetCoordinates()
 		{
 			return _points;
 		}
@@ -270,9 +270,9 @@ namespace Geotools.Geometries
 			if( this.IsClosed() )
 			{
 				//if the LineString is closed return an empty multipoint
-				return _geometryFactory.CreateMultiPoint( new Coordinates() );
+				return _geometryFactory.CreateMultiPoint( new CoordinateCollection() );
 			}
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(this.GetStartPoint().X, this.GetStartPoint().Y);
 			coords.Add(coord);
 			coord = new Coordinate(this.GetEndPoint().X, this.GetEndPoint().Y);
@@ -488,7 +488,7 @@ namespace Geotools.Geometries
 			MapProjection projection = (MapProjection)coordinateTransform.MathTransform;
 			int newSRID = GetNewSRID(coordinateTransform);
 
-			Coordinates projectedCoordinates = new Coordinates();
+			CoordinateCollection projectedCoordinates = new CoordinateCollection();
 			double x=0.0;
 			double y=0.0;
 			Coordinate projectedCoordinate;

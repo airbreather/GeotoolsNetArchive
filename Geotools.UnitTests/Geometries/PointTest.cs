@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 14    12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -147,7 +150,7 @@ namespace Geotools.UnitTests.Geometries
 			Assertion.AssertEquals("Envelope-1: ", false, geom.IsEmpty());
 
 			//get the coordinates out of the geometry
-			Coordinates coords = geom.GetCoordinates();
+			CoordinateCollection coords = geom.GetCoordinates();
 			//a point is returned as the envelope of a point
 			Assertion.AssertEquals("Envelope-2: ", 1.0, coords[0].X);
 			Assertion.AssertEquals("Envelope-3: ", 2.0, coords[0].Y);
@@ -257,7 +260,7 @@ namespace Geotools.UnitTests.Geometries
 			Point point = gf.CreatePoint(_coor);
 
 			//returns a coordinates object
-			Coordinates coordinates = point.GetCoordinates();
+			CoordinateCollection coordinates = point.GetCoordinates();
 
 			//test to make sure only one coordinate is returned for a point
 			Assertion.AssertEquals("Coordinates1: ", 1, coordinates.Count);

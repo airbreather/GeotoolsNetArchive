@@ -160,7 +160,7 @@ namespace Geotools.Geometries
 				return _geometryFactory.CreateGeometryCollection( null );
 			}
 			GeometryGraph g = new GeometryGraph(0, this);
-			Coordinates pts = g.GetBoundaryPoints();
+			CoordinateCollection pts = g.GetBoundaryPoints();
 			return _geometryFactory.CreateMultiPoint(pts);
 		}
 

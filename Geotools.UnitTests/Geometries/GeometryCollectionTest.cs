@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 17    12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -147,7 +150,7 @@ namespace Geotools.UnitTests.Geometries
 			Geometry[] geom = new Geometry[10];
 
 			Coordinate coordinate = new Coordinate();
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString lineString = gf.CreateLineString(coords);
@@ -179,7 +182,7 @@ namespace Geotools.UnitTests.Geometries
 			Geometry[] geom = new Geometry[10];
 
 			Coordinate coordinate = new Coordinate();
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			Point point = gf.CreatePoint(coordinate);
 
@@ -675,7 +678,7 @@ namespace Geotools.UnitTests.Geometries
 		{
 			//create a geometry collection
 			GeometryCollection geoColl = CreateCollection();
-            Coordinates coords = new Coordinates();
+            CoordinateCollection coords = new CoordinateCollection();
 
 			int i = 0;
 			foreach(Geometry geom in geoColl)

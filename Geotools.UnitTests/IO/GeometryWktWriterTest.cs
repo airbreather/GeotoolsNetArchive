@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.3  2003/05/31 18:35:41  awcoats
+ * *** empty log message ***
+ *
  * Revision 1.2  2003/01/02 20:37:30  awcoats
  * *** empty log message ***
  *
@@ -66,7 +69,7 @@ namespace Geotools.UnitTests.IO
 		#region MultiPoint
 		public void TestMultiPoint1()
 		{
-			Coordinates coordinates = new Coordinates();
+			CoordinateCollection coordinates = new CoordinateCollection();
 			coordinates.Add( new Coordinate(1,2) );
 			coordinates.Add( new Coordinate(1.2,2.3) );
 			MultiPoint multipoint = _factory.CreateMultiPoint( coordinates );
@@ -79,7 +82,7 @@ namespace Geotools.UnitTests.IO
 
 		public void TestLineString1()
 		{
-			Coordinates coordinates = new Coordinates();
+			CoordinateCollection coordinates = new CoordinateCollection();
 			coordinates.Add( new Coordinate(1,2) );
 			coordinates.Add( new Coordinate(1.2,2.3) );
 			LineString linestring = _factory.CreateLineString( coordinates );

@@ -242,7 +242,7 @@ namespace Geotools.Geometries
 		///  Flips the positions of the elements in the array so that the last is first.  
 		///</summary>
 		///<param name="coordinates">The array of coordinates to rearrange.</param>
-		protected static void ReversePointOrder(Coordinates coordinates) 
+		protected static void ReversePointOrder(CoordinateCollection coordinates) 
 		{
 			coordinates.Reverse();
 		}
@@ -253,7 +253,7 @@ namespace Geotools.Geometries
 		///<param name="coordinates">The array to search for the minimum coordinate.</param>
 		///<returns> the minimum coordinate in the array, found using CompareTo method.  Returns
 		///null if coordinates is null or empty.</returns>
-		protected static Coordinate MinCoordinate(Coordinates coordinates) 
+		protected static Coordinate MinCoordinate(CoordinateCollection coordinates) 
 		{
 			Coordinate coord = null;
 			if ( coordinates != null && coordinates.Count > 0 )
@@ -270,7 +270,7 @@ namespace Geotools.Geometries
 		///</summary>
 		///<param name="coordinates">The array to rearrange.</param>
 		///<param name="firstCoordinate">The coordinate to make first.</param>
-		protected static void Scroll(Coordinates coordinates, Coordinate firstCoordinate) 
+		protected static void Scroll(CoordinateCollection coordinates, Coordinate firstCoordinate) 
 		{
 			int index = coordinates.IndexOf( firstCoordinate );
 			if ( index > -1)
@@ -319,17 +319,17 @@ namespace Geotools.Geometries
 		///  GeometryChanged afterwards.  The Geometries contained by composite Geometries must be Geometry's;
 		///  that is, they must implement get Coordinates.</remarks>
 		///<returns>Returns the vertices of this Geometry</returns>
-		public abstract Coordinates GetCoordinates() ;
+		public abstract CoordinateCollection GetCoordinates() ;
 
 		/// <summary>
 		/// Returns this Geometry's external vertices (points).
 		/// </summary>
 		/// <remarks>These point are based on the output of precisionModel.ToExternal.</remarks>
 		/// <returns>Returns the external vertices of this Geometry.</returns>
-		public virtual Coordinates GetCoordinatesInternal()
+		public virtual CoordinateCollection GetCoordinatesInternal()
 		{
-			Coordinates externalCoordinates = new Coordinates();
-			Coordinates internalCoordinates = GetCoordinates();
+			CoordinateCollection externalCoordinates = new CoordinateCollection();
+			CoordinateCollection internalCoordinates = GetCoordinates();
 			for ( int i=0; i < internalCoordinates.Count; i++ )
 			{
 				externalCoordinates.Add( _precisionModel.ToExternal( internalCoordinates[i] ) );			// creates a new Coordinate() in the process.
@@ -936,7 +936,7 @@ namespace Geotools.Geometries
 		///<param name="b"> a Collection of Coordinates </param>
 		///<returns> the first non-zero compareTo result, if any;  otherwise, zero</returns>
 
-		protected virtual int Compare(Coordinates a, Coordinates b)
+		protected virtual int Compare(CoordinateCollection a, CoordinateCollection b)
 		{
 			Coordinate coordA = new Coordinate();
 			Coordinate coordB = new Coordinate();

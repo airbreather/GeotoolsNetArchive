@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 4     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -37,7 +40,7 @@ namespace Geotools.UnitTests.Geometries
 	{
 		PrecisionModel _precMod = new PrecisionModel(1.0, 2.0, 3.0);
 		int _sRID = 3;
-		Coordinates _coords = new Coordinates();
+		CoordinateCollection _coords = new CoordinateCollection();
 
 		/// <summary>
 		/// Method to create a Simple LinearRing for testing purposes
@@ -45,7 +48,7 @@ namespace Geotools.UnitTests.Geometries
 		/// <returns>A LinearRing</returns>
 		private LinearRing Simple()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord ;//Coordinate(0, 0);
 
 			coord = new Coordinate(10, 13);
@@ -102,7 +105,7 @@ namespace Geotools.UnitTests.Geometries
 		/// <returns>A LinearRing</returns>
 		private LinearRing NonSimple()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(0, 0);
 
 			coord = new Coordinate(2, 2);
@@ -177,7 +180,7 @@ namespace Geotools.UnitTests.Geometries
 
 		private LinearRing ThrowsException()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord ;//Coordinate(0, 0);
 
 			coord = new Coordinate(10, 13);

@@ -75,7 +75,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="ring">Ring to test.</param>
 		/// <returns>Return true if ring is oriented counter-clockwise.</returns>
-		public override bool IsCCW(Coordinates ring) 
+		public override bool IsCCW(CoordinateCollection ring) 
 		{
 			Coordinate hip;
 			Coordinate p;
@@ -144,7 +144,7 @@ namespace Geotools.Algorithms
 		/// <param name="p"></param>
 		/// <param name="ring">Assumed to have first point identical to last point</param>
 		/// <returns></returns>
-		public override bool IsPointInRing(Coordinate p, Coordinates ring) 
+		public override bool IsPointInRing(Coordinate p, CoordinateCollection ring) 
 		{
 			int i;
 			int i1;       // point index; i1 = i-1
@@ -207,7 +207,7 @@ namespace Geotools.Algorithms
 		/// <param name="pt">LineString to test.</param>
 		/// <returns>Returns true if the point is a vertex of the line or lies in the interior of a line
 		/// segment in the linestring.</returns>
-		public override bool IsOnLine(Coordinate p, Coordinates pt) 
+		public override bool IsOnLine(Coordinate p, CoordinateCollection pt) 
 		{
 			for (int i = 1; i < pt.Count; i++) 
 			{
@@ -243,7 +243,7 @@ namespace Geotools.Algorithms
 		/// <param name="p">Point to test.</param>
 		/// <param name="ring">Geometry from which to create envelope.</param>
 		/// <returns>Returns true if point is in envelope of ring.</returns>
-		private bool IsInEnvelope(Coordinate p, Coordinates ring) 
+		private bool IsInEnvelope(Coordinate p, CoordinateCollection ring) 
 		{
 			Envelope envelope = new Envelope();
 			for (int i = 0; i < ring.Count; i++) 

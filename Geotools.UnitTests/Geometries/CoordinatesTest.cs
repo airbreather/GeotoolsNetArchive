@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 4     12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -21,6 +24,7 @@
 
 #region Using
 using System;
+using System.Collections;
 using NUnit.Framework;
 using Geotools.Geometries;
 #endregion
@@ -35,9 +39,9 @@ namespace Geotools.UnitTests.Geometries
 	{
 		
 
-		private Coordinates Coords1()
+		private CoordinateCollection Coords1()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate();
 			for(int i = 0; i< 10; i++)
 			{
@@ -49,7 +53,7 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_Constructor()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Assertion.AssertEquals("Constructor-1: ", 0, coords.Count);
 
 			coords = Coords1();
@@ -58,13 +62,13 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_Count()
 		{
-			Coordinates coords = Coords1();
+			CoordinateCollection coords = Coords1();
 			Assertion.AssertEquals("Constructor-2: ", 10, coords.Count);
 		}
 
 		public void test_Add()
 		{
-			Coordinates coords = Coords1();
+			CoordinateCollection coords = Coords1();
 			Coordinate coord = new Coordinate(4.0, 2.0);
 			coords.Add(coord);
 			Assertion.AssertEquals("Add-1: ", 11, coords.Count);
@@ -81,7 +85,7 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_this()
 		{
-			Coordinates coords = Coords1();
+			CoordinateCollection coords = Coords1();
 
 			Assertion.AssertEquals("this-1: ", 1.0, coords[1].X);
 			Assertion.AssertEquals("this-2: ", 11.0, coords[1].Y);
@@ -89,7 +93,7 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_GetEnumerator()
 		{
-			Coordinates coords = Coords1();
+			CoordinateCollection coords = Coords1();
 
 			int counter = 0;
 			foreach(Coordinate coord in coords)
@@ -104,7 +108,7 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_ToString()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate(2.0, 4.1);
 			coords.Add(coord);
 			coord = new Coordinate(6.2, 8.4);
@@ -115,8 +119,8 @@ namespace Geotools.UnitTests.Geometries
 
 		public void test_ReverseCoordinateOrder()
 		{
-			Coordinates coords = Coords1();
-			Coordinates coordsReverse = coords.ReverseCoordinateOrder();
+			CoordinateCollection coords = Coords1();
+			CoordinateCollection coordsReverse = coords.ReverseCoordinateOrder();
 			for(int i = 0; i < coords.Count; i++)
 			{
 				Assertion.AssertEquals("ReverseCoordinateOrder: ", true, coords[i].Equals(coordsReverse[9-i]));

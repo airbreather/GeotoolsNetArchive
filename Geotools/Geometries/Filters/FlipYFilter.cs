@@ -80,7 +80,7 @@ namespace Geotools.Geometries
 			}
 			else*/ if (geometry is LinearRing || geometry is LineString || geometry is Point)
 			{
-				Coordinates coords = geometry.GetCoordinates();
+				CoordinateCollection coords = geometry.GetCoordinates();
 				for (int i=0; i < coords.Count; i++)
 				{
 					coords[i].Y = (_max - coords[i].Y) + _min;

@@ -66,7 +66,7 @@ namespace Geotools.Algorithms
 			this._geometry = geometry;
 			UniqueCoordinateArrayFilter filter = new UniqueCoordinateArrayFilter();
 			geometry.Apply(filter);
-			Coordinates pts = filter.GetCoordinates();
+			CoordinateCollection pts = filter.GetCoordinates();
 
 			if (pts.Count == 0) 
 			{
@@ -83,11 +83,11 @@ namespace Geotools.Algorithms
 			}
 
 			// sort points for Graham scan.
-			Coordinates pspts;
+			CoordinateCollection pspts;
 			if (pts.Count > 10) 
 			{
 				//Probably should be somewhere between 50 and 100?
-				Coordinates rpts = Reduce(pts);
+				CoordinateCollection rpts = Reduce(pts);
 				pspts = PreSort(rpts);
 			}
 			else 
@@ -99,7 +99,7 @@ namespace Geotools.Algorithms
 			Stack cHS = GrahamScan(pspts);
 
 			// Convert stack to an array.
-			Coordinates cH = ToCoordinateArray(cHS);
+			CoordinateCollection cH = ToCoordinateArray(cHS);
 
 			// Convert array to linear ring.
 			//awcreturn lineOrPolygon(cH);
@@ -112,10 +112,10 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="stack"></param>
 		/// <returns></returns>
-		protected Coordinates ToCoordinateArray(Stack stack) 
+		protected CoordinateCollection ToCoordinateArray(Stack stack) 
 		{
 			
-			Coordinates coordinates = new Coordinates();
+			CoordinateCollection coordinates = new CoordinateCollection();
 			foreach(object obj in stack)
 			{
 				Coordinate coordinate = (Coordinate)obj;
@@ -132,13 +132,13 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		private Coordinates Reduce(Coordinates pts) 
+		private CoordinateCollection Reduce(CoordinateCollection pts) 
 		{
 	
 			BigQuad bigQuad = this.BigQuadrant(pts);
 
 			// Build a linear ring defining a big poly.
-			Coordinates bigPoly = new Coordinates();
+			CoordinateCollection bigPoly = new CoordinateCollection();
 			bigPoly.Add(bigQuad._westmost);
 			if (!bigPoly.Contains(bigQuad._northmost)) 
 			{
@@ -162,7 +162,7 @@ namespace Geotools.Algorithms
 
 			// load an array with all points not in the big poly
 			// and the defining points.
-			Coordinates reducedSet = new Coordinates(bigPoly);
+			CoordinateCollection reducedSet = new CoordinateCollection(bigPoly);
 			for (int i = 0; i < pts.Count; i++) 
 			{
 				if (_pointLocator.Locate(pts[i], bQ) == Location.Exterior) 
@@ -181,7 +181,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		private Coordinates PreSort(Coordinates pts) 
+		private CoordinateCollection PreSort(CoordinateCollection pts) 
 		{
 	
 			Coordinate t;
@@ -209,7 +209,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="c"></param>
 		/// <returns></returns>
-		private Stack GrahamScan(Coordinates c) 
+		private Stack GrahamScan(CoordinateCollection c) 
 		{
 
 			Coordinate p;
@@ -239,7 +239,7 @@ namespace Geotools.Algorithms
 		/// 
 		/// </summary>
 		/// <param name="p"></param>
-		private void RadialSort(Coordinates p) 
+		private void RadialSort(CoordinateCollection p) 
 		{
 		
 			// A selection sort routine, assumes the pivot point is
@@ -347,7 +347,7 @@ namespace Geotools.Algorithms
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		private BigQuad BigQuadrant(Coordinates pts) 
+		private BigQuad BigQuadrant(CoordinateCollection pts) 
 		{
 		
 			BigQuad bigQuad = new BigQuad();
@@ -387,12 +387,12 @@ namespace Geotools.Algorithms
 		///		A 2-vertex LineStringif the vertices are collinear; otherwise, a Polygon with 
 		///		unnecessary (collinear) vertices removed
 		///	</returns>
-		private Geometry LineOrPolygon(Coordinates coordinates) 
+		private Geometry LineOrPolygon(CoordinateCollection coordinates) 
 		{
 			coordinates = CleanRing(coordinates);
 			if (coordinates.Count == 3) 
 			{
-				Coordinates coords = new Coordinates();
+				CoordinateCollection coords = new CoordinateCollection();
 				coords.Add(coordinates[0]);
 				coords.Add(coordinates[1]);
 				return new LineString(coords,
@@ -413,13 +413,13 @@ namespace Geotools.Algorithms
 		/// <returns>
 		///		The coordinates with unnecessary (collinear) vertices removed
 		/// </returns>
-		private Coordinates CleanRing(Coordinates original) 
+		private CoordinateCollection CleanRing(CoordinateCollection original) 
 		{
 			if (!(original[0]== original[original.Count - 1]))
 			{
 				throw new InvalidProgramException("Start and end points of ring are not the same.");
 			}
-			Coordinates cleanedRing = new Coordinates();
+			CoordinateCollection cleanedRing = new CoordinateCollection();
 			Coordinate previousDistinctCoordinate = null;
 			for (int i = 0; i <= original.Count - 2; i++) 
 			{

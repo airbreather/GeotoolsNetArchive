@@ -2,6 +2,9 @@
 /* 
  * $Header$
  * $Log$
+ * Revision 1.1  2003/01/02 20:32:36  awcoats
+ * *** empty log message ***
+ *
  * 
  * 10    12/27/02 1:01p Awcoats
  * changes  when moving from NUnit 1.0 to Nunit 2.0
@@ -82,14 +85,14 @@ namespace Geotools.UnitTests.Geometries
 
 		private MultiLineString CreateMLS()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString lineString = gf.CreateLineString(coords);
 			LineString[] ls = new LineString[10];
 			for(int i = 0; i < 10; i++)
 			{
-				coords = new Coordinates();
+				coords = new CoordinateCollection();
 				for(int j = i; j < i+10; j++)
 				{
 					coord = new Coordinate();
@@ -107,7 +110,7 @@ namespace Geotools.UnitTests.Geometries
 
 		private MultiLineString CreateMLS1()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString lineString = gf.CreateLineString(coords);
@@ -133,7 +136,7 @@ namespace Geotools.UnitTests.Geometries
 
 		private MultiLineString closedMLS()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString lineString = gf.CreateLineString(coords);
@@ -183,7 +186,7 @@ namespace Geotools.UnitTests.Geometries
 			coords.Add(coord);
 			ls[0] = gf.CreateLineString(coords);
 
-			coords = new Coordinates();
+			coords = new CoordinateCollection();
 			coord = new Coordinate(5, 1);
 			coords.Add(coord);
 			coord = new Coordinate(6, 2);
@@ -211,7 +214,7 @@ namespace Geotools.UnitTests.Geometries
 
 		private MultiLineString nonSimpleMLS()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			Coordinate coord = new Coordinate();
 			GeometryFactory gf = new GeometryFactory(_precMod, _sRID);
 			LineString lineString = gf.CreateLineString(coords);
@@ -554,7 +557,7 @@ namespace Geotools.UnitTests.Geometries
 		public void test_Geometry()
 		{
 			LineString[] linestrings = new LineString[2];
-			Coordinates coords1 = new Coordinates();
+			CoordinateCollection coords1 = new CoordinateCollection();
 			Coordinate coord = new Coordinate(5,3);
 			coords1.Add(coord);
 			coord = new Coordinate(4,5);
@@ -566,7 +569,7 @@ namespace Geotools.UnitTests.Geometries
 			LineString ls = gf.CreateLineString(coords1);
 			linestrings[0] = ls;
 			
-			Coordinates coords2 = new Coordinates();
+			CoordinateCollection coords2 = new CoordinateCollection();
 			coord = new Coordinate(2,7);
 			coords2.Add(coord);
 			coord = new Coordinate(9,2);
@@ -594,7 +597,7 @@ namespace Geotools.UnitTests.Geometries
 			//make sure there is something in the envelope
 			Assertion.AssertEquals("Envelope-1: ", false, env.IsEmpty());
             
-			Coordinates coords = env.GetCoordinates();
+			CoordinateCollection coords = env.GetCoordinates();
 			//check the first set of coordinates (minX, minY)
 			Assertion.AssertEquals("Envelope-2: ", 0.0, coords[0].X);
 			Assertion.AssertEquals("Envelope-3: ", 5.0, coords[0].Y);
