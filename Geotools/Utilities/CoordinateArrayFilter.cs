@@ -35,7 +35,7 @@ namespace Geotools.Utilities
 	public class CoordinateArrayFilter : ICoordinateFilter
 	{
 
-		Coordinates _pts = new Coordinates();
+		CoordinateCollection _pts = new CoordinateCollection();
 		int _n = 0;
 
 		#region Constructors
@@ -59,7 +59,7 @@ namespace Geotools.Utilities
 		/// Returns the gathered Coordinates.
 		/// </summary>
 		/// <returns></returns>
-		public Coordinates GetCoordinates() 
+		public CoordinateCollection GetCoordinates() 
 		{
 			// awc: not sure if the size the coordinates returned have to match the size
 			// set in the constructor.

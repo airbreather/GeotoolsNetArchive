@@ -33,7 +33,7 @@ namespace Geotools.Operation.Buffer
 	internal class LineList
 	{
 
-		private static Coordinates _arrayTypeCoordinate = new Coordinates();
+		private static CoordinateCollection _arrayTypeCoordinate = new CoordinateCollection();
 		ArrayList _lines = new ArrayList();
 		ArrayList _currPtList;
 		PrecisionModel _precisionModel;

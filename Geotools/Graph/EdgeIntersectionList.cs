@@ -241,7 +241,7 @@ namespace Geotools.Graph
 			// (This check is needed because the distance metric is not totally reliable!)
 			bool useIntPt1 = ei1.Distance > 0.0 || ! ei1.Coordinate.Equals( lastSegStartPt );
 
-			Coordinates coordinatePts = new Coordinates();  // new coordinates collection
+			CoordinateCollection coordinatePts = new CoordinateCollection();  // new coordinates collection
 			coordinatePts.Add( new Coordinate( ei0.Coordinate ) );
 			for (int i = ei0.SegmentIndex + 1; i <= ei1.SegmentIndex; i++) 
 			{

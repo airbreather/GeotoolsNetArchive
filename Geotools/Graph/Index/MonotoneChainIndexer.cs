@@ -53,7 +53,7 @@ namespace Geotools.Graph.Index
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		public static int[] GetChainStartIndices(Coordinates pts)
+		public static int[] GetChainStartIndices(CoordinateCollection pts)
 		{
 			// find the startpoint (and endpoints) of all monotone chains in this edge
 			int start = 0;
@@ -76,7 +76,7 @@ namespace Geotools.Graph.Index
 		/// <param name="pts"></param>
 		/// <param name="start"></param>
 		/// <returns></returns>
-		private static int FindChainEnd(Coordinates pts, int start)
+		private static int FindChainEnd(CoordinateCollection pts, int start)
 		{
 			// determine quadrant for chain
 			int chainQuad = Quadrant.QuadrantLocation( pts[start], pts[start + 1] );

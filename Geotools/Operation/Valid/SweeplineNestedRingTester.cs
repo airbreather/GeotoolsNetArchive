@@ -130,8 +130,8 @@ namespace Geotools.Operation.Valid
 		private bool IsInside(LinearRing innerRing, LinearRing searchRing)
 		{
 			
-			Coordinates innerRingPts = innerRing.GetCoordinates();
-			Coordinates searchRingPts = searchRing.GetCoordinates();
+			CoordinateCollection innerRingPts = innerRing.GetCoordinates();
+			CoordinateCollection searchRingPts = searchRing.GetCoordinates();
 
 			if (! innerRing.GetEnvelopeInternal().Intersects(searchRing.GetEnvelopeInternal()))
 				return false;

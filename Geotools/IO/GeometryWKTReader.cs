@@ -113,9 +113,9 @@ namespace Geotools.IO
 		/// "EMPTY".</param>
 		/// <returns>The next array of Coordinates in the stream, or an empty array of "EMPTY" is the
 		/// next element returned by the stream.</returns>
-		private  Coordinates GetCoordinates(WktStreamTokenizer tokenizer) 
+		private  CoordinateCollection GetCoordinates(WktStreamTokenizer tokenizer) 
 		{
-			Coordinates coordinates= new Coordinates();
+			CoordinateCollection coordinates= new CoordinateCollection();
 			string nextToken = GetNextEmptyOrOpener(tokenizer);
 			if (nextToken=="EMPTY")
 			{
@@ -435,7 +435,7 @@ namespace Geotools.IO
 			{
 				//return geometryFactory.createPolygon(geometryFactory.createLinearRing(
 				//	new Coordinate[]{}), new LinearRing[]{});
-				LinearRing linearRing = new LinearRing(new Coordinates(),_precisionModel,_geometryFactory.SRID);
+				LinearRing linearRing = new LinearRing(new CoordinateCollection(),_precisionModel,_geometryFactory.SRID);
 				return new Polygon(linearRing,_precisionModel, _geometryFactory.SRID);
 			}
 			ArrayList holes = new ArrayList();

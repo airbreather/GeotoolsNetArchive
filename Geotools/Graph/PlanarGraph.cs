@@ -303,7 +303,7 @@ namespace Geotools.Graph
 		{
 			foreach( Edge e in _edges )
 			{
-				Coordinates eCoord = e.Coordinates;
+				CoordinateCollection eCoord = e.Coordinates;
 				if ( p0.Equals( eCoord[0] ) && p1.Equals( eCoord[1] ) )
 				{
 					return e;
@@ -324,7 +324,7 @@ namespace Geotools.Graph
 		{
 			foreach(Edge e in _edges)
 			{
-				Coordinates eCoord = e.Coordinates;
+				CoordinateCollection eCoord = e.Coordinates;
 				if ( MatchInSameDirection( p0, p1, eCoord[0], eCoord[1]) )
 				{
 					return e;

@@ -134,7 +134,7 @@ namespace Geotools.Operation.Buffer
 			 // determine their relative orientation to decide which is rightmost.
 
 			
-			Coordinates pts = _minDe.Edge.Coordinates;
+			CoordinateCollection pts = _minDe.Edge.Coordinates;
 			if (!(_minIndex > 0 && _minIndex < pts.Count))
 			{
 				throw new InvalidOperationException("Rightmost point expected to be interior vertex of edge.");
@@ -166,7 +166,7 @@ namespace Geotools.Operation.Buffer
 		private void CheckForRightmostCoordinate(DirectedEdge de)
 		{
 			
-			Coordinates coord = de.Edge.Coordinates;
+			CoordinateCollection coord = de.Edge.Coordinates;
 			// only check vertices which are the starting point of a non-horizontal segment
 			for (int i = 0; i < coord.Count - 1; i++) 
 			{
@@ -199,7 +199,7 @@ namespace Geotools.Operation.Buffer
 		{
 			
 			Edge e = de.Edge;
-			Coordinates coord = e.Coordinates;
+			CoordinateCollection coord = e.Coordinates;
 
 			if (i < 0 || i + 1 >= coord.Count) return -1;
 			if (coord[i].Y == coord[i + 1].Y) return -1;    // indicates edge is parallel to x-axis

@@ -74,14 +74,14 @@ namespace Geotools.Operation.Valid
 			for (int i = 0; i < _rings.Count; i++) 
 			{
 				LinearRing innerRing = (LinearRing) _rings[i];
-				Coordinates innerRingPts = innerRing.GetCoordinates();
+				CoordinateCollection innerRingPts = innerRing.GetCoordinates();
 
 				ArrayList results = _quadtree.Query(innerRing.GetEnvelopeInternal());
 				//System.out.println(results.size());
 				for (int j = 0; j < results.Count; j++) 
 				{
 					LinearRing searchRing = (LinearRing) results[j];
-					Coordinates searchRingPts = searchRing.GetCoordinates();
+					CoordinateCollection searchRingPts = searchRing.GetCoordinates();
 
 					if (innerRing == searchRing)
 						continue;

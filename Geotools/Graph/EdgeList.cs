@@ -91,7 +91,7 @@ namespace Geotools.Graph
 					sb.Append(",");
 				}
 				sb.Append("(");
-				Coordinates pts = e.Coordinates;
+				CoordinateCollection pts = e.Coordinates;
 				int i=0;
 				//for (int i = 0; i < pts.length; i++) 
 				foreach(Coordinate coord in pts)

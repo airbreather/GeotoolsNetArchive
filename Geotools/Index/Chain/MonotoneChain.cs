@@ -66,7 +66,7 @@ namespace Geotools.Index.Chain
 	///</remarks>
 	internal class MonotoneChain
 	{
-		private Coordinates _pts;
+		private CoordinateCollection _pts;
 		private int _start, _end;
 		private Envelope _env = null;
 		// these envelopes are created once and reused
@@ -77,7 +77,7 @@ namespace Geotools.Index.Chain
 		/// <summary>
 		/// Initializes a new instance of the MonotoneChain class.
 		/// </summary>
-		public MonotoneChain( Coordinates pts, int start, int end )
+		public MonotoneChain( CoordinateCollection pts, int start, int end )
 		{
 			_pts    = pts;
 			_start  = start;
@@ -144,9 +144,9 @@ namespace Geotools.Index.Chain
 		/// Allocates a new array to hold the Coordinates
 		/// </summary>
 		/// <returns></returns>
-		public Coordinates GetCoordinates()
+		public CoordinateCollection GetCoordinates()
 		{
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 			for (int i = _start; i <= _end; i++) 
 			{
 				coords.Add( _pts[i] );

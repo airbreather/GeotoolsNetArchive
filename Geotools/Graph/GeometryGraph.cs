@@ -201,10 +201,10 @@ namespace Geotools.Graph
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		public Coordinates GetBoundaryPoints()
+		public CoordinateCollection GetBoundaryPoints()
 		{
 			ArrayList coll = GetBoundaryNodes();
-			Coordinates pts = new Coordinates();
+			CoordinateCollection pts = new CoordinateCollection();
 			foreach( object objNode in coll )
 			{
 				Node node = (Node) objNode;
@@ -312,7 +312,7 @@ namespace Geotools.Graph
 		/// <param name="cwRight"></param>
 		private void AddPolygonRing( LinearRing lr, int cwLeft, int cwRight )
 		{
-			Coordinates coord = Coordinates.RemoveRepeatedPoints(lr.GetCoordinates());
+			CoordinateCollection coord = CoordinateCollection.RemoveRepeatedPoints(lr.GetCoordinates());
 			if (coord.Count<4)
 			{
 				_hasTooFewPoints=true;
@@ -357,7 +357,7 @@ namespace Geotools.Graph
 
 		private void AddLineString(LineString line)
 		{
-			Coordinates coord = line.GetCoordinates();
+			CoordinateCollection coord = line.GetCoordinates();
 
 			/**
 			 * Add the boundary points of the LineString, if any.
@@ -389,7 +389,7 @@ namespace Geotools.Graph
 		public void AddEdge(Edge e)
 		{
 			InsertEdge( e );
-			Coordinates coord = e.Coordinates;
+			CoordinateCollection coord = e.Coordinates;
 			// insert the endpoint as a node, to mark that it is on the boundary
 			InsertPoint( _argIndex, coord[0], Location.Boundary );
 			InsertPoint( _argIndex, coord[coord.Count - 1], Location.Boundary );

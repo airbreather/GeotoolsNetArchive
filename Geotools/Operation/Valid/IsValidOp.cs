@@ -50,7 +50,7 @@ namespace Geotools.Operation.Valid
 		/// <param name="graph"></param>
 		/// <returns>return the point found, or null if none found</returns>
 		public static Coordinate FindPtNotNode(
-			Coordinates testCoords,
+			CoordinateCollection testCoords,
 			LinearRing searchRing,
 			GeometryGraph graph)
 		{
@@ -313,7 +313,7 @@ namespace Geotools.Operation.Valid
 		private void CheckHolesInShell(Polygon p, GeometryGraph graph)
 		{
 			LinearRing shell = (LinearRing) p.GetExteriorRing();
-			Coordinates shellPts = shell.GetCoordinates();
+			CoordinateCollection shellPts = shell.GetCoordinates();
 
 			//PointInRing pir = new SimplePointInRing(shell);
 			//PointInRing pir = new SIRtreePointInRing(shell);
@@ -484,10 +484,10 @@ namespace Geotools.Operation.Valid
 		private void CheckShellNotNested(LinearRing shell, Polygon p, GeometryGraph graph)
 		{
 			
-			Coordinates shellPts = shell.GetCoordinates();
+			CoordinateCollection shellPts = shell.GetCoordinates();
 			// test if shell is inside polygon shell
 			LinearRing polyShell =  (LinearRing) p.GetExteriorRing();
-			Coordinates polyPts = polyShell.GetCoordinates();
+			CoordinateCollection polyPts = polyShell.GetCoordinates();
 			Coordinate shellPt = FindPtNotNode(shellPts, polyShell, graph);
 			// if no point could be found, we can assume that the shell is outside the polygon
 			if (shellPt == null)
@@ -523,8 +523,8 @@ namespace Geotools.Operation.Valid
 		private void CheckShellInsideHole(LinearRing shell, LinearRing hole, GeometryGraph graph)
 		{
 			
-			Coordinates shellPts = shell.GetCoordinates();
-			Coordinates holePts = hole.GetCoordinates();
+			CoordinateCollection shellPts = shell.GetCoordinates();
+			CoordinateCollection holePts = hole.GetCoordinates();
 			// TODO: improve performance of this - by sorting pointlists for instance?
 			Coordinate shellPt = FindPtNotNode(shellPts, hole, graph);
 			// if point is on shell but not hole, Check that the shell is inside the hole

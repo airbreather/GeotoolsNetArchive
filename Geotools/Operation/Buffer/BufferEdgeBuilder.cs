@@ -79,7 +79,7 @@ namespace Geotools.Operation.Buffer
 			{
 				// may need to make this Coordinates????
 				//Coordinate[] coords = (Coordinate[])o;
-				Coordinates coords = (Coordinates)o;
+				CoordinateCollection coords = (CoordinateCollection)o;
 				AddEdge(coords, leftLoc, rightLoc);
 			}
 			
@@ -93,7 +93,7 @@ namespace Geotools.Operation.Buffer
 		/// <param name="coord"></param>
 		/// <param name="leftLoc"></param>
 		/// <param name="rightLoc"></param>
-		private void AddEdge(Coordinates coord, int leftLoc, int rightLoc)
+		private void AddEdge(CoordinateCollection coord, int leftLoc, int rightLoc)
 		{
 	
 			// don't add null buffers!
@@ -143,7 +143,7 @@ namespace Geotools.Operation.Buffer
 		{
 			
 			if (_distance <= 0.0) return;
-			Coordinates coord = p.GetCoordinates();
+			CoordinateCollection coord = p.GetCoordinates();
 			ArrayList lineList = _lineBuilder.GetLineBuffer(coord, _distance);
 			AddEdges(lineList, Location.Exterior, Location.Interior);
 			
@@ -157,7 +157,7 @@ namespace Geotools.Operation.Buffer
 		private void AddLineString(LineString line)
 		{
 			if (_distance <= 0.0) return;
-			Coordinates coords = Coordinates.RemoveRepeatedPoints(line.GetCoordinates());
+			CoordinateCollection coords = CoordinateCollection.RemoveRepeatedPoints(line.GetCoordinates());
 		
 			ArrayList lineList = _lineBuilder.GetLineBuffer(coords, _distance);
 			AddEdges(lineList, Location.Exterior, Location.Interior);
@@ -215,7 +215,7 @@ namespace Geotools.Operation.Buffer
 		private void AddPolygonRing(LinearRing lr, double distance, int side, int cwLeftLoc, int cwRightLoc)
 		{
 			
-			Coordinates coord = Coordinates.RemoveRepeatedPoints(lr.GetCoordinates());
+			CoordinateCollection coord = CoordinateCollection.RemoveRepeatedPoints(lr.GetCoordinates());
 			
 			int leftLoc  = cwLeftLoc;
 			int rightLoc = cwRightLoc;

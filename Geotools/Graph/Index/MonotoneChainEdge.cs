@@ -41,7 +41,7 @@ namespace Geotools.Graph.Index
 	internal class MonotoneChainEdge
 	{
 		Edge _e;
-		Coordinates _pts; // cache a reference to the coord array, for efficiency
+		CoordinateCollection _pts; // cache a reference to the coord array, for efficiency
 		// the lists of start/end indexes of the monotone chains.
 		// Includes the end point of the edge as a sentinel
 		int[] _startIndex;
@@ -66,7 +66,7 @@ namespace Geotools.Graph.Index
 		/// <summary>
 		/// 
 		/// </summary>
-		public Coordinates Coordinates
+		public CoordinateCollection Coordinates
 		{
 			get
 			{

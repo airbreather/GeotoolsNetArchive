@@ -165,13 +165,13 @@ namespace Geotools.IO
 			return _geometryFactory.CreatePoint(coord);
 		}
 
-		private Coordinates ReadCoordinates()
+		private CoordinateCollection ReadCoordinates()
 		{
 			//Get the number of points in this linestring.
 			int numPoints = (int)_bReader.ReadUInt32();
 
 			//Create an Array for the coordinates.
-			Coordinates coords = new Coordinates();
+			CoordinateCollection coords = new CoordinateCollection();
 
 			//Loop around the number of points.
 			for(int i = 0; i < numPoints; i++)
@@ -193,7 +193,7 @@ namespace Geotools.IO
 		/// <returns>A geometry.</returns>
 		private LineString CreateWKBLineString()
 		{
-			Coordinates coords = ReadCoordinates();
+			CoordinateCollection coords = ReadCoordinates();
 			//Create and return the linestring.
 			return _geometryFactory.CreateLineString(coords);
 		}
@@ -204,7 +204,7 @@ namespace Geotools.IO
 		/// <returns></returns>
 		private LinearRing CreateWKBLinearRing()
 		{
-			Coordinates coords = ReadCoordinates();
+			CoordinateCollection coords = ReadCoordinates();
 			//Create and return the linearring.
 			return _geometryFactory.CreateLinearRing(coords);
 		}

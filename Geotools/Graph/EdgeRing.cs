@@ -36,7 +36,7 @@ namespace Geotools.Graph
 		protected DirectedEdge _startDe; // the directed edge which starts the list of edges for this EdgeRing
 		private int _maxNodeDegree = -1;
 		private ArrayList _edges = new ArrayList(); // the DirectedEdges making up this EdgeRing
-		private Coordinates _pts = new Coordinates();
+		private CoordinateCollection _pts = new CoordinateCollection();
 		private Label _label = new Label( Location.Null ); // label stores the locations of each geometry on the face surrounded by this ring
 		private LinearRing _ring;  // the ring created for this EdgeRing
 		private bool _isHole;
@@ -317,7 +317,7 @@ namespace Geotools.Graph
 		/// <param name="isFirstEdge"></param>
 		protected void AddPoints( Edge edge, bool isForward, bool isFirstEdge )
 		{
-			Coordinates edgePts = edge.Coordinates;
+			CoordinateCollection edgePts = edge.Coordinates;
 			if ( isForward ) 
 			{
 				int startIndex = 1;

@@ -34,11 +34,11 @@ namespace Geotools.Operation.Buffer
 	internal class LoopFilter
 	{
 
-		private static Coordinates _arrayTypeCoordinates = new Coordinates();
+		private static CoordinateCollection _arrayTypeCoordinates = new CoordinateCollection();
 
 		private int _maxPointsInLoop = 10;           // maximum number of points in a loop
 		private double _maxLoopExtent = 10.0;    // the maximum X and Y extents of a loop
-		private Coordinates _newPts = new Coordinates();
+		private CoordinateCollection _newPts = new CoordinateCollection();
 
 		#region Constructors
 		/// <summary>
@@ -57,7 +57,7 @@ namespace Geotools.Operation.Buffer
 
 		#region Methods
 
-		public Coordinates Filter(Coordinates inputPts)
+		public CoordinateCollection Filter(CoordinateCollection inputPts)
 		{
 			
 			_newPts.Clear();
@@ -99,7 +99,7 @@ namespace Geotools.Operation.Buffer
 		/// <param name="pts"></param>
 		/// <param name="startIndex"></param>
 		/// <returns></returns>
-		private int CheckForLoop(Coordinates pts, int startIndex)
+		private int CheckForLoop(CoordinateCollection pts, int startIndex)
 		{
 			
 			Coordinate startPt = pts[startIndex];

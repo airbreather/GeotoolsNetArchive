@@ -68,12 +68,12 @@ namespace Geotools.Operation.Valid
 			for (int i = 0; i < _rings.Count; i++) 
 			{
 				LinearRing innerRing = (LinearRing) _rings[i];
-				Coordinates innerRingPts = innerRing.GetCoordinates();
+				CoordinateCollection innerRingPts = innerRing.GetCoordinates();
 
 				for (int j = 0; j < _rings.Count; j++) 
 				{
 					LinearRing searchRing = (LinearRing) _rings[j];
-					Coordinates searchRingPts = searchRing.GetCoordinates();
+					CoordinateCollection searchRingPts = searchRing.GetCoordinates();
 
 					if (innerRing == searchRing)
 						continue;

@@ -167,7 +167,7 @@ namespace Geotools.Operation.Valid
 		private void VisitInteriorRing(ILineString iring, PlanarGraph graph)
 		{
 			LineString ring = (LineString)iring;
-			Coordinates pts = ring.GetCoordinates();
+			CoordinateCollection pts = ring.GetCoordinates();
 			Edge e = graph.FindEdgeInSameDirection(pts[0], pts[1]);
 			DirectedEdge de = (DirectedEdge) graph.FindEdgeEnd(e);
 			DirectedEdge intDe = null;

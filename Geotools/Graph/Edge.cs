@@ -34,7 +34,7 @@ namespace Geotools.Graph
 	/// </summary>
 	internal class Edge : GraphComponent
 	{
-		Coordinates _pts;
+		CoordinateCollection _pts;
 		EdgeIntersectionList _eiList = null;
 		private string _name;
 		private MonotoneChainEdge _monotoneChainEdge;
@@ -48,7 +48,7 @@ namespace Geotools.Graph
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <param name="label"></param>
-		public Edge(Coordinates pts, Label label)
+		public Edge(CoordinateCollection pts, Label label)
 		{
 			_eiList = new EdgeIntersectionList( this );
 			_pts = pts;
@@ -59,7 +59,7 @@ namespace Geotools.Graph
 		/// Constructs a new edge using the coordinates collection.
 		/// </summary>
 		/// <param name="pts"></param>
-		public Edge( Coordinates pts ) : this( pts, null )
+		public Edge( CoordinateCollection pts ) : this( pts, null )
 		{
 		}
 		#endregion
@@ -90,7 +90,7 @@ namespace Geotools.Graph
 		/// <summary>
 		/// Returns the Coordinates collection.
 		/// </summary>
-		public Coordinates Coordinates
+		public CoordinateCollection Coordinates
 		{
 			get
 			{
@@ -234,7 +234,7 @@ namespace Geotools.Graph
 		/// <returns>Returns the collapsed edge.</returns>
 		public Edge GetCollapsedEdge()
 		{
-			Coordinates newPts = new Coordinates();
+			CoordinateCollection newPts = new CoordinateCollection();
 			newPts.Add( _pts[0] );
 			newPts.Add( _pts[1] );
 			Edge newEdge = new Edge( newPts, Label.ToLineLabel( _label ) );

@@ -74,7 +74,7 @@ namespace Geotools.Operation.Valid
 			
 		}
 
-		public bool HasRepeatedPoint(Coordinates coord)
+		public bool HasRepeatedPoint(CoordinateCollection coord)
 		{
 			
 			for (int i = 1; i < coord.Count; i++) 

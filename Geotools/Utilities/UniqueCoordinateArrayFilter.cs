@@ -32,7 +32,7 @@ namespace Geotools.Utilities
 	/// </summary>
 	public class UniqueCoordinateArrayFilter : ICoordinateFilter
 	{
-		Coordinates _treeSet = new Coordinates();
+		CoordinateCollection _treeSet = new CoordinateCollection();
 
 		// not need for this - just use the hashtable to store everything.
 		//ArrayList _list= new ArrayList();
@@ -52,10 +52,10 @@ namespace Geotools.Utilities
 		/// Returns the unique Coordinates.
 		/// </summary>
 		/// <returns>Return the Coordinates collected by this CoordinateArrayFilter.</returns>
-		public Coordinates GetCoordinates() 
+		public CoordinateCollection GetCoordinates() 
 		{
 			// copy costruct a new list of coordinates.
-			Coordinates coordinates = new Coordinates(_treeSet);
+			CoordinateCollection coordinates = new CoordinateCollection(_treeSet);
 			return coordinates;
 		}
 

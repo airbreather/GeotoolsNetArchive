@@ -316,7 +316,7 @@ namespace Geotools.Operation.Buffer
 			while  (edges.MoveNext()) 
 			{
 				Edge e = (Edge) edges.Current;
-				Coordinates pts = e.Coordinates;
+				CoordinateCollection pts = e.Coordinates;
 				LineString line = _geomFact.CreateLineString(pts);
 				geomList.Add(line);
 			}

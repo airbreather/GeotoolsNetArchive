@@ -51,7 +51,7 @@ namespace Geotools.Index.Chain
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		public static ArrayList GetChains(Coordinates pts)
+		public static ArrayList GetChains(CoordinateCollection pts)
 		{
 			ArrayList mcList = new ArrayList();
 			int[] startIndex = GetChainStartIndices( pts );
@@ -72,7 +72,7 @@ namespace Geotools.Index.Chain
 		/// </summary>
 		/// <param name="pts"></param>
 		/// <returns></returns>
-		public static int[] GetChainStartIndices( Coordinates pts )
+		public static int[] GetChainStartIndices( CoordinateCollection pts )
 		{
 			// find the startpoint (and endpoints) of all monotone chains in this edge
 			int start = 0;
@@ -95,7 +95,7 @@ namespace Geotools.Index.Chain
 		/// <param name="pts"></param>
 		/// <param name="start"></param>
 		/// <returns>Return the index of the last point in the monotone chain starting at start.</returns>
-		private static int FindChainEnd( Coordinates pts, int start )
+		private static int FindChainEnd( CoordinateCollection pts, int start )
 		{
 			// determine quadrant for chain
 			int chainQuad = Quadrant.QuadrantLocation( pts[start], pts[start + 1]);

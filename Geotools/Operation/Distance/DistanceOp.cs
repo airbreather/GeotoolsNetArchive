@@ -154,8 +154,8 @@ namespace Geotools.Operation.Distance
 		{
 			if (line0.GetEnvelopeInternal().Distance(line1.GetEnvelopeInternal())> _minDistance)
 				return;
-			Coordinates coord0 = line0.GetCoordinates();
-			Coordinates coord1 = line1.GetCoordinates();
+			CoordinateCollection coord0 = line0.GetCoordinates();
+			CoordinateCollection coord1 = line1.GetCoordinates();
 			// brute force approach!
 			for (int i = 0; i < coord0.Count - 1; i++) 
 			{

@@ -63,7 +63,7 @@ namespace Geotools.Operation.Buffer
 		private LoopFilter _loopFilter= new LoopFilter();
 
 		private double _angleInc;
-		private Coordinates _ptList;
+		private CoordinateCollection _ptList;
 		private double _distance = 0.0;
 		private PrecisionModel _precisionModel;
 
@@ -150,7 +150,7 @@ namespace Geotools.Operation.Buffer
 		/// <param name="inputPts"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public ArrayList GetLineBuffer(Coordinates inputPts, double distance)
+		public ArrayList GetLineBuffer(CoordinateCollection inputPts, double distance)
 		{
 			
 			Init(distance);
@@ -172,7 +172,7 @@ namespace Geotools.Operation.Buffer
 		/// <param name="side"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public ArrayList GetRingBuffer(Coordinates inputPts, int side, double distance)
+		public ArrayList GetRingBuffer(CoordinateCollection inputPts, int side, double distance)
 		{
 			
 			Init(distance);
@@ -190,11 +190,11 @@ namespace Geotools.Operation.Buffer
 		{
 			
 			this._distance = distance;
-			_ptList = new Coordinates();
+			_ptList = new CoordinateCollection();
 			
 		}
 
-		private Coordinates GetCoordinates()
+		private CoordinateCollection GetCoordinates()
 		{
 			
 			// check that points are a ring - add the startpoint again if they are not
@@ -213,7 +213,7 @@ namespace Geotools.Operation.Buffer
 			
 		}
 
-		private void ComputeLineBuffer(Coordinates inputPts)
+		private void ComputeLineBuffer(CoordinateCollection inputPts)
 		{
 			
 			int n = inputPts.Count - 1;
@@ -239,7 +239,7 @@ namespace Geotools.Operation.Buffer
 			ClosePts();
 		}
 
-		private void ComputeRingBuffer(Coordinates inputPts, int side)
+		private void ComputeRingBuffer(CoordinateCollection inputPts, int side)
 		{
 			
 			int n = inputPts.Count - 1;

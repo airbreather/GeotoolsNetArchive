@@ -123,7 +123,7 @@ namespace Geotools.Operation.Buffer
 		/// <param name="inputPts"></param>
 		/// <param name="_distance"></param>
 		/// <returns></returns>
-		public ArrayList GetLineBuffer(Coordinates inputPts, double _distance)
+		public ArrayList GetLineBuffer(CoordinateCollection inputPts, double _distance)
 		{
 			
 			Init(_distance);
@@ -146,7 +146,7 @@ namespace Geotools.Operation.Buffer
 		/// <param name="side"></param>
 		/// <param name="distance"></param>
 		/// <returns></returns>
-		public ArrayList GetRingBuffer(Coordinates inputPts, int side, double distance)
+		public ArrayList GetRingBuffer(CoordinateCollection inputPts, int side, double distance)
 		{
 			
 			Init(_distance);
@@ -183,7 +183,7 @@ namespace Geotools.Operation.Buffer
 		/// 
 		/// </summary>
 		/// <param name="inputPts"></param>
-		private void ComputeLineBuffer(Coordinates inputPts)
+		private void ComputeLineBuffer(CoordinateCollection inputPts)
 		{
 			
 			int n = inputPts.Count - 1;
@@ -210,7 +210,7 @@ namespace Geotools.Operation.Buffer
 			
 		} // private void ComputeLineBuffer(Coordinates inputPts)
 
-		private void ComputeRingBuffer(Coordinates inputPts, int side)
+		private void ComputeRingBuffer(CoordinateCollection inputPts, int side)
 		{
 			
 			int n = inputPts.Count - 1;

@@ -32,7 +32,7 @@ namespace Geotools.Graph.Index
 	{
 
 		Edge _edge;
-		Coordinates _pts;
+		CoordinateCollection _pts;
 		int _ptIndex;
 		int _geomIndex;
 
