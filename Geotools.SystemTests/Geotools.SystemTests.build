@@ -87,7 +87,7 @@
          </copy>
          
 		<!-- compile UrbanScience.dll -->
-        <csc target="library" output="${bin.dir}\${project.name}.dll"  doc="${bin.dir}\${project.name}.xml" debug="${debug}">
+        <csc target="library" output="${bin.dir}\${project.name}.dll"  debug="${debug}">
             <sources basedir=".">
 				<includes name="**.cs"/>
            </sources>
