@@ -186,21 +186,30 @@ namespace Geotools.IO
 								char[] fbuffer = new char[tempFieldLength];
 								fbuffer = _dbfStream.ReadChars(tempFieldLength);
 								tempString = new string(fbuffer);
-								try 
-								{ 
-									tempObject = Double.Parse(tempString.Trim());
-								}
-								catch (FormatException) 
+								if (tempString=="**")
 								{
-									// if we can't format the number, just save it as
-									// a string
-									tempObject = tempString;
+									tempString="0";
+									tempObject=null;
+								}
+								else
+								{
+									try 
+									{ 
+										tempObject = Double.Parse(tempString.Trim());
+									}
+									catch (FormatException) 
+									{
+										// if we can't format the number, just save it as
+										// a string
+										tempObject = tempString;
+									}
 								}
 								break;
                         
 							default:
 								throw new NotSupportedException("Do not know how to parse Field type "+tempFieldType);
 						}
+						
 						attrs.Add(tempObject);
 					}
             
