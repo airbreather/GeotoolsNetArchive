@@ -27,7 +27,7 @@ namespace Geotools.Geometries
 	/// <summary>
 	/// Represents the geometry type.
 	/// </summary>
-	internal enum	GeometryTypes
+	public enum	GeometryTypes
 	{
 		/// <summary>
 		/// Point geometry.
