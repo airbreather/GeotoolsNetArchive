@@ -28,7 +28,7 @@ namespace Geotools.Algorithms
 	/// <summary>
 	/// Summary description for SimplePointInRing.
 	/// </summary>
-	internal class SimplePointInRing : IPointInRing
+	public class SimplePointInRing : IPointInRing
 	{
 		private CGAlgorithms _cga = new RobustCGAlgorithms();
 
