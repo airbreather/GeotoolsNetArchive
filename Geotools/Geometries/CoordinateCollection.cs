@@ -346,9 +346,14 @@ namespace Geotools.Geometries
 		/// <param name="firstCoordinate">The Coordinate to make first</param>
 		public void Scroll(Coordinate firstCoordinate) 
 		{
-			int i = IndexOf(firstCoordinate);
+			if (firstCoordinate == null)
+			{
+				throw new ArgumentNullException( "firstCoordinate" );
+			}
+			/*int i = IndexOf(firstCoordinate);
 			//if i is already the first element in the Collection we don't need to do anything
 			if (i <= 0) return;
+			
 			
 			ArrayList newCoordinates = new ArrayList(Count);
 
@@ -356,9 +361,24 @@ namespace Geotools.Geometries
 			newCoordinates = InnerList.GetRange(i,(Count - i));
 
 			//copy the start of the array onto the end of this	
-			newCoordinates.AddRange(InnerList.GetRange(0,(Count -i)));
+			newCoordinates.AddRange(InnerList.GetRange(0,i-1));
 
-			this.InnerList.SetRange(0,newCoordinates);
+			this.InnerList.SetRange(0,newCoordinates);*/
+
+			int index = this.IndexOf( firstCoordinate );
+			if ( index > -1)
+			{
+				Coordinate[] newCoordinates = new Coordinate[ InnerList.Count ];
+				this.InnerList.CopyTo( index, newCoordinates, 0, this.InnerList.Count - index );	// copies from index to end
+				this.InnerList.CopyTo( 0, newCoordinates, this.InnerList.Count - index, index );		// copies from 0 to index
+				this.InnerList.Clear();  // now clear array to refill with scrolled array.
+				this.InnerList.AddRange( newCoordinates ); // add newCoordinates to coordinates array
+			}
+			else
+			{
+				throw new ArgumentException("firstCoordinate not found in ArrayList", "firstCoordinate");
+			}
+
 		}
 
 		/// <summary>
