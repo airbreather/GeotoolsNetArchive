@@ -571,6 +571,58 @@ namespace Geotools.Geometries
 		#endregion
 
 		#region Static Methods
+		
+	
+		/// <summary>
+		/// Test the point q to see whether it intersects the Envelope defined by p1-p2
+		/// </summary>
+		/// <param name="p1">p1 one extremal point of the envelope.</param>
+		/// <param name="p2">p2 another extremal point of the envelope.</param>
+		/// <param name="q">q the point to test for intersection</param>
+		/// <returns>true if q intersects the envelope p1-p2</returns>
+		public static bool Intersects(Coordinate p1, Coordinate p2, Coordinate q)
+		{
+			if (((q.X >= Math.min(p1.X, p2.X)) && (q.X <= Math.max(p1.X, p2.X))) &&
+				((q.Y >= Math.min(p1.Y, p2.Y)) && (q.Y <= Math.max(p1.Y, p2.Y)))) 
+			{
+				return true;
+			}
+			return false;
+		}
+		
+
+		/// <summary>
+		/// Test the envelope defined by p1-p2 for intersection
+		/// with the envelope defined by q1-q2
+		/// </summary>
+		/// <param name="p1">p1 one extremal point of the envelope P.</param>
+		/// <param name="p2">p2 another extremal point of the envelope P.</param>
+		/// <param name="q1">q1 one extremal point of the envelope Q.</param>
+		/// <param name="q2">q2 another extremal point of the envelope Q.</param>
+		/// <returns>true if Q intersects P</returns>
+		public static bool Intersects(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
+		{
+			double minq = Math,Min(q1.X, q2.X);
+			double maxq = Math.Max(q1.X, q2.X);
+			double minp = Math.Min(p1.X, p2.X);
+			double maxp = Math.Max(p1.X, p2.X);
+
+			if( minp > maxq )
+				return false;
+			if( maxp < minq )
+				return false;
+
+			minq = Math.Min(q1.y, q2.y);
+			maxq = Math.Max(q1.y, q2.y);
+			minp = Math.Min(p1.y, p2.y);
+			maxp = Math.Max(p1.y, p2.y);
+
+			if( minp > maxq )
+				return false;
+			if( maxp < minq )
+				return false;
+			return true;
+		}
 		private static double Distance( double x0, double y0, double x1, double y1 )
 		{
 			double dx = x1-x0;
