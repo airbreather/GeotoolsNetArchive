@@ -97,17 +97,38 @@ namespace Geotools.Geometries
 		#endregion
 
 		#region Methods
-
-		/// <summary>
-		/// Adds a new coordinate to this set of coordinates.
-		/// </summary>
-		/// <remarks>Succesive duplicate coordinates are allowed.</remarks>
-		/// <param name="coord">The coordinate to be added to the set.</param>
-		/// <returns>An integer containing the index of the newly added coordinate.</returns>
-		public int Add(Coordinate coord)
+		public bool Add(CoordinateCollection coord, bool allowRepeated, bool direction)
 		{
-			return InnerList.Add(coord);
+			if (direction) 
+			{
+				for (int i = 0; i < coord.Count; i++) 
+				{
+					Add(coord[i], allowRepeated);
+				}
+			}
+			else 
+			{
+				for (int i = coord.Count - 1; i >= 0; i--) 
+				{
+					Add(coord[i], allowRepeated);
+				}
+			}
+			return true;
 		}
+
+		public bool Add(CoordinateCollection coord, bool allowRepeated)
+		{
+			Add(coord, allowRepeated, true);
+			return true;
+		}
+
+		public bool Add(object obj, bool allowRepeated)
+		{
+			Add((Coordinate) obj, allowRepeated);
+			return true;
+		}
+
+
 
 		/// <summary>
 		/// Adds a new coordinate to this set of coordinates.
@@ -133,6 +154,18 @@ namespace Geotools.Geometries
 			}
 			return Add(coord);
 		}
+
+		/// <summary>
+		/// Adds a new coordinate to this set of coordinates.
+		/// </summary>
+		/// <remarks>Succesive duplicate coordinates are allowed.</remarks>
+		/// <param name="coord">The coordinate to be added to the set.</param>
+		/// <returns>An integer containing the index of the newly added coordinate.</returns>
+		public int Add(Coordinate coord)
+		{
+			return InnerList.Add(coord);
+		}
+
 		public void AddRange(CoordinateCollection coordinates)
 		{
 			InnerList.AddRange(coordinates);
@@ -140,6 +173,13 @@ namespace Geotools.Geometries
 		public void AddRange(Coordinate[] coordinates)
 		{
 			InnerList.AddRange(coordinates);
+		}
+		public void CloseRing()
+		{
+			if (this.InnerList.Count>0)
+			{
+				Add(this.InnerList[0], false);
+			}
 		}
 
 		/// <summary>
