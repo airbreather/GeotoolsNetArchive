@@ -41,7 +41,7 @@ namespace Geotools.IO
 	/// To create a ShapefileDataReader, use the static methods on the Shapefile class.
 	/// </para>
 	/// </remarks>
-	public class ShapefileDataReader : IEnumerable, IDataReader, IDisposable, IDataRecord,IGetGeometry
+	public class ShapefileDataReader : IEnumerable, IDataReader, IDisposable, IDataRecord//,IGetGeometry
 	{
 		
 		internal class ShapefileDataReaderEnumerator : IEnumerator
@@ -51,6 +51,10 @@ namespace Geotools.IO
 
 			public ShapefileDataReaderEnumerator(ShapefileDataReader parent)
 			{
+				if (parent==null)
+				{
+					throw new ArgumentNullException("parent");
+				}
 				_parent = parent;
 			}
 
@@ -74,6 +78,8 @@ namespace Geotools.IO
 			}
 			#endregion
 		}
+
+		
 		bool _open=false;
 		DbaseFieldDescriptor[] _dbaseFields;
 		ArrayList _columnValues;
@@ -209,7 +215,7 @@ namespace Geotools.IO
 
 			
 			return _moreRecords;
-			
+
 		}
 
 		/// <summary>
@@ -277,12 +283,16 @@ namespace Geotools.IO
 		#endregion
 
 		#region Implementation of IDisposable
-		/// <summary>
-		/// 
-		/// </summary>
 		public void Dispose()
 		{
-			throw new NotSupportedException();
+			if (_dbfEnumerator != null)
+			{
+				((IDisposable)_dbfEnumerator).Dispose();
+			}
+			if (_shpEnumerator != null)
+			{
+				((IDisposable)_shpEnumerator).Dispose();
+			}
 		}
 		#endregion
 

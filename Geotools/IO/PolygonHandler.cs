@@ -123,9 +123,11 @@ namespace Geotools.IO
 				if (_cga.IsCCW(points))
 				{
 					holes.Add(ring);
+					//tracts shells.Add(ring);
 				}
 				else 
 				{
+					//tracts holes.Add(ring);
 					shells.Add(ring);
 				}
 			}
