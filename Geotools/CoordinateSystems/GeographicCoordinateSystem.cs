@@ -19,7 +19,7 @@
  */
 
 using System;
-using Geotools.Geometries;
+using com.vividsolutions.jts.geom;
 
 using Geotools.Positioning;
 namespace Geotools.CoordinateReferenceSystems
@@ -120,7 +120,7 @@ namespace Geotools.CoordinateReferenceSystems
 			{
 				return _angularUnit;
 			}
-			throw new ArgumentOutOfRangeException(String.Format("Dimension must be between 0 and {0}",this.Dimension));
+			throw new ArgumentOutOfRangeException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Dimension must be between 0 and {0}",this.Dimension));
 		}
 		/// <summary>
 		/// Gets the number of dimensions for a geographic coordinate system (2).

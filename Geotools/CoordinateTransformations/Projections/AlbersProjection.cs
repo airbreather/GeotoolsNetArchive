@@ -41,16 +41,43 @@ namespace Geotools.CoordinateTransformations
 	/// </remarks>
 	internal class AlbersProjection : MapProjection
 	{
-		double _falseEasting;
-		double _falseNorthing;
-		double c;				//constant c 
-		double e3;				//eccentricity
-		double rh;				//heigth above elipsoid  
-		double ns0;				//ratio between meridians
-		double lon_center;		//center longitude   
-		double es=0;
+	
+		double TOL = 1E-10;
+		/// <summary>
+		///  Maximum difference allowed when comparing real numbers.
+		/// </summary>
+		private static double EPS = 1E-7;
+
+		/// <summary>
+		/// Maximum number of itterations for the inverse calculation.
+		/// </summary>
+		private static int MAX_ITER = 15;
+
+		/// <summary>
+		///  Constants used by the spherical and elliptical Albers projection.
+		/// </summary>
+		private double n, c, rho0;
+
+		/// <summary>
+		/// An error condition indicating itteration will not converge for the inverse ellipse. See Snyder (14-20)
+		/// </summary>
+		private double ec;
+
+		/// <summary>
+		/// Standards parallels in radians, for {@link #toString} implementation.
+		/// </summary>
+		private double phi1, phi2;
 
 		#region Constructors
+
+		//double _semiMajor;
+		//double _semiMinor;
+		double _centralMeridian;
+		double _latitudeOfOrigin;
+		double _globalScale;
+		double _scaleFactor;
+		double _falseEasting;
+		double _falseNorthing;
 
 		/// <summary>
 		/// Creates an instance of an Albers projection object.
@@ -69,6 +96,7 @@ namespace Geotools.CoordinateTransformations
 		/// </remarks>
 		public AlbersProjection(ParameterList parameters) : this(parameters,false)
 		{
+			
 		}
 		
 		/// <summary>
@@ -89,53 +117,82 @@ namespace Geotools.CoordinateTransformations
 		/// <param name="isInverse">Indicates whether the projection forward (meters to degrees or degrees to meters).</param>
 		public AlbersProjection(ParameterList parameters, bool isInverse) : base(parameters,isInverse)
 		{
-			double sin_po,cos_po;	/* sin and cos values					*/
-			double con;				/* temporary variable					*/
-			double es,temp;			/* eccentricity squared and temp var	*/
-			double ms1;				/* small m 1							*/
-			double ms2;				/* small m 2							*/
-			double qs0;				/* small q 0							*/
-			double qs1;				/* small q 1							*/
-			double qs2;				/* small q 2							*/
+		
+			_semiMajor        =                    parameters.GetDouble("semi_major");
+			_semiMinor        =                    parameters.GetDouble("semi_minor");
+			_centralMeridian  = Degrees2Radians(parameters.GetDouble("central_meridian"));
+			_latitudeOfOrigin =  Degrees2Radians(parameters.GetDouble("latitude_of_origin"));
+			_scaleFactor      =                    parameters.GetDouble("scale_factor",1   );
+			_falseEasting     =                    parameters.GetDouble("false_easting");
+			_falseNorthing    =                    parameters.GetDouble("false_northing");
+			_isSpherical      = (_semiMajor == _semiMinor);
+			_globalScale      = _scaleFactor*_semiMajor;
 
-			double lat0 = Degrees2Radians( _parameters.GetDouble("latitude_of_false_origin") );
-			double lon0 = Degrees2Radians( _parameters.GetDouble("longitude_of_false_origin") );
-			double lat1 = Degrees2Radians( _parameters.GetDouble("latitude_of_1st_standard_parallel"));
-			double lat2 = Degrees2Radians( _parameters.GetDouble("latitude_of_2nd_standard_parallel"));
-			this._falseEasting = _parameters.GetDouble("easting_at_false_origin");
-			this._falseNorthing = _parameters.GetDouble("northing_at_false_origin");
-			lon_center = lon0;
-			if (Math.Abs(lat1 + lat2) < EPSLN)
+			phi1 = Degrees2Radians( parameters.GetDouble("standard_parallel_1") );
+			phi2 = Degrees2Radians( parameters.GetDouble("standard_parallel_2") );
+
+			if (Math.Abs(phi1 + phi2) < TOL)
 			{
-				throw new TransformException("Equal latitudes for St. Parallels on opposite sides of equator.");
+				throw new ArgumentOutOfRangeException("Projection is converging....");
+				/*throw new IllegalArgumentException(Resources.format(
+					ResourceKeys.ERROR_ANTIPODE_LATITUDES_$2,
+					new Latitude(Math.toDegrees(phi1)),
+					new Latitude(Math.toDegrees(phi2))));*/
 			}
-			
-			temp = this._semiMinor / this._semiMajor;
-			es = 1.0 - SQUARE(temp);
-			e3 = Math.Sqrt(es);
 
-			sincos(lat1,out sin_po,out cos_po);
-			con = sin_po;
+         
 
-			ms1 = msfnz(e3,sin_po,cos_po);
-			qs1 = qsfnz(e3,sin_po,cos_po);
+			double  sinphi = Math.Sin(phi1);
+			double  cosphi = Math.Cos(phi1);
 
-			sincos(lat2,out sin_po,out cos_po);
+			double  n      = sinphi;
 
-			ms2 = msfnz(e3,sin_po,cos_po);
-			qs2 = qsfnz(e3,sin_po,cos_po);
+			bool secant = (Math.Abs(phi1 - phi2) >= TOL);
 
-			sincos(lat0,out sin_po,out cos_po);
+			if (this._isSpherical)
+			{
+				if (secant) 
+				{
 
-			qs0 = qsfnz(e3,sin_po,cos_po);
+					n = 0.5 * (n + Math.Sin(phi2));
 
-			if (Math.Abs(lat1 - lat2) > EPSLN)
-				ns0 = (ms1 * ms1 - ms2 *ms2)/ (qs2 - qs1);
-			else
-				ns0 = con;
-			c = ms1 * ms1 + ns0 * qs1;
-			rh = this._semiMajor * Math.Sqrt(c - ns0 * qs0)/ns0;
+				}           
 
+				c    = cosphi * cosphi + n*2 * sinphi;
+
+				rho0 = Math.Sqrt(c - n*2 * Math.Sin(_latitudeOfOrigin)) /n;
+
+				ec   = Double.NaN;
+			} 
+			else 
+			{
+				double m1 = msfn(sinphi, cosphi);
+				double q1 = qsfn(sinphi);
+
+				if (secant) 
+				{ /* secant cone */
+
+					sinphi    = Math.Sin(phi2);
+
+					cosphi    = Math.Cos(phi2);
+
+					double m2 = msfn(sinphi, cosphi);
+
+					double q2 = qsfn(sinphi);
+
+					n = (m1 * m1 - m2 * m2) / (q2 - q1);
+
+				}
+
+				c = m1 * m1 + n * q1;
+
+				rho0 = Math.Sqrt(c - n * qsfn(Math.Sin(_latitudeOfOrigin))) /n;
+
+				ec = 1.0 - .5 * (1.0-_es) * Math.Log((1.0 - _e) / (1.0 + _e)) / _e;
+
+			}
+
+			this.n = n;
 		}
 		#endregion
 
@@ -145,28 +202,55 @@ namespace Geotools.CoordinateTransformations
 		/// </summary>
 		/// <param name="dLongitude">The longitude in decimal degrees.</param>
 		/// <param name="dLatitude">The latitude in decimal degrees.</param>
-		/// <param name="dX">The resulting x coordinate in projected meters.</param>
-		/// <param name="dY">The resutting y coordinate in projected meters.</param>
-		public override void DegreesToMeters(double dLongitude, double dLatitude,out double dX, out double dY)
+		/// <param name="metersX">The resulting x coordinate in projected meters.</param>
+		/// <param name="metersY">The resutting y coordinate in projected meters.</param>
+		public override void DegreesToMeters(double x, double y,out double metersX, out double metersY)
 		{
+			x = Degrees2Radians(x);
+			x=x- this._centralMeridian;
+
+			y = Degrees2Radians(y);
+			x *= n;
+
+			double rho;
+
+			if (_isSpherical) 
+			{
+
+				rho = c - n*2 * Math.Sin(y);
+
+			} 
+			else 
+			{
+
+				rho = c - n * qsfn(Math.Sin(y));
+
+			}
+
+
+
+			if (rho < 0.0) 
+			{
+
+				// TODO: fix message (and check when this condition will occur)
+
+				// is this only checking for an impossible divide by 0 condition?
+
+				throw new InvalidOperationException("Tolerance condition error");
+
+			}
+
+			rho = Math.Sqrt(rho) / n;
+
+			y   = rho0 - rho * Math.Cos(x);
+
+			x   =        rho * Math.Sin(x);
+
 			
-			double sin_phi,cos_phi;		/* sine and cos values		*/
-			double qs;					/* small q			*/
-			double theta;				/* angle			*/ 
-			double rh1;					/* height above ellipsoid	*/
+			metersX = _globalScale * x + this._falseEasting;
+			metersY = _globalScale * y + this._falseNorthing;
+			
 
-
-			dX = Double.NaN;
-			dY = Double.NaN;
-			dLongitude = Degrees2Radians(dLongitude);
-			dLatitude = Degrees2Radians(dLatitude);
-
-			sincos(dLatitude,out sin_phi,out cos_phi);
-			qs = qsfnz(e3,sin_phi,cos_phi);
-			rh1 = this._semiMajor * Math.Sqrt(c - ns0 * qs)/ns0;
-			theta = ns0 * adjust_lon(dLongitude - lon_center); 
-			dX = rh1 * Math.Sin(theta) + this._falseEasting;
-			dY = rh - rh1 * Math.Cos(theta) + this._falseNorthing;
 		}
 
 		/// <summary>
@@ -176,69 +260,89 @@ namespace Geotools.CoordinateTransformations
 		/// <param name="dY">The y coordinate in projected meters.</param>
 		/// <param name="dLongitude">The resulting longitude in decimal degrees.</param>
 		/// <param name="dLatitude">The resulitng latitude in decimal degrees.</param>
-		public override void MetersToDegrees(double dX, double dY,out double dLongitude, out double dLatitude) 
+		public override void MetersToDegrees(double x, double y,out double dLongitude, out double dLatitude) 
 		{
-			dLongitude = Double.NaN;
-			dLatitude = Double.NaN;
+			x = (x- _falseEasting)/_globalScale;
+			y= (y- _falseNorthing)/ _globalScale;
+			y = rho0 - y;
 
-			double rh1;			/* height above ellipsoid	*/
-			double qs;			/* function q			*/
-			double con;			/* temporary sign value		*/
-			double theta;		/* angle			*/
 
-			long flag=0;		/* error flag 					*/
+			double rho = Math.Sqrt(x*x + y*y);
 
-			dX -= this._falseEasting;
-			dY = rh - dY + this._falseNorthing;;
-			if (ns0 >= 0)
+			if (rho  != 0.0) 
 			{
-				rh1 = Math.Sqrt(dX * dX + dY * dY);
-				con = 1.0;
-			}
-			else
-			{
-				rh1 = -Math.Sqrt(dX * dX + dY * dY);
-				con = -1.0;
-			}
-			theta = 0.0;
-			if (rh1 != 0.0)
-				theta = Math.Atan2(con * dX, con * dX);
-			con = rh1 * ns0 / this._semiMajor;
-			qs = (c - con * con) / ns0;
-			if (e3 >= 1e-10)
-			{
-				con = 1 - .5 * (1.0 - es) * Math.Log((1.0 - e3) / (1.0 + e3))/e3;
-				if (Math.Abs(Math.Abs(con) - Math.Abs(qs)) > .0000000001 )
+
+				if (n < 0.0) 
 				{
-					dLatitude = phi1z(e3, qs, out flag);
-					if (flag != 0)
-					{  
-						throw new TransformException();
+
+					rho = -rho;
+
+					x   = -x;
+
+					y   = -y;
+
+				}
+
+				x = Math.Atan2(x, y) / n;
+
+				y =  rho*n;
+
+				if (_isSpherical) 
+				{
+
+					y = (c - y * y) / (n*2);
+
+					if (Math.Abs(y) <= 1.0)
+					{
+
+						y = Math.Asin(y);
+
 					}
-				}
-				else
+
+					else 
+					{
+
+						y = (y < 0.0) ? -Math.PI/2.0 : Math.PI/2.0;
+
+					}     
+
+				} 
+				else 
 				{
-					if (qs >= 0)
-						dLongitude = .5 * PI;
-					else
-						dLatitude = -.5 * PI;
-				}
-			}
-			else
+
+					y = (c - y*y) / n;
+
+					if (Math.Abs(ec - Math.Abs(y)) > EPS) 
+					{
+
+						y = Phi1(y);
+
+					} 
+					else 
+					{
+
+						y = (y < 0.0) ? -Math.PI/2.0 : Math.PI/2.0;
+
+					} 
+
+				}   
+
+			} 
+			else 
 			{
-				dLatitude = phi1z(e3,qs,out flag);
-				if (flag != 0)
-				{
-					throw new TransformException();
-				}
-				 
+
+				x = 0.0;
+
+				y = n > 0.0 ? Math.PI/2.0 : - Math.PI/2.0;
+
 			}
 
-			dLongitude = adjust_lon(theta/ns0 + lon_center);
 
-			dLongitude = Radians2Degrees(dLongitude);
-			dLatitude = Radians2Degrees(dLatitude);
 
+
+			dLongitude = Radians2Degrees(x + this._centralMeridian);
+			dLatitude = Radians2Degrees(y);
+	
 		}
 		
 		/// <summary>
@@ -255,5 +359,90 @@ namespace Geotools.CoordinateTransformations
 		}
 		#endregion
 
+	
+		/// <summary>
+		/// Calculates q, Snyder equation (3-12)
+		/// </summary>
+		/// <param name="sinphi">@param sinphi sin of the latitude q is calculated for</param>
+		/// <returns>@return q from Snyder equation (3-12)</returns>
+		private double qsfn(double sinphi) 
+		{
+
+			double one_es = 1 - _es;
+
+			if (_e >= EPS) 
+			{
+
+				double con = _e * sinphi;
+
+				return (one_es * (sinphi / (1.0 - con*con) -
+
+					(0.5/_e) * Math.Log((1.0-con) / (1.0+con))));
+
+			} 
+			else 
+			{
+				return sinphi + sinphi;
+
+			}
+
+		}
+
+		double msfn(double s, double c) 
+		{
+			return c / Math.Sqrt(1.0 - s*s*_es);
+		}
+
+
+		/// <summary>
+		///  Iteratively solves equation (3-16) from Snyder.
+		/// </summary>
+		/// <param name="qs">@param qs arcsin(q/2), used in the first step of itteration</param>
+		/// <returns>* @return the latitude</returns>
+		private double Phi1(double qs) 
+		{
+
+			double tone_es = 1 - _es;
+
+			double phi = Math.Asin(0.5 * qs);
+
+			if (_e < EPS) 
+			{
+
+				return phi;
+
+			}
+
+			for (int i=0; i<MAX_ITER; i++) 
+			{
+
+				double sinpi = Math.Sin(phi);
+
+				double cospi = Math.Cos(phi);
+
+				double con   = _e * sinpi;
+
+				double com   = 1.0 - con*con;
+
+				double dphi  = 0.5 * com*com / cospi * 
+
+					(qs/tone_es - sinpi / com + 0.5/_e * 
+
+					Math.Log((1.0 - con) / (1.0 + con)));
+
+				phi += dphi;
+
+				if (Math.Abs(dphi) <= TOL) 
+				{
+
+					return phi;
+
+				}
+
+			} 
+
+			throw new InvalidOperationException("No convergance.");
+
+		}
 	}
 }

@@ -159,7 +159,7 @@ namespace Geotools.CoordinateTransformations
 		/// Returns the inverse of this projection.
 		/// </summary>
 		/// <returns>IMathTransform that is the reverse of the current projection.</returns>
-		public IMathTransform Inverse()
+		public override IMathTransform GetInverse()
 		{
 			if (_inverse==null)
 			{

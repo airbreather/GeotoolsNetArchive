@@ -36,6 +36,7 @@ namespace Geotools.CoordinateTransformations
 	/// </summary>
 	internal abstract class MapProjection : MathTransform, IProjection
 	{
+
 		protected bool _isInverse = false;
 		protected bool _isSpherical = false;
 		protected double _e;

@@ -84,11 +84,11 @@ namespace Geotools.CoordinateTransformations
 							"FROM	Coordinate_Operation "+
 							"WHERE COORD_OP_CODE={0}";
 		
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Coord Operation code of {0} is not found.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Coord Operation code of {0} is not found.",code));
 			}
 			string sourceCSCode = reader["SOURCE_CRS_CODE"].ToString();
 			string targetCSCode = reader["TARGET_CRS_CODE"].ToString();
@@ -110,7 +110,7 @@ namespace Geotools.CoordinateTransformations
 			{
 				if (sourceCSCode=="" || targetCSCode=="")
 				{
-					throw new InvalidOperationException(String.Format("Coordinate operation {0} which is a transformation does not have a source or target coordinate system.",code));
+					throw new InvalidOperationException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Coordinate operation {0} which is a transformation does not have a source or target coordinate system.",code));
 				}
 				// create the coordinate systems. Use this helper method. The 
 				// helper first determines if the coordinate system is a projected or geographic coordinate system
@@ -227,11 +227,11 @@ namespace Geotools.CoordinateTransformations
 		private string GetAreaOfUse(string code)
 		{
 			string sqlQuery="select AREA_OF_USE from AREA where AREA_CODE={0}";
-			sqlQuery = String.Format(sqlQuery,code);
+			sqlQuery = String.Format(System.Globalization.CultureInfo.InvariantCulture, sqlQuery,code);
 			IDataReader reader = Database.ExecuteQuery(_databaseConnection, sqlQuery);
 			if (!reader.Read())
 			{
-				throw new ArgumentException(String.Format("Area code of {0} is not found.",code));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Area code of {0} is not found.",code));
 			}
 			string area = reader["AREA_OF_USE"].ToString();
 			Database.CheckOneRow(reader,code,"Area");
@@ -280,7 +280,7 @@ namespace Geotools.CoordinateTransformations
 					transform = new MercatorProjection(parameterList);
 					break;
 				default:
-					throw new NotSupportedException(String.Format("Projection {0} is not supported.",projection.AuthorityCode));
+					throw new NotSupportedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Projection {0} is not supported.",projection.AuthorityCode));
 			}
 			return transform;
 		}

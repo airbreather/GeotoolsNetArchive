@@ -105,7 +105,7 @@ namespace Geotools.CoordinateTransformations
 					transform = new LambertConformalConic2SPProjection(parameterList);
 					break;
 				default:
-					throw new NotSupportedException(String.Format("Projection {0} is not supported.",projection.AuthorityCode));
+					throw new NotSupportedException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "Projection {0} is not supported.",projection.AuthorityCode));
 			}
 			return transform;
 		}

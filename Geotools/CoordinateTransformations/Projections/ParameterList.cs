@@ -20,8 +20,8 @@
 
 #region Using
 using System;
+using System.Drawing;
 using Geotools.CoordinateReferenceSystems;
-
 #endregion
 
 namespace Geotools.CoordinateTransformations
@@ -66,12 +66,12 @@ namespace Geotools.CoordinateTransformations
 				}
 				catch(Exception e)
 				{
-					throw new ArgumentException(String.Format("key {0} has an invalid entry.",key),e);
+					throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "key {0} has an invalid entry.",key),e);
 				}
 			}
 			else
 			{
-				throw new ArgumentException(String.Format("The key with a value of '{0}' is not in the list.",key));
+				throw new ArgumentException(String.Format(System.Globalization.CultureInfo.InvariantCulture, "The key with a value of '{0}' is not in the list.",key));
 			}
 		}
 

@@ -1,9 +1,9 @@
 <VisualStudioProject>
     <CSHARP
         ProjectType = "Local"
-        ProductVersion = "7.0.9466"
-        SchemaVersion = "1.0"
-        ProjectGuid = "{29893648-C10B-40EB-BA62-5A0BDC3F4205}"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
+        ProjectGuid = "{AC943739-F419-43DF-80E9-C77851A5F826}"
     >
         <Build>
             <Settings
@@ -16,7 +16,10 @@
                 DefaultTargetSchema = "IE50"
                 DelaySign = "false"
                 OutputType = "Library"
+                PreBuildEvent = ""
+                PostBuildEvent = ""
                 RootNamespace = "Geotools.UnitTests"
+                RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
             >
                 <Config
@@ -29,7 +32,9 @@
                     DocumentationFile = ""
                     DebugSymbols = "true"
                     FileAlignment = "4096"
-                    IncrementalBuild = "true"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
                     Optimize = "false"
                     OutputPath = "bin\Debug\"
                     RegisterForComInterop = "false"
@@ -47,7 +52,9 @@
                     DocumentationFile = ""
                     DebugSymbols = "false"
                     FileAlignment = "4096"
-                    IncrementalBuild = "true"
+                    IncrementalBuild = "false"
+                    NoStdLib = "false"
+                    NoWarn = ""
                     Optimize = "false"
                     OutputPath = "bin\Release\"
                     RegisterForComInterop = "false"
@@ -58,19 +65,29 @@
             </Settings>
             <References>
                 <Reference
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.Data.dll"
+                    Name = "Geotools"
+                    Project = "{A956CDFC-DC41-44FF-B0B4-DF995F57BF0E}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
                 <Reference
-                    Name = "System"
-                    AssemblyName = "System"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.dll"
+                    Name = "System.Data"
+                    AssemblyName = "System.Data"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Data.dll"
                 />
                 <Reference
                     Name = "System.XML"
                     AssemblyName = "System.Xml"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.0.3705\System.XML.dll"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.XML.dll"
+                />
+                <Reference
+                    Name = "JTS"
+                    AssemblyName = "JTS"
+                    HintPath = "..\bin\JTS.dll"
+                />
+                <Reference
+                    Name = "System"
+                    AssemblyName = "System"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
                     Name = "XmlDiffPatch"
@@ -78,14 +95,19 @@
                     HintPath = "bin\Debug\XmlDiffPatch.dll"
                 />
                 <Reference
+                    Name = "vjslib"
+                    AssemblyName = "vjslib"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\vjslib.dll"
+                />
+                <Reference
+                    Name = "System.Drawing"
+                    AssemblyName = "System.Drawing"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
+                />
+                <Reference
                     Name = "nunit.framework"
                     AssemblyName = "nunit.framework"
                     HintPath = "..\bin\nunit.framework.dll"
-                />
-                <Reference
-                    Name = "Geotools"
-                    Project = "{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -142,6 +164,10 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CoordinateSystems\Improvements.htm"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "CoordinateSystems\LinearUnitTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -162,6 +188,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CoordinateSystems\TestLinearUnitConverter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CoordinateSystems\VerticalCoordinateSystemTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -171,6 +202,11 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "CoordinateSystems\vssver.scc"
+                    BuildAction = "None"
+                />
+                <Folder RelPath = "CoordinateSystems\Projections\" />
                 <File
                     RelPath = "CoordinateTransformation\CoordinateTransformationEPSGFactoryTest.cs"
                     SubType = "Code"
@@ -192,74 +228,24 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Geometries\CoordinatesTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "CoordinateTransformation\vssver.scc"
+                    BuildAction = "None"
                 />
                 <File
-                    RelPath = "Geometries\CoordinateTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\AngularUnit.txt"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Geometries\DimensionTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\AngularUnit.xml"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Geometries\EnvelopeTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\CompoundCoordinateSystem.txt"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "Geometries\GeometryCollectionTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\GeometryTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\LinearRingTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\LineStringTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\MultiLineStringTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\MultiPointTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\MultiPolygonTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\PointTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\PolygonTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Geometries\ProjectTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\CompoundCoordinateSystem.xml"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "IO\CoordinateSystemWktReaderTest.cs"
@@ -282,19 +268,88 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IO\GeometryWktReaderTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\Ellipsoid.xml"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "IO\GeometryWktWriterTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\GeographicCoordinateSystem.txt"
+                    BuildAction = "Content"
                 />
                 <File
-                    RelPath = "IO\WKBReaderWriterTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\GeographicCoordinateSystem.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\HorizontalDatum.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\HorizontalDatum.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\LinearUnit.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\LinearUnit.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\PrimeMeridian.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\PrimeMeridian.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\ProjectedCoordinateSystem.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\ProjectedCoordinateSystem.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\Projection.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\Radians.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\Spheroid.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\test.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\VerticalCoordinateSystem.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\VerticalCoordinateSystem.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\VerticalDatum.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\VerticalDatum.xml"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\vssver.scc"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\WGS84ConversionInfo.xml"
+                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "IO\WktStreamTokenizerTest.cs"
@@ -302,19 +357,113 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Operation\Intersect\LineLine.cs"
+                    RelPath = "IO\Shapefile\TestDbaseFileReader.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Operation\Intersect\PointLine.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\Shapefile\vssver.scc"
+                    BuildAction = "None"
                 />
                 <File
-                    RelPath = "Operation\Intersect\PointPoint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                    RelPath = "IO\Shapefile\Testfiles\countries.dbf"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\countries.shp"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\countries.shx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\ExpectedDataGridDataReader.txt"
+                    BuildAction = "Content"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\ExpectedDataGridDataReader.txt.bak"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\germany.dbf"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\germany.shp"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\germany.shx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\KREISE.DBF"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\KREISE.SBN"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\KREISE.SBX"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\KREISE.SHP"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\KREISE.SHX"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\ROADS.DBF"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\roads.sbn"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\ROADS.SBX"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\ROADS.SHP"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\ROADS.SHX"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\statepop.dbf"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\statepop.shp"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\statepop.shx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\uscities.dbf"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\uscities.shp"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\uscities.shx"
+                    BuildAction = "None"
+                />
+                <File
+                    RelPath = "IO\Shapefile\Testfiles\vssver.scc"
+                    BuildAction = "None"
                 />
                 <File
                     RelPath = "Utilities\Compare.cs"
@@ -322,9 +471,18 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Utilities\ReaderWriterTestHelper.cs"
+                    RelPath = "Utilities\StringTokenizerTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utilities\TestAirDistance.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utilities\vssver.scc"
+                    BuildAction = "None"
                 />
             </Include>
         </Files>

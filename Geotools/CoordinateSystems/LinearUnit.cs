@@ -8,6 +8,8 @@ namespace Geotools.CoordinateReferenceSystems
 	public class LinearUnit : AbstractInformation, ILinearUnit
 	{
 		private double _metersPerUnit = 0.0;
+		private double _value = 0.0;
+
 	
 		/// <summary>
 		/// Returns the meters linear unit.
@@ -27,6 +29,12 @@ namespace Geotools.CoordinateReferenceSystems
 		public LinearUnit(double metersPerUnit) : base("","","","","","")
 		{
 			_metersPerUnit = metersPerUnit;
+		}
+
+		public LinearUnit(double metersPerUnit, double value) : base("","","","","","")
+		{
+			_metersPerUnit = metersPerUnit;
+			_value = value;
 		}
 		/// <summary>
 		/// Initializes a new instance of the AngularUnit class with the specified parameters.
@@ -57,6 +65,30 @@ namespace Geotools.CoordinateReferenceSystems
 			}
 		}
 
+		/// <summary>
+		/// Returns the distance in meters.
+		/// </summary>
+		/// <returns></returns>
+		public double ToMeters()
+		{
+			return _value * _metersPerUnit;
+		}
+
 		#endregion
+
+		/// <summary>
+		/// Get or sets the value associated with this linear unit.
+		/// </summary>
+		public double Value
+		{
+			get
+			{
+				return _value;
+			}
+			set
+			{
+				_value = value;
+			}
+		}
 	}
 }
