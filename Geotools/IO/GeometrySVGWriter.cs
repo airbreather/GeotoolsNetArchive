@@ -38,8 +38,8 @@ namespace Geotools.IO
 	{
 
 		private int _radius =2;
-		private string _cssClass="";
-		private string _style="";
+		private string _cssClass=null;
+		private string _style=null;
 		private string _formatterString="";
 		private string _namespace="";
 		private PrecisionModel _precisionModel;
@@ -189,7 +189,7 @@ namespace Geotools.IO
 		/// </summary>
 		/// <param name="geometry">The Geometry to process.</param>
 		/// <param name="writer">The output stream to Append to.</param>
-		protected void AppendGeometryTaggedText(IGeometry geometry, TextWriter writer)
+		public void AppendGeometryTaggedText(IGeometry geometry, TextWriter writer)
 		{
 			
 			if (geometry is Point) 
@@ -252,6 +252,11 @@ namespace Geotools.IO
 
 		protected void AppendPath(TextWriter writer)
 		{
+			if (_cssClass==null && _style==null)
+			{
+				return;
+			}
+				
 			if (this._cssClass=="")
 			{
 				writer.WriteLine(String.Format("<{1}path  style=\"{0}\" d=\"",_style,_namespace));
@@ -263,6 +268,10 @@ namespace Geotools.IO
 		}
 		protected void AppendEndPath(TextWriter writer)
 		{
+			if (_cssClass==null && _style==null)
+			{
+				return;
+			}
 			writer.Write("\"/>");
 		}
 		/// <summary>
@@ -530,7 +539,7 @@ namespace Geotools.IO
 		/// </summary>
 		/// <param name="multiPolygon">The MultiPolygon to process.</param>
 		/// <param name="writer">The output stream to Append to.</param>
-		protected void AppendMultiPolygonText(MultiPolygon multiPolygon, TextWriter writer)
+		public void AppendMultiPolygonText(MultiPolygon multiPolygon, TextWriter writer)
 		{
 			
 			if (multiPolygon.IsEmpty()) 
@@ -549,9 +558,7 @@ namespace Geotools.IO
 					AppendPolygonText((Polygon) multiPolygon.GetGeometryN(i), writer);
 				}
 				//writer.Write("Z");
-			}
-			
-			
+			}	
 		}
 
 		/// <summary>
