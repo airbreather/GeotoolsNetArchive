@@ -347,15 +347,32 @@ namespace Geotools.Geometries
 		protected void Scroll(Coordinate firstCoordinate) 
 		{
 			int i = IndexOf(firstCoordinate);
-			if (i < 0) return;
+			//if i is already the first element in the Collection we don't need to do anything
+			if (i <= 0) return;
 			
-			CoordinateCollection newCoordinates = new CoordinateCollection(Count);
+			ArrayList newCoordinates = new ArrayList(Count);
+
 			//copy from i to the end of the collection into the new array
-			throw new NotImplementedException("TODO: make this compile");
-			//Array.Copy(this.InnerList,i,newCoordinates.InnerList,0,(Count - i));
-			//copy the start of the array onto the end of this
-			//Array.Copy(this.InnerList,0,newCoordinates.InnerList,(Count - i),i);			
+			newCoordinates = InnerList.GetRange(i,(Count - i));
+
+			//copy the start of the array onto the end of this	
+			newCoordinates.AddRange(InnerList.GetRange(0,(Count -i)));
+
+			this.InnerList.SetRange(0,newCoordinates);
 		}
+
+		/// <summary>
+		/// Shifts the positions until firstCoordinate is first.
+		/// </summary>
+		/// <remarks>Static method for compatibility with JTS 1.3, but better to
+		/// call Scroll method of your coordinates directly.</remarks>
+		/// <param name="coordinates">The CoordinateCollection to scroll</param>
+		/// <param name="firstCoordinate">The Coordinate to make first</param>
+		protected static void Scroll(CoordinateCollection coordinates, Coordinate firstCoordinate) 
+		{
+			coordinates.Scroll(firstCoordinate);
+		}
+
 
 
 		#endregion
