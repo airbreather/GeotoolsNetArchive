@@ -17,6 +17,7 @@
  *
  */
 using System;
+using System.Reflection;
 using NUnit.Framework;
 using Geotools.Geometries;
 using Geotools.SystemTests.TestRunner;
@@ -32,13 +33,24 @@ namespace Geotools.SystemTests.TestRunner
 		string _vividTests;
 		string _validateTests;
 
+		public static string GetUnitTestRootDirectory()
+		{
+			// gets the filename of the dll (as it was originally compiled).
+			// we can then determine the root.
+			string dll = Assembly.GetExecutingAssembly().CodeBase.ToLower();
+			string dir = dll.Replace("/bin/debug/geotools.systemtests.dll","");
+			dir = dir.Replace("file:///","");
+			return dir;
+		}
+		
 		public SystemTests()
 		{
-			string testRoot = @"C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\";
 
-			_usiDir= testRoot + @"Geotools.SystemTests\Tests\UrbanScience\";
-			_vividTests= testRoot+ @"Geotools.SystemTests\Tests\vivid\";
-			_validateTests = testRoot+ @"Geotools.SystemTests\Tests\validate\";
+			string testRoot = GetUnitTestRootDirectory();
+
+			_usiDir= testRoot + @"\Tests\UrbanScience\";
+			_vividTests= testRoot+ @"\Tests\vivid\";
+			_validateTests = testRoot+ @"\Tests\validate\";
 		}
 
 		#region Vidid system tests
@@ -264,7 +276,10 @@ namespace Geotools.SystemTests.TestRunner
 
 		private void PerformSystemTest(string filename)
 		{
-				
+			if (System.IO.File.Exists(filename+".xml")==false)
+			{
+				throw new ArgumentException("Could not find file "+filename);
+			}
 			//Geometries.PrecisionModel pm = new Geometries.PrecisionModel();
 			Run run = GetTestRun(filename);
 			int testCount=0;
