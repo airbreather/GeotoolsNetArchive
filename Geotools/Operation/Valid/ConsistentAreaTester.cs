@@ -31,12 +31,20 @@ using Geotools.Operation.Relate;
 
 namespace Geotools.Operation.Valid
 {
+
+
 	/// <summary>
-	/// Summary description for ConsistentAreaTester.
+	/// Checks that a GeometryGraph representing an area (a Polygon or
+	/// MultiPolygon) is consistent with the SFS semantics for area geometries.
 	/// </summary>
+	/// <remarks>
+	/// Checks include testing for rings which self-intersect (both properly
+	/// and at nodes),
+	/// and checking for duplicate rings.
+	/// </remarks>
 	internal class ConsistentAreaTester
 	{
-		private static LineIntersector _li = new RobustLineIntersector();
+		private LineIntersector _li = new RobustLineIntersector();
 
 		private GeometryGraph _geomGraph;
 		private RelateNodeGraph _nodeGraph = new RelateNodeGraph();
@@ -74,8 +82,11 @@ namespace Geotools.Operation.Valid
 		/// <returns></returns>
 		public bool IsNodeConsistentArea()
 		{
-			
-			SegmentIntersector intersector = _geomGraph.ComputeSelfNodes(_li);
+			/**
+			* To fully check validity, it is necessary to
+			* compute ALL intersections, including self-intersections within a single edge.
+			*/
+			SegmentIntersector intersector = _geomGraph.ComputeSelfNodes(_li, true);
 			if (intersector.HasProperIntersection) 
 			{
 				_invalidPoint = intersector.ProperIntersectionPoint;

@@ -52,7 +52,7 @@ namespace Geotools.Operation.Buffer
 
 		private double _angleInc;
 		private double _distance = 0.0;
-		LineList _lineList = new LineList();
+		LineList _lineList;
 		private Coordinate _so, _s1, _s2;
 		private LineSegment _seg0 = new LineSegment();
 		private LineSegment _seg1 = new LineSegment();
@@ -67,11 +67,12 @@ namespace Geotools.Operation.Buffer
 		/// </summary>
 		/// <param name="cga"></param>
 		/// <param name="li"></param>
-		public BufferMultiLineBuilder(CGAlgorithms cga, LineIntersector li)
+		public BufferMultiLineBuilder(CGAlgorithms cga, LineIntersector li, PrecisionModel precisionModel)
 		{	
 			_cga = cga;
 			_li = li;
-			_angleInc = Math.PI / 2.0 / QUADRANT_SEGMENTS;		
+			_angleInc = Math.PI / 2.0 / QUADRANT_SEGMENTS;	
+			_lineList = new LineList( precisionModel );
 		} // public BufferMultiLineBuilder(CGAlgorithms cga, LineIntersector li)
 
 	

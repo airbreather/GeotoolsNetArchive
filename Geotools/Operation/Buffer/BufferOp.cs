@@ -107,12 +107,8 @@ namespace Geotools.Operation.Buffer
 
 		private void ComputeBuffer(double distance, int quadrantSegments)
 		{
-			if (_makePrecise) 
-			{
-				double scale = GetArgGeometry(0).PrecisionModel.Scale;
-				distance *= scale;
-			}
-			BufferEdgeBuilder bufEdgeBuilder = new BufferEdgeBuilder(_cga, _li, distance, _makePrecise, quadrantSegments);
+			
+			BufferEdgeBuilder bufEdgeBuilder = new BufferEdgeBuilder(_cga, _li, distance, _resultPrecisionModel, quadrantSegments);
 			ArrayList bufferEdgeList = bufEdgeBuilder.GetEdges(GetArgGeometry(0));
 
 			// DEBUGGING ONLY
@@ -163,7 +159,7 @@ namespace Geotools.Operation.Buffer
 				Edge e = (Edge) obj;
 				graph.AddEdge(e);
 			}
-			SegmentIntersector si = graph.ComputeSelfNodes(_li);
+			SegmentIntersector si = graph.ComputeSelfNodes(_li, false);
 			/*
 			if (si.hasProperIntersection())
 			Debug.println("proper intersection found");

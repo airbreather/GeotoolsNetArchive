@@ -26,9 +26,14 @@ using System.Collections;
 namespace Geotools.Graph.Index
 {
 	/// <summary>
-	/// A SimpleMCSweepLineIntersector creates monotone chains from the edges
-	/// and compares them using a simple sweep-line along the x-axis.
+	/// Finds all intersections in one or two sets of edges,using an x-axis sweepline algorithm in conjunction with Monotone Chains.
 	/// </summary>
+	/// <remarks>
+	/// While still O(n^2) in the worst case, this algorithm
+	/// drastically improves the average-case time.
+	/// The use of MonotoneChains as the items in the index
+	/// seems to offer an improvement in performance over a sweep-line alone.
+	/// </remarks>
 	internal class SimpleMCSweepLineIntersector : EdgeSetIntersector
 	{
 		ArrayList _events = new ArrayList();
@@ -55,10 +60,17 @@ namespace Geotools.Graph.Index
 		/// </summary>
 		/// <param name="edges">Array of edges from which to compute self-intersections.</param>
 		/// <param name="si">SegmentIntersector object.</param>
-		public override void ComputeIntersections( ArrayList edges, SegmentIntersector si )
+		public override void ComputeIntersections( ArrayList edges, SegmentIntersector si, bool testAllSegments )
 		{
-			Add(edges, 0);
-			ComputeIntersections(si, false);
+			if (testAllSegments)
+			{
+				Add(edges, null);
+			}
+			else
+			{
+				Add(edges);
+			}
+			ComputeIntersections(si);
 		}
 
 		/// <summary>
@@ -69,54 +81,56 @@ namespace Geotools.Graph.Index
 		/// <param name="si"></param>
 		public override void ComputeIntersections(ArrayList edges0, ArrayList edges1, SegmentIntersector si)
 		{
-			Add(edges0, 0);
-			Add(edges1, 1);
-			ComputeIntersections(si, true);
+			Add(edges0, edges0);
+			Add(edges1, edges1);
+			ComputeIntersections(si);
 		}
 
-		private void Add(ArrayList edges, int geomIndex)
+		
+		private void Add(ArrayList edges)
 		{
-			foreach(object objectEdge in edges)
+			for(int i=0; i<edges.Count;i++)
 			{
-				Edge edge = objectEdge as Edge;
-				if ( edge != null )
-				{
-					Add(edge, geomIndex);
-				}
-				else
-				{
-					throw new ArgumentException("List of edges includes object not of type Edge");
-				}
-			} // foreach(object objectEdge in edges)
-		} // private void Add(ArrayList edges, int geomIndex)
+				Edge edge = (Edge) edges[i];
+				// edge is its own group
+				Add(edge, edge);
+			}
+		}
+		private void Add(ArrayList edges, object edgeSet)
+		{
+			for(int i=0; i<edges.Count;i++)
+			{
+				Edge edge = (Edge) edges[i];
+				Add(edge, edgeSet);
+			}
+		}
 
-		private void Add(Edge edge, int geomIndex)
+		private void Add(Edge edge, object edgeSet)
 		{
 			MonotoneChainEdge mce = edge.GetMonotoneChainEdge();
 			int[] startIndex = mce.StartIndex;
 			for (int i = 0; i < startIndex.Length - 1; i++) 
 			{
-				MonotoneChain mc = new MonotoneChain( mce, i, geomIndex );
-				SweepLineEvent insertEvent = new SweepLineEvent( geomIndex, mce.GetMinX(i), null, mc);
-				_events.Add( insertEvent );
-				_events.Add( new SweepLineEvent( geomIndex, mce.GetMaxX(i), insertEvent, mc) );
+				MonotoneChain mc = new MonotoneChain(mce, i);
+				SweepLineEvent insertEvent = new SweepLineEvent(edgeSet, mce.GetMinX(i), null, mc);
+				_events.Add(insertEvent);
+				_events.Add(new SweepLineEvent(edgeSet, mce.GetMaxX(i), insertEvent, mc));
 			}
 		} // private void Add(Edge edge, int geomIndex)
 
-		private void ComputeIntersections(SegmentIntersector si, bool doMutualOnly)
+		private void ComputeIntersections(SegmentIntersector si)
 		{
 			_nOverlaps = 0;
 			PrepareEvents();
-  
-			for( int i = 0; i < _events.Count; i++ )
+
+			for (int i = 0; i < _events.Count; i++ )
 			{
- 				SweepLineEvent ev = (SweepLineEvent)_events[i];
- 				MonotoneChain mc = (MonotoneChain) ev.Object;
- 				if ( ev.IsInsert ) 
- 				{
- 					ProcessOverlaps( i, ev.DeleteEventIndex, mc, si, doMutualOnly );
- 				}
- 			}
+				SweepLineEvent ev = (SweepLineEvent) _events[i];
+				if (ev.IsInsert) 
+				{
+					ProcessOverlaps(i, ev.DeleteEventIndex, ev, si);
+				}
+			}
 		} // private void ComputeIntersections(SegmentIntersector si, bool doMutualOnly)
 
 		/// <summary>
@@ -160,24 +174,29 @@ namespace Geotools.Graph.Index
 			}
 		} // private void PrepareEvents()
 
-		private void ProcessOverlaps(int start, int end, MonotoneChain mc0, SegmentIntersector si, bool doMutualOnly)
+		private void ProcessOverlaps(int start, int end, SweepLineEvent  ev0, SegmentIntersector si)
 		{
-			// Since we might need to test for self-intersections,
-			// include current insert event object in list of event objects to test.
-			// Last index can be skipped, because it must be a Delete event.
-			for ( int i = start; i < end; i++ ) 
+			MonotoneChain mc0 = (MonotoneChain) ev0.Object;
+			/**
+			 * Since we might need to test for self-intersections,
+			 * include current insert event object in list of event objects to test.
+			 * Last index can be skipped, because it must be a Delete event.
+			 */
+			for (int i = start; i < end; i++ ) 
 			{
-			 	SweepLineEvent ev = (SweepLineEvent) _events[i];
-			 	if ( ev.IsInsert ) 
-			 	{
-			 		MonotoneChain mc1 = (MonotoneChain) ev.Object;
-			 		if ( !doMutualOnly || ( mc0.GeomIndex != mc1.GeomIndex )  ) 
-			 		{
-			 			mc0.ComputeIntersections( mc1, si );
-			 			_nOverlaps++;
-			 		}
-			 	}
-			} // for ( int i = start; i < end; i++ )
+				SweepLineEvent ev1 = (SweepLineEvent) _events[i];
+				if (ev1.IsInsert) 
+				{
+					MonotoneChain mc1 = (MonotoneChain) ev1.Object;
+					// don't compare edges in same group
+					// null group indicates that edges should be compared
+					if (ev0.EdgeSet == null || (ev0.EdgeSet != ev1.EdgeSet)) 
+					{
+						mc0.ComputeIntersections(mc1, si);
+						_nOverlaps++;
+					}
+				}
+			}
 
 		} // private void ProcessOverlaps(int start, int end, MonotoneChain mc0, SegmentIntersector si, bool doMutualOnly)
 

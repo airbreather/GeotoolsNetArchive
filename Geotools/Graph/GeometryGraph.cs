@@ -317,6 +317,7 @@ namespace Geotools.Graph
 			{
 				_hasTooFewPoints=true;
 				_invalidPoint=coord[0];
+				return;
 			}
 			int left  = cwLeft;
 			int right = cwRight;
@@ -358,11 +359,6 @@ namespace Geotools.Graph
 		{
 			Coordinates coord = line.GetCoordinates();
 
-			// add the edge for the LineString
-			// line edges do not have locations for their left and right sides
-			Edge e = new Edge( coord, new Label( _argIndex, Location.Interior ) );
-			_lineEdgeMap[ line]=e ;
-			InsertEdge( e );
 			/**
 			 * Add the boundary points of the LineString, if any.
 			 * Even if the LineString is closed, add both points as if they were endpoints.
@@ -370,8 +366,18 @@ namespace Geotools.Graph
 			 */
 			if( coord.Count < 2 )
 			{
-				throw new InvalidOperationException("Found LineString with single point");
+				this._hasTooFewPoints = true;
+				this._invalidPoint = coord[0];
+				return;
+				//throw new InvalidOperationException("Found LineString with single point");
 			}
+
+			// add the edge for the LineString
+			// line edges do not have locations for their left and right sides
+			Edge e = new Edge( coord, new Label( _argIndex, Location.Interior ) );
+			_lineEdgeMap[ line]=e ;
+			InsertEdge( e );
+			
 			InsertBoundaryPoint( _argIndex, coord[0] );
 			InsertBoundaryPoint( _argIndex, coord[coord.Count- 1] );
 		} // private void AddLineString(LineString line)
@@ -399,20 +405,31 @@ namespace Geotools.Graph
 			InsertPoint( _argIndex, pt, Location.Interior );
 		} // public void AddPoint(Coordinate pt)
 
-
+	
+	
 		/// <summary>
-		/// 
+		/// Compute self-nodes, taking advantage of the Geometry type to minimize the number of intersection tests.  (E.g. rings are not tested for self-intersection, since they are assumed to be valid).
 		/// </summary>
-		/// <param name="li"></param>
-		/// <returns></returns>
-		public SegmentIntersector ComputeSelfNodes(LineIntersector li)
+		/// <param name="li">li the LineIntersector to use</param>
+		/// <param name="computeRingSelfNodes">computeRingSelfNodes if <false>, intersection checks are optimized to not test rings for self-intersection</param>
+		/// <returns>the SegmentIntersector used, containing information about the intersections found</returns>
+		public SegmentIntersector ComputeSelfNodes(LineIntersector li, bool computeRingSelfNodes)
 		{
-			SegmentIntersector si = new SegmentIntersector( li, true, false);
+			SegmentIntersector si = new SegmentIntersector(li, true, false);
+			EdgeSetIntersector esi = CreateEdgeSetIntersector();
+			// optimized test for Polygons and Rings
+			if (! computeRingSelfNodes
+				&& (this._parentGeometry is LinearRing
+				|| _parentGeometry is Polygon
+				|| _parentGeometry is MultiPolygon))
+			{
+				esi.ComputeIntersections(_edges, si, false);
+			}
+			else
+			{
+				esi.ComputeIntersections(_edges, si, true);
+			}
 
-			//EdgeSetIntersector esi = new MCQuadIntersector();
-			_edgeSetIntersector.ComputeIntersections( _edges, si );
-			//Trace.WriteLine( "SegmentIntersector # tests = " + si._numTests );
-			AddSelfIntersectionNodes( _argIndex );
 			return si;
 		} // public SegmentIntersector computeSelfNodes(LineIntersector li)
 

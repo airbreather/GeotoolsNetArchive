@@ -39,6 +39,7 @@ namespace Geotools.Operation
 		// The operation's arguments are placed into an array so they can be accessed by index.
 		protected GeometryGraph[] _arg = null;  // the arg(s) of the operation  TODO array of GeometryGraph...
 
+		protected PrecisionModel _resultPrecisionModel;
 		protected bool _makePrecise;
 
 		/// <summary>
@@ -48,7 +49,17 @@ namespace Geotools.Operation
 		/// <param name="g1"></param>
 		public GeometryGraphOperation(Geometry g0, Geometry g1) 
 		{
-			SetComputationPrecision( g0.PrecisionModel );
+			// use the most precise model for the result
+			if (g0.PrecisionModel.CompareTo(g1.PrecisionModel) >= 0)
+			{
+				SetComputationPrecision(g0.PrecisionModel);
+			}
+			else
+			{
+				SetComputationPrecision(g1.PrecisionModel);
+			}
+
+			//SetComputationPrecision( g0.PrecisionModel );
 
 			_arg = new GeometryGraph[2];
 			_arg[0] = new GeometryGraph(0, g0);
@@ -83,8 +94,8 @@ namespace Geotools.Operation
 		/// <param name="pm"></param>
 		protected void SetComputationPrecision( PrecisionModel pm )
 		{
-			_makePrecise = !pm.IsFloating();
-			_li.MakePrecise = _makePrecise;
+			_resultPrecisionModel = pm;
+			_li.PrecisionModel = _resultPrecisionModel;
 		}	
 
 	} // public class GeometryGraphOperation

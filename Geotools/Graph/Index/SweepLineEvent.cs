@@ -33,14 +33,12 @@ namespace Geotools.Graph.Index
 		public static int Insert = 1;
 		public static int Delete = 2;
 
-		private int _geomIndex;    // used for red-blue intersection detection
+		private object _edgeSet;    // used for red-blue intersection detection
+		private object _obj;
 		private double _xValue;
 		private int _eventType;
 		private SweepLineEvent _insertEvent; // null if this is an INSERT event
 		private int _deleteEventIndex;
-
-		object _obj;
-
 		#region Constructors
 		/// <summary>
 		/// Constructs a SweepLineEvent object.
@@ -49,9 +47,9 @@ namespace Geotools.Graph.Index
 		/// <param name="x"></param>
 		/// <param name="insertEvent"></param>
 		/// <param name="obj"></param>
-		public SweepLineEvent(int geomIndex, double x, SweepLineEvent insertEvent, Object obj)
+		public SweepLineEvent(object edgeSet, double x, SweepLineEvent insertEvent, Object obj)
 		{
-			_geomIndex = geomIndex;
+			this._edgeSet  = edgeSet;
 			_xValue = x;
 			_insertEvent = insertEvent;
 			_eventType = Insert;
@@ -68,11 +66,11 @@ namespace Geotools.Graph.Index
 		/// <summary>
 		/// Gets the Geometry Index.
 		/// </summary>
-		public int GeomIndex
+		public object EdgeSet
 		{
 			get
 			{
-				return _geomIndex;
+				return this._edgeSet;
 			}
 		}
 		/// <summary>

@@ -69,7 +69,7 @@ namespace Geotools.Operation.Overlay
 		{
 			EdgeSetIntersector esi = new SimpleMCSweepLineIntersector();
 			SegmentIntersector si = new SegmentIntersector( _li, true, false );
-			esi.ComputeIntersections( _inputEdges, si );
+			esi.ComputeIntersections( _inputEdges, si, true );
 			//Trace.WriteLine("has proper int = " + si.hasProperIntersection());
 
 			ArrayList splitEdges = new ArrayList();

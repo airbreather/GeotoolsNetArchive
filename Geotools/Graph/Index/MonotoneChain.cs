@@ -31,17 +31,15 @@ namespace Geotools.Graph.Index
 	{
 		MonotoneChainEdge _mce;
 		int _chainIndex;
-		int _geomIndex;
 
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the MonotoneChain class.
 		/// </summary>
-		public MonotoneChain( MonotoneChainEdge mce, int chainIndex, int geomIndex ) 
+		public MonotoneChain( MonotoneChainEdge mce, int chainIndex ) 
 		{
 			_mce = mce;
 			_chainIndex = chainIndex;
-			_geomIndex = geomIndex;
 		}
 
 		#endregion
@@ -68,16 +66,7 @@ namespace Geotools.Graph.Index
 			}
 		}
 
-		/// <summary>
-		/// Returns the geometry index.
-		/// </summary>
-		public int GeomIndex
-		{
-			get
-			{
-				return _geomIndex;
-			}
-		}
+		
 		#endregion
 
 		#region Methods

@@ -351,9 +351,10 @@ namespace Geotools.Geometries
 			
 			Coordinates newCoordinates = new Coordinates(Count);
 			//copy from i to the end of the collection into the new array
-			Array.Copy(this.InnerList,i,newCoordinates.InnerList,0,(Count - i));
+			throw new NotImplementedException("TODO: make this compile");
+			//Array.Copy(this.InnerList,i,newCoordinates.InnerList,0,(Count - i));
 			//copy the start of the array onto the end of this
-			Array.Copy(this.InnerList,0,newCoordinates.InnerList,(Count - i),i);			
+			//Array.Copy(this.InnerList,0,newCoordinates.InnerList,(Count - i),i);			
 		}
 
 

@@ -104,7 +104,7 @@ namespace Geotools.Operation
 			}
 			GeometryGraph graph = new GeometryGraph( 0, geom );
 			LineIntersector li = new RobustLineIntersector();
-			SegmentIntersector si = graph.ComputeSelfNodes( li );
+			SegmentIntersector si = graph.ComputeSelfNodes( li,true );
 			// if no self-intersection, must be simple
 			if( !si.HasIntersection )
 			{

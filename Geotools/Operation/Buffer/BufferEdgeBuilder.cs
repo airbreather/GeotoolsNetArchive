@@ -42,16 +42,19 @@ namespace Geotools.Operation.Buffer
 		//private BufferMultiLineBuilder lineBuilder;
 		private BufferLineBuilder _lineBuilder;
 		private ArrayList _edgeList = new ArrayList();
+		private PrecisionModel _precisionModel;
+
 		
 		
 		
-		public BufferEdgeBuilder(CGAlgorithms cga, LineIntersector li, double distance, bool makePrecise, int quadrantSegments)
+		public BufferEdgeBuilder(CGAlgorithms cga, LineIntersector li, double distance, PrecisionModel precisionModel, int quadrantSegments)
 		{
 			
 			this._cga = cga;
 			this._distance = distance;
+			this._precisionModel = precisionModel;
 			//lineBuilder = new BufferMultiLineBuilder(cga, li);
-			_lineBuilder = new BufferLineBuilder(_cga, li, makePrecise,quadrantSegments);
+			_lineBuilder = new BufferLineBuilder(_cga, li, precisionModel, quadrantSegments);
 			
 		}
 		#region Properties

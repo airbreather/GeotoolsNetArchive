@@ -65,7 +65,7 @@ namespace Geotools.Operation.Buffer
 		private double _angleInc;
 		private Coordinates _ptList;
 		private double _distance = 0.0;
-		private bool _makePrecise;
+		private PrecisionModel _precisionModel;
 
 		/// <summary>
 		/// A BufferLineBuilder only builds a single ring for all input values, but it
@@ -83,20 +83,20 @@ namespace Geotools.Operation.Buffer
 		#region Constructors
 
 	
-		public BufferLineBuilder(CGAlgorithms _cga, LineIntersector li, bool makePrecise, int quadrantSegments)
+		public BufferLineBuilder(CGAlgorithms _cga, LineIntersector li, PrecisionModel precisionModel, int quadrantSegments)
 		{
 			
 			this._cga = _cga;
 			this._li = li;
-			this._makePrecise = makePrecise;
+			this._precisionModel = precisionModel;
 			_angleInc = Math.PI / 2.0 / quadrantSegments;
 			_lineList = new ArrayList();
 			// ensure array has exactly one element
 			_lineList.Add(arrayTypeCoordinate);
 			
 		}
-		public BufferLineBuilder(CGAlgorithms _cga, LineIntersector li, bool makePrecise)
-			: this(_cga, li, makePrecise, DefaultQuadrantSegments)
+		public BufferLineBuilder(CGAlgorithms _cga, LineIntersector li, PrecisionModel precisionModel)
+			: this(_cga, li, precisionModel, DefaultQuadrantSegments)
 		{
 		}
 		#endregion
@@ -257,8 +257,10 @@ namespace Geotools.Operation.Buffer
 		{
 			
 			Coordinate bufPt = new Coordinate(pt);
-			if (_makePrecise)
-				bufPt.MakePrecise();
+			if (this._precisionModel != null)
+			{
+				this._precisionModel.MakePrecise(bufPt);
+			}
 			// don't add duplicate points
 			Coordinate lastPt = null;
 			if (_ptList.Count >= 1)

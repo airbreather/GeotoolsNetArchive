@@ -506,7 +506,7 @@ namespace Geotools.Geometries
 			Coordinates ringCoordinates = ring.GetCoordinates();
 			ringCoordinates.Clear();
 			ringCoordinates.AddRange( uniqueCoordinates );
-			ringCoordinates.Add( uniqueCoordinates[0].Clone() );		// add back in the closing point.
+			ringCoordinates.Add( (Coordinate)uniqueCoordinates[0].Clone() );		// add back in the closing point.
 			if ( _cgAlgorithms.IsCCW( ringCoordinates ) == clockwise )
 			{
 				ReversePointOrder( ringCoordinates );

@@ -36,13 +36,15 @@ namespace Geotools.Operation.Buffer
 		private static Coordinates _arrayTypeCoordinate = new Coordinates();
 		ArrayList _lines = new ArrayList();
 		ArrayList _currPtList;
+		PrecisionModel _precisionModel;
 
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the LineList class.
 		/// </summary>
-		public LineList()
+		public LineList(PrecisionModel precisionModel)
 		{
+			_precisionModel = precisionModel;
 			AddNewList();
 		}
 		#endregion
@@ -85,7 +87,8 @@ namespace Geotools.Operation.Buffer
 		{
 			
 			Coordinate bufPt = new Coordinate(pt);
-			bufPt.MakePrecise();
+			//?? should this check for not null first????
+			_precisionModel.MakePrecise( bufPt );
 			// don't add duplicate points
 			Coordinate lastPt = null;
 			if (_currPtList.Count >= 1)

@@ -54,13 +54,14 @@ namespace Geotools.Graph.Index
 		#endregion
 
 		#region Methods
-
+	
 		/// <summary>
-		/// Computes all self-intersections between edges in a set of edges.
+		/// Computes all self-intersections between edges in a set of edges,allowing client to choose whether self-intersections are computed.
 		/// </summary>
-		/// <param name="edges"></param>
-		/// <param name="si"></param>
-		abstract public void ComputeIntersections(ArrayList edges, SegmentIntersector si);
+		/// <param name="edges">edges a list of edges to test for intersections.</param>
+		/// <param name="si">si the SegmentIntersector to use.</param>
+		/// <param name="testAllSegments">testAllSegments true if self-intersections are to be tested as well.</param>
+		abstract public void ComputeIntersections(ArrayList edges, SegmentIntersector si, bool testAllSegments);
 
 		/// <summary>
 		/// Computes all mutual intersections between two sets of edges.

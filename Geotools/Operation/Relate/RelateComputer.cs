@@ -44,8 +44,8 @@ namespace Geotools.Operation.Relate
 	/// </remarks>
 	internal class RelateComputer
 	{
-		private static LineIntersector _li = new RobustLineIntersector();		// this was public...???TODO: check to see why it was public.
-		private static PointLocator _ptLocator = new PointLocator();
+		private LineIntersector _li = new RobustLineIntersector();		// this was public...???TODO: check to see why it was public.
+		private PointLocator _ptLocator = new PointLocator();
 
 		private GeometryGraph[] _arg = null;  // the arg(s) of the operation ArrayList of GeometryGraph[]
 		private NodeMap _nodes = new NodeMap( new RelateNodeFactory() );
@@ -80,7 +80,8 @@ namespace Geotools.Operation.Relate
 		#endregion
 
 		#region Public Methods
-		/// <summary>
+		
+		/*/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
@@ -110,8 +111,10 @@ namespace Geotools.Operation.Relate
 
 			return IsNodeEdgeAreaLabelsConsistent();
 		} // public bool IsNodeConsistentArea()
+*/
 
-		/// <summary>
+		/*
+		 * /// <summary>
 		/// Checks for two duplicate rings in an area.
 		/// Duplicate rings are rings that are topologically equal
 		/// (that is, which have the same sequence of points up to point order).
@@ -142,6 +145,7 @@ namespace Geotools.Operation.Relate
 			} // foreach ( object obj in _nodes )
 			return false;
 		} // public bool HasDuplicateRings()
+*/
 
 		/// <summary>
 		/// Computes the Intersection matrix for the geometries.
@@ -162,8 +166,8 @@ namespace Geotools.Operation.Relate
 				return im;
 			}
 
-			_arg[0].ComputeSelfNodes( _li );
-			_arg[1].ComputeSelfNodes( _li );
+			_arg[0].ComputeSelfNodes( _li, false );
+			_arg[1].ComputeSelfNodes( _li, false );
 
 			// compute intersections between edges of the two input geometries
 			SegmentIntersector intersector = _arg[0].ComputeEdgeIntersections( _arg[1], _li, false );

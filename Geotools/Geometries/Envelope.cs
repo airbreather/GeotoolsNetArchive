@@ -582,8 +582,8 @@ namespace Geotools.Geometries
 		/// <returns>true if q intersects the envelope p1-p2</returns>
 		public static bool Intersects(Coordinate p1, Coordinate p2, Coordinate q)
 		{
-			if (((q.X >= Math.min(p1.X, p2.X)) && (q.X <= Math.max(p1.X, p2.X))) &&
-				((q.Y >= Math.min(p1.Y, p2.Y)) && (q.Y <= Math.max(p1.Y, p2.Y)))) 
+			if (((q.X >= Math.Min(p1.X, p2.X)) && (q.X <= Math.Max(p1.X, p2.X))) &&
+				((q.Y >= Math.Min(p1.Y, p2.Y)) && (q.Y <= Math.Max(p1.Y, p2.Y)))) 
 			{
 				return true;
 			}
@@ -602,7 +602,7 @@ namespace Geotools.Geometries
 		/// <returns>true if Q intersects P</returns>
 		public static bool Intersects(Coordinate p1, Coordinate p2, Coordinate q1, Coordinate q2)
 		{
-			double minq = Math,Min(q1.X, q2.X);
+			double minq = Math.Min(q1.X, q2.X);
 			double maxq = Math.Max(q1.X, q2.X);
 			double minp = Math.Min(p1.X, p2.X);
 			double maxp = Math.Max(p1.X, p2.X);
@@ -612,10 +612,10 @@ namespace Geotools.Geometries
 			if( maxp < minq )
 				return false;
 
-			minq = Math.Min(q1.y, q2.y);
-			maxq = Math.Max(q1.y, q2.y);
-			minp = Math.Min(p1.y, p2.y);
-			maxp = Math.Max(p1.y, p2.y);
+			minq = Math.Min(q1.Y, q2.Y);
+			maxq = Math.Max(q1.Y, q2.Y);
+			minp = Math.Min(p1.Y, p2.Y);
+			maxp = Math.Max(p1.Y, p2.Y);
 
 			if( minp > maxq )
 				return false;

@@ -157,8 +157,8 @@ namespace Geotools.Operation.Overlay
 			CopyPoints(1);
 
 			// node the input Geometries
-			_arg[0].ComputeSelfNodes( _li );
-			_arg[1].ComputeSelfNodes( _li );
+			_arg[0].ComputeSelfNodes( _li, false );
+			_arg[1].ComputeSelfNodes( _li, false );
 
 			// compute intersections between edges of the two input geometries
 			_arg[0].ComputeEdgeIntersections( _arg[1], _li, true );
