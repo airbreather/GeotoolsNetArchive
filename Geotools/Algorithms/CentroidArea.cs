@@ -5,16 +5,19 @@ using Geotools.Geometries;
 namespace Geotools.Algorithms
 {
 
-	/**
-	 * Computes the centroid of an area geometry.
-	 * <h2>Algorithm</h2>
-	 * Based on the usual algorithm for calculating
-	 * the centroid as a weighted sum of the centroids
-	 * of a decomposition of the area into (possibly overlapping) triangles.
-	 * The algorithm has been extended to handle holes and multi-polygons.
-	 * See <code>http://www.faqs.org/faqs/graphics/algorithms-faq/</code>
-	 * for further details of the basic approach.
-	 */
+
+	
+	/// <summary>
+	/// Computes the centroid of an area geometry.
+	/// </summary>
+	/// <remarks>
+	/// Based on the usual algorithm for calculating
+	/// the centroid as a weighted sum of the centroids
+	/// of a decomposition of the area into (possibly overlapping) triangles.
+	/// The algorithm has been extended to handle holes and multi-polygons.
+	/// See <code>http://www.faqs.org/faqs/graphics/algorithms-faq/</code>
+	/// for further details of the basic approach.
+	/// </remarks>
 	public class CentroidArea
 	{
 		private CGAlgorithms _cga = new RobustCGAlgorithms();
@@ -29,12 +32,12 @@ namespace Geotools.Algorithms
 			_basePt = null;
 		}
 
-		/**
-		 * Adds the area defined by a Geometry to the centroid total.
-		 * If the geometry has no area it does not contribute to the centroid.
-		 *
-		 * @param geom the geometry to add
-		 */
+	
+
+		/// <summary>
+		/// Adds the area defined by a Geometry to the centroid total. If the geometry has no area it does not contribute to the centroid.
+		/// </summary>
+		/// <param name="geom">geom the geometry to add</param>
 		public void Add(Geometry geom)
 		{
 			if (geom is Polygon) 
@@ -53,12 +56,13 @@ namespace Geotools.Algorithms
 			}
 		}
 
-		/**
-		 * Adds the area defined by an array of
-		 * coordinates.  The array must be a ring;
-		 * i.e. end with the same coordinate as it starts with.
-		 * @param ring an array of {@link Coordinate}s
-		 */
+
+		/// <summary>
+		///  Adds the area defined by an array of
+		///  coordinates.  The array must be a ring;
+		///  i.e. end with the same coordinate as it starts with.
+		/// </summary>
+		/// <param name="ring"> ring an array of {@link Coordinate}s</param>
 		public void Add(CoordinateCollection ring)
 		{
 			SetBasePoint(ring[0]);
@@ -113,11 +117,17 @@ namespace Geotools.Algorithms
 			_cg3.Y += sign * area2 * _triangleCent3.Y;
 			_areasum2 += sign * area2;
 		}
-		/**
-		 * Returns three times the centroid of the triangle p1-p2-p3.
-		 * The factor of 3 is
-		 * left in to permit division to be avoided until later.
-		 */
+
+
+		/// <summary>
+		/// Returns three times the centroid of the triangle p1-p2-p3.
+		///  The factor of 3 is
+		///  left in to permit division to be avoided until later.
+		/// </summary>
+		/// <param name="p1"></param>
+		/// <param name="p2"></param>
+		/// <param name="p3"></param>
+		/// <param name="c"></param>
 		private static void Centroid3( Coordinate p1, Coordinate p2, Coordinate p3, Coordinate c )
 		{
 			c.X = p1.X + p2.X + p3.X;
