@@ -141,6 +141,7 @@ namespace Geotools.IO
 		/// Writes the geometry to the binary writer.
 		/// </summary>
 		/// <param name="geometry">The geometry to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WriteGeometry(Geometry geometry, byte format)
 		{
 			switch( geometry.GetGeometryType() )
@@ -202,6 +203,7 @@ namespace Geotools.IO
 		/// Writes a linestring.
 		/// </summary>
 		/// <param name="ls">The linestring to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WriteLineString(LineString ls, byte format)
 		{
 			//Write the number of points in this linestring.
@@ -219,6 +221,7 @@ namespace Geotools.IO
 		/// Writes a polygon.
 		/// </summary>
 		/// <param name="poly">The polygon to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WritePolygon(Polygon poly, byte format)
 		{
 			//Get the number of rings in this polygon.
@@ -245,6 +248,7 @@ namespace Geotools.IO
 		/// Writes a multipoint.
 		/// </summary>
 		/// <param name="mp">The multipoint to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WriteMultiPoint(MultiPoint mp, byte format)
 		{
 			//Get the number of points in this multipoint.
@@ -271,6 +275,7 @@ namespace Geotools.IO
 		/// Writes a multilinestring.
 		/// </summary>
 		/// <param name="mls">The multilinestring to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WriteMultiLineString(MultiLineString mls, byte format)
 		{
 			//Get the number of linestrings in this multilinestring.
@@ -291,6 +296,7 @@ namespace Geotools.IO
 		/// Writes a multipolygon.
 		/// </summary>
 		/// <param name="mp">The mulitpolygon to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WriteMultiPolygon(MultiPolygon mp, byte format)
 		{
 			//Get the number of polygons in this multipolygon.
@@ -315,6 +321,7 @@ namespace Geotools.IO
 		/// Writes a geometrycollection.
 		/// </summary>
 		/// <param name="gc">The geometrycollection to be written.</param>
+		/// <param name="format">The format to use (little endian vs. big endian).</param>
 		private void WriteGeometryCollection(GeometryCollection gc, byte format)
 		{
 			//Get the number of geometries in this geometrycollection.
