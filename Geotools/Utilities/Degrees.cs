@@ -36,7 +36,7 @@ namespace Geotools.Utilities
 		/// <returns>The angle in radians.</returns>
 		public static double ToRadians(double degrees)
 		{
-			return degrees * 0.0174532925199432958;
+			return (Math.PI/180 * degrees);
 		}
 	}
 }
