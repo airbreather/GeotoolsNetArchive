@@ -35,6 +35,7 @@ namespace Geotools.Geometries
 	/// When Envelope objects are created or initialized,
 	/// the supplied extent values are automatically sorted into the correct order.
 	/// </para>
+	/// </remarks>
 	public class Envelope
 	{
 		/// <summary>
