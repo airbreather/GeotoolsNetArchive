@@ -44,7 +44,7 @@ namespace Geotools.IO
 	/// }
 	/// </code>
 	/// </remarks>
-	internal struct RowStructure : ICustomTypeDescriptor 
+	public struct RowStructure : ICustomTypeDescriptor 
 	{
 		DbaseFieldDescriptor[] _dbaseFields;
 		private ArrayList _columnValues;
@@ -121,7 +121,7 @@ namespace Geotools.IO
 
 		public PropertyDescriptorCollection GetProperties() 
 		{
-			// add an extra field at the beginning - this will hold the WKT for the Geometry object.
+			// add an extra field at the beginning - this will hold the WKB for the Geometry object.
 			PropertyDescriptor[] pd = new PropertyDescriptor[_dbaseFields.Length];
 
 			// the regular fields
