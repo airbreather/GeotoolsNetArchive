@@ -20,8 +20,8 @@
 
 #region Using
 using System;
-using System.Drawing;
 using Geotools.CoordinateReferenceSystems;
+
 #endregion
 
 namespace Geotools.CoordinateTransformations
