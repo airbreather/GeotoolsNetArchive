@@ -4,6 +4,7 @@
 	<property name="target" value="Debug"/>
 	<property name="docs.dir" value="docs"/>
 	<property name="nunit.output" value="Plain"/>
+	<property name="unittest.dir" value=""/>
 
     <!--
     	Calls all sub-nant tasks to do a debug build
@@ -48,30 +49,26 @@
 		<nant basedir="Geotools.UnitTests" target="${target}" buildfile="Geotools.UnitTests\Geotools.UnitTests.build"/>
     </target>
     
-    <target name="unittest" description="run unit tests">
-        <nunit basedir="Geotools.UnitTests" haltonerror="true" haltonfailure="false">		
-            <test class="Geotools.UnitTests.AllTests" assembly="Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll"  />
-        </nunit>
-    </target>
+   
     
     <target name="unittest2"  description="runs unit tests">
     	<nunit2  haltonerror="false" haltonfailure="false" failonerror="false" >
-      	<test assemblyname="C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll" fork="true" type="${nunit.output}"/>    	</nunit2>
+      		<test assemblyname="${unittest.dir}Geotools.UnitTests\bin\Debug\Geotools.UnitTests.dll" fork="true" type="${nunit.output}"/> 
+      	</nunit2>
    </target>
   
     
     <target name="dailybuild" description="Compiles system from scratch using latest source code" >
-		<echo message="Doing Daily Build"/>
+		
+		<!-- need to log to Xml file so results can be seen in the web page -->
 		<property name="nunit.output" value="Xml"/>
-		<!--    
-			<call target="clean"/>
-			<call target="delete"/>
-			<call target="sourcesafe"/>
-		-->
+		
+		<!-- set the directory where -->
+		<property name="unittest.dir" value="C:\CC\GeotoolsNetCVSBuild\GeotoolsNet\"/>
+		
 		<call target="Debug"/>
 		<call target="unittest2"/>
-		<!--<call target="doc"/>-->
-		<!--<call target="deploy"/>-->
+	
     </target>
     
     
