@@ -47,7 +47,7 @@
 		<mkdir dir="build"/>
 		<nant basedir="Geotools" target="${target}" buildfile="Geotools\Geotools.build" haltonfailure="false"/>
 		<nant basedir="Geotools.UnitTests" target="${target}" buildfile="Geotools.UnitTests\Geotools.UnitTests.build"/>
-		<nant basedir="Geotools.SystemTests" target="${target}" buildfile="Geotools.UnitTests\Geotools.SystemTests.build"/>
+		<nant basedir="Geotools.SystemTests" target="${target}" buildfile="Geotools.SystemTests\Geotools.SystemTests.build"/>
     </target>
     
    
