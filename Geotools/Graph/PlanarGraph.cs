@@ -24,7 +24,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Text;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Algorithms;
 #endregion
 

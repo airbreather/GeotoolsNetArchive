@@ -23,14 +23,14 @@
 using System;
 using System.IO;
 using System.Collections;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Utilities;
 #endregion
 
 namespace Geotools.IO
 {
 	/// <summary>
-	///  Converts a Well-known Text string to a Geometry.
+	///  Converts a Well-known Text string to a Geometry object.
 	/// </summary>
 	/// <remarks>The Well-known
 	///  <para>Text format is defined in the 

@@ -24,7 +24,7 @@ using System.Collections;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using Geotools.Algorithms;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Graph.Index;
 #endregion
 
@@ -291,7 +291,7 @@ namespace Geotools.Graph
 				Geometry g = (Geometry)gc.GetGeometryN( i );
 				Add( g );
 			}
-		} // private void AddCollection(OGC.SimpleFeatures.IGeometryCollection gc)
+		} // private void AddCollection(OGC.Geometries.IGeometryCollection gc)
 
 		/// <summary>
 		/// Add a Point to the graph.

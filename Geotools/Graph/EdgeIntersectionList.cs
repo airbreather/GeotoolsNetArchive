@@ -23,7 +23,7 @@ using System;
 using System.Text;
 using System.Collections;
 using System.IO;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.Graph

@@ -22,7 +22,7 @@
 
 using System;
 using System.Collections;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Index.Chain;
 using Geotools.Index.STRTree;
 using Geotools.Index.BinTree;

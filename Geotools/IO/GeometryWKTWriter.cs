@@ -23,13 +23,13 @@ using System;
 using System.IO;
 using System.Text;
 using Geotools.Utilities;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.IO
 {
 	/// <summary>
-	/// The Well-Known Text Writer outputs the textual representation of a Geometry object.
+	/// Outputs the textual representation of a Geometry object.
 	/// </summary>
 	/// <remarks>
 	/// <para>The Well-known Text format is defined in the OpenGIS Simple Features Specification for SQL.</para>

@@ -22,7 +22,7 @@
 using System;
 using System.Collections;
 using Geotools.Algorithms;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Graph;
 using Geotools.Graph.Index;
 using Geotools.Operation.Overlay;
@@ -246,26 +246,13 @@ namespace Geotools.Operation.Buffer
 		{
 			ArrayList newEdges = new ArrayList();
 			//for (Iterator it = edgeList.iterator(); it.hasNext(); ) 
-			/* problem because the collection gets modified while enumerating thru it, and this causes an exception
-			 * 
-			 * foreach(object obj in _edgeList)
+			foreach(object obj in _edgeList)
 			{
 				Edge e = (Edge) obj;
 				if ( e.IsCollapsed() ) 
 				{
 					
 					_edgeList.Remove(obj);
-
-					newEdges.Add(e.GetCollapsedEdge());
-				}
-			}*/
-			for (int i=0;i<_edgeList.Count;i++)
-			{
-				Edge e = (Edge)_edgeList[i];
-				if ( e.IsCollapsed() ) 
-				{
-					
-					_edgeList.Remove(e);
 
 					newEdges.Add(e.GetCollapsedEdge());
 				}

@@ -23,7 +23,7 @@ using System;
 using System.Collections;
 using Geotools.Graph;
 using Geotools.Algorithms;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 
 
 namespace Geotools.Operation.Buffer

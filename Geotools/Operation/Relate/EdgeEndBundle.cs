@@ -25,7 +25,7 @@ using System.IO;
 using System.Collections;
 using System.Text;
 using Geotools.Graph;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.Operation.Relate

@@ -21,7 +21,7 @@
 using System;
 using System.IO;
 using System.Collections;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Utilities;
 #endregion
 
@@ -183,7 +183,7 @@ namespace Geotools.IO
 				Point point = CreateWKBPoint() as Point;
 
 				//Add the coordinates of the point to the coordinate.
-				Coordinate coord = new Coordinate(point.x, point.y);
+				Coordinate coord = new Coordinate(point.X, point.Y);
 
 				//Add the coordinate to the coordinates array.
 				coords.Add(coord);
@@ -214,7 +214,7 @@ namespace Geotools.IO
 				Point point = CreateWKBPoint() as Point;
 
 				//Add the coordinates of the point to the coordinate.
-				Coordinate coord = new Coordinate(point.x, point.y);
+				Coordinate coord = new Coordinate(point.X, point.Y);
 
 				//Add the coordinate to the coordinates array.
 				coords.Add(coord);
@@ -241,7 +241,7 @@ namespace Geotools.IO
 					Point point = CreateWKBPoint() as Point;
 
 					//Add the coordinates of the point to the coordinate.
-					Coordinate coord = new Coordinate(point.x, point.y);
+					Coordinate coord = new Coordinate(point.X, point.Y);
 
 					//Add the coordinate to the coordinates array.
 					coords.Add(coord);

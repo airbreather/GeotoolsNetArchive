@@ -31,10 +31,6 @@ namespace Geotools.IO
 	public class WktStreamTokenizer : StreamTokenizer
 	{
 
-		/* Would be cool to replace this class with the one like the .ini class described in the link below
-		 * http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dndotnet/html/custxmlread.asp
-		 * but I'm not sure the effort will be worth it.
-		 * */
 		#region Constructors
 
 		/// <summary>
@@ -50,7 +46,6 @@ namespace Geotools.IO
 			}
 		}
 		#endregion
-
 
 		#region Methods
 

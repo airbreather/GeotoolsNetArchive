@@ -29,13 +29,10 @@ using Geotools.Utilities;
 namespace Geotools.IO
 {
 	/// <summary>
-	/// Creates an object based on the supplied WKT.
+	/// Creates an object based on the supplied Well Known Text (WKT).
 	/// </summary>
 	public class CoordinateSystemWktReader
 	{
-	
-
-
 		/// <summary>
 		/// Creates the appropriate object given a string containing XML.
 		/// </summary>

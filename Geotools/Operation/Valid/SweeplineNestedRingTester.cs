@@ -23,7 +23,7 @@
 using System;
 using System.Collections;
 using Geotools.Algorithms;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Graph;
 using Geotools.Index.Sweepline;
 

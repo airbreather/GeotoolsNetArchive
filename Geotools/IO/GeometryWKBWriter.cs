@@ -22,7 +22,7 @@
 using System;
 using System.IO;
 using System.Collections;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Utilities;
 #endregion
 
@@ -180,9 +180,9 @@ namespace Geotools.IO
 		private void WritePoint(Point point)
 		{
 			//Write the x coordinate.
-			_bWriter.Write(point.x);
+			_bWriter.Write(point.X);
 			//Write the y coordinate.
-			_bWriter.Write(point.y);
+			_bWriter.Write(point.Y);
 		}
 
 		/// <summary>

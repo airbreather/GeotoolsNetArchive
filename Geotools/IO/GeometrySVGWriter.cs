@@ -1,5 +1,4 @@
-/*
- *  Copyright (C) 2002 Urban Science Applications, Inc. 
+ /*  Copyright (C) 2002 Urban Science Applications, Inc. 
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -23,7 +22,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using Geotools.Utilities;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.IO
@@ -43,28 +42,65 @@ namespace Geotools.IO
 		private string _style="";
 		private string _formatterString="";
 		private string _namespace="";
+		private PrecisionModel _precisionModel;
+		private bool _useRelative = true;
 
 		#region Constructors
 		/// <summary>
 		/// Initializes a new instance of the GeometrySVGWriter class.
 		/// </summary>
-		public GeometrySVGWriter(PrecisionModel precisionModel): this(precisionModel,"")
+		public GeometrySVGWriter(PrecisionModel precisionModel): this(precisionModel,"",5)
 		{
+
+		}
+		public GeometrySVGWriter(PrecisionModel precisionModel, string xmlNamespace, int decimalPlaces)
+		{
+			_formatterString = CreateFormatter(decimalPlaces);
+			_namespace = xmlNamespace;
+			_precisionModel = precisionModel;
 		}
 
-		public GeometrySVGWriter(PrecisionModel precisionModel, string xmlNamespace)
-		{
-			_formatterString = CreateFormatter(precisionModel);
-			_namespace = xmlNamespace;
-		}
+		
+
 		#endregion
 
 		#region Properties
+		/// <summary>
+		/// Radius of circle objects written for Point objects.
+		/// </summary>
+		public int Radius
+		{
+			set
+			{
+				_radius = value;
+				if ( _radius <= 0 )
+					_radius = 1;
+			}
+			get
+			{
+				return _radius;
+			}
+		}
+
+		/// <summary>
+		/// If set true (the default) graphics paths use relative coordinates.
+		/// </summary>
+		public bool RelativeCoordinates
+		{
+			get
+			{
+				return _useRelative;
+			}
+			set
+			{
+				_useRelative = value;
+			}
+		}
 		#endregion
 
 		#region Methods
 
-		/// <summary>
+		/*/// <summary>
 		///	 Creates the DecimalFormat used to write doubles
 		///  with a sufficient number of decimal places.
 		/// </summary>
@@ -81,6 +117,11 @@ namespace Geotools.IO
 				decimalPlaces = 1 + (int) Math.Ceiling(Math.Log(precisionModel.Scale) / Math.Log(10));
 			}
 			return ("#" + (decimalPlaces > 0 ? "." : "") + StringOfChar('#', decimalPlaces));
+		}*/
+
+		private static string CreateFormatter(int decimalPlaces) 
+		{
+			return "{0:F"+ decimalPlaces+"}";
 		}
 
 
@@ -135,7 +176,7 @@ namespace Geotools.IO
 		public void Write(IGeometry geometry, TextWriter writer,string CssClass, string style)
 		{
 			_cssClass=CssClass;
-		    _style=style;
+			_style=style;
 			Geometry geometryObj = (Geometry)geometry;
 			AppendGeometryTaggedText(geometry, writer);
 			_cssClass="";
@@ -154,7 +195,7 @@ namespace Geotools.IO
 			if (geometry is Point) 
 			{
 				Point point = (Point) geometry;
-				AppendPointTaggedText(point.GetCoordinate(), writer, point.PrecisionModel);
+				AppendPointTaggedText(point.GetCoordinate(), writer, _precisionModel);
 			}
 			else if (geometry is LineString) 
 			{
@@ -199,13 +240,26 @@ namespace Geotools.IO
 		{
 			Coordinate externalCoordinate = new Coordinate();
 			precisionModel.ToExternal(coordinate, externalCoordinate);
-			writer.Write(WriteNumber(externalCoordinate.X) + " " + WriteNumber(externalCoordinate.Y));
-			writer.Write(String.Format("<{5}circle class=\"{0}\" style=\"{1}\" cx=\"{2}\" cy=\"{3}\" r=\"{4}\"/>",_cssClass,_style,WriteNumber(externalCoordinate.X),WriteNumber(externalCoordinate.Y),_radius,_namespace));			
+			if (this._cssClass!="")
+			{
+				writer.WriteLine(String.Format("<{5}circle class=\"{0}\" style=\"{1}\" cx=\"{2}\" cy=\"{3}\" r=\"{4}\"/>",_cssClass,_style,WriteNumber(externalCoordinate.X),WriteNumber(externalCoordinate.Y),_radius,_namespace));			
+			}
+			else
+			{
+				writer.WriteLine(String.Format("<{4}circle  style=\"{0}\" cx=\"{1}\" cy=\"{2}\" r=\"{3}\"/>",_style,WriteNumber(externalCoordinate.X),WriteNumber(externalCoordinate.Y),_radius,_namespace));			
+			}
 		}
 
 		protected void AppendPath(TextWriter writer)
 		{
-			writer.Write(String.Format("<{2}path class=\"{0}\" style=\"{1}\" d=\"",_cssClass,_style,_namespace));
+			if (this._cssClass=="")
+			{
+				writer.WriteLine(String.Format("<{1}path  style=\"{0}\" d=\"",_style,_namespace));
+			}
+			else
+			{
+				writer.WriteLine(String.Format("<{2}path class=\"{0}\" style=\"{1}\" d=\"",_cssClass,_style,_namespace));
+			}
 		}
 		protected void AppendEndPath(TextWriter writer)
 		{
@@ -244,9 +298,9 @@ namespace Geotools.IO
 		/// <param name="writer">The output writer to Append to.</param>
 		protected void AppendMultiPointTaggedText(MultiPoint multipoint, TextWriter writer)
 		{
-			writer.Write("<g>");
+			//writer.Write("<g>");
 			AppendMultiPointText(multipoint,  writer);
-			writer.Write("</g>");
+			//writer.Write("</g>");
 		}
 
 		/// <summary>
@@ -301,7 +355,8 @@ namespace Geotools.IO
 			//throw new NotFiniteNumberException();
 			Coordinate externalCoordinate = new Coordinate();
 			precisionModel.ToExternal(coordinate, externalCoordinate);
-			writer.Write(WriteNumber(externalCoordinate.X) + " " + WriteNumber(externalCoordinate.Y));
+			writer.Write(" " + WriteNumber(externalCoordinate.X) + " " + WriteNumber(externalCoordinate.Y));
+			//writer.Write(WriteNumber(coordinate.X) + " " + WriteNumber(coordinate.Y));
 			
 		}
 
@@ -312,22 +367,32 @@ namespace Geotools.IO
 		/// <returns>The double as a string, not in scientific notation.</returns>
 		protected string WriteNumber(double d) 
 		{
-			//return formatter.format(d);
-			//return "";
 			if (d!=0.0)
 			{
-				return d.ToString(_formatterString);
+				return String.Format(_formatterString, d);
 			}
+			
 			return "0";
 		}
 
+		public void AppendLineStringText(LineString lineString, TextWriter writer)
+		{
+			if (_useRelative)
+			{
+				AppendLineStringTextRelative(lineString, writer);
+			}
+			else
+			{
+				AppendLineStringTextAbsolute(lineString, writer);
+			}
+		}
 		/// <summary>
 		/// Converts a LineString to &lt;LineString Text&gt; format, then
 		/// Appends it to the writer.
 		/// </summary>
 		/// <param name="lineString">The LineString to process.</param>
 		/// <param name="writer">The output stream to Append to.</param>
-		protected void AppendLineStringText(LineString lineString, TextWriter writer)
+		public void AppendLineStringTextRelative(LineString lineString, TextWriter writer)
 		{
 			
 			if (lineString.IsEmpty()) 
@@ -336,14 +401,51 @@ namespace Geotools.IO
 			}
 			else 
 			{
-				writer.Write("M");
-				for (int i = 0; i < lineString.GetNumPoints(); i++) 
+				writer.Write(" M ");
+				double currentX = lineString.GetCoordinateN(0).X; 
+				double currentY = lineString.GetCoordinateN(0).Y;
+				double x=0;
+				double y=0;
+				AppendCoordinate(lineString.GetCoordinateN(0), writer, _precisionModel);
+				Coordinate relativeCoordinate = new Coordinate();
+				writer.Write(" l ");
+				for (int i = 1; i < lineString.GetNumPoints(); i++) 
 				{
-					if (i > 0) 
+					x = lineString.GetCoordinateN(i).X;
+					y = lineString.GetCoordinateN(i).Y;
+					relativeCoordinate.X=  x- currentX;
+					relativeCoordinate.Y=  y - currentY;
+					AppendCoordinate(relativeCoordinate, writer, _precisionModel);
+					currentX = x;
+					currentY = y;	
+					if (i%5==4)
 					{
-						writer.Write(", ");
+						writer.WriteLine();
 					}
-					AppendCoordinate(lineString.GetCoordinateN(i), writer, lineString.PrecisionModel);
+				}
+				
+			}
+		}
+
+		protected void AppendLineStringTextAbsolute(LineString lineString, TextWriter writer)
+		{
+			
+			if (lineString.IsEmpty()) 
+			{
+				//writer.Write("EMPTY");
+			}
+			else 
+			{
+				writer.Write(" M ");
+				AppendCoordinate(lineString.GetCoordinateN(0), writer, _precisionModel);
+				for (int i = 1; i < lineString.GetNumPoints(); i++) 
+				{
+					writer.Write(" L ");
+					AppendCoordinate(lineString.GetCoordinateN(i), writer, _precisionModel);
+					if (i%5==4)
+					{
+						writer.WriteLine();
+					}
 				}
 				
 			}
@@ -367,9 +469,9 @@ namespace Geotools.IO
 				AppendLineStringText(polygon.Shell,writer);
 				for (int i = 0; i < polygon.GetNumInteriorRing(); i++) 
 				{
-						AppendLineStringText(polygon.Holes[i],  writer);
+					AppendLineStringText(polygon.Holes[i],  writer);
 				}
-				writer.Write("Z");
+				writer.Write(" Z ");
 			}	
 		
 		}
@@ -390,7 +492,7 @@ namespace Geotools.IO
 			{
 				for (int i = 0; i < multiPoint.GetNumGeometries(); i++) 
 				{
-					AppendPointTaggedText( multiPoint.GetCoordinate(i), writer,multiPoint.PrecisionModel);
+					AppendPointTaggedText( multiPoint.GetCoordinate(i), writer, _precisionModel);
 				}
 			}
 		}
@@ -440,10 +542,10 @@ namespace Geotools.IO
 				//writer.Write("M");
 				for (int i = 0; i < multiPolygon.GetNumGeometries(); i++) 
 				{
-					if (i > 0) 
+					/*if (i > 0 && (i<multiPolygon.GetNumGeometries()-1) ) 
 					{
 						writer.Write(", ");
-					}
+					}*/
 					AppendPolygonText((Polygon) multiPolygon.GetGeometryN(i), writer);
 				}
 				//writer.Write("Z");

@@ -22,7 +22,7 @@
 using System;
 using System.Collections;
 using System.Diagnostics;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Algorithms;
 using Geotools.Graph;
 using Geotools.Graph.Index;

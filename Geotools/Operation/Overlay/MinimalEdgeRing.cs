@@ -22,7 +22,7 @@
 #region Using
 using System;
 using Geotools.Graph;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Algorithms;
 #endregion
 

@@ -21,7 +21,7 @@
 #region Using
 using System;
 using System.Diagnostics;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Algorithms;
 #endregion
 

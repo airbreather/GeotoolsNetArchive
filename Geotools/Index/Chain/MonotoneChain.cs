@@ -21,7 +21,7 @@
 #region Using
 using System;
 using System.Diagnostics;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.Index.Chain

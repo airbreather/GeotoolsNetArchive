@@ -21,7 +21,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace Geotools.SimpleFeatures
+namespace Geotools.Geometries
 {
 	/// <summary>
 	/// The exception that is thrown when a non-fatal application error occurs related to NotRepresentable functionality.

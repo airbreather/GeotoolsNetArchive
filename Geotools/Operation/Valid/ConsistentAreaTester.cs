@@ -25,7 +25,7 @@ using System.Collections;
 using Geotools.Algorithms;
 using Geotools.Graph;
 using Geotools.Graph.Index;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Operation.Relate;
 #endregion
 

@@ -21,7 +21,7 @@
 
 #region Using
 using System;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.Operation.Valid
@@ -29,7 +29,7 @@ namespace Geotools.Operation.Valid
 	/// <summary>
 	/// Summary description for TopologyValidationError.
 	/// </summary>
-	internal class TopologyValidationError
+	public class TopologyValidationError
 	{
 		public static int Error                   = 0;
 		public static int RepeatedPoint          = 1;

@@ -21,7 +21,7 @@
 #region Using Statements
 
 using System;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 
 #endregion
 
@@ -29,15 +29,23 @@ using Geotools.SimpleFeatures;
 namespace Geotools.Algorithms
 {
 	/// <summary>
-	/// Summary description for NonRobustCGAlgorithms.
+	/// Implemention of the CGAlgorithms using non-robust algorithms.
 	/// </summary>
-	internal class NonRobustCGAlgorithms : CGAlgorithms
+	/// <remarks>
+	/// Geometric algorithms involve a combination of combinatorial and numerical computation.
+	/// As with all numerical computation using finite-precision numbers, the algorithms chosen are
+	/// susceptible to problems of robustness. A robustness problem occurs when a numerical
+	/// calculation produces an inexact answer due to round-off errors. Robustness problems are
+	/// especially serious in geometric computation, since the numerical errors can propagate into
+	/// the combinatorial computations and result in complete failure of the algorithm.
+	/// </remarks>
+	public class NonRobustCGAlgorithms : CGAlgorithms
 	{
 
 		LineIntersector _lineIntersector = new RobustLineIntersector();		
 		
 		/// <summary>
-		/// 
+		///  Initializes a new instance of the NonRobustCGAlgorithms class.
 		/// </summary>
 		public NonRobustCGAlgorithms()
 		{

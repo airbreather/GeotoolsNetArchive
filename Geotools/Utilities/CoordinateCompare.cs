@@ -22,7 +22,7 @@
 #region Using statements
 using System;
 using System.Collections;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 #endregion
 
 namespace Geotools.Utilities

@@ -27,7 +27,7 @@ using System.CodeDom.Compiler;
 namespace Geotools.IO
 {
 	/// <summary>
-	/// Writes a coordinate system object out as Well Known Text.
+	/// Writes a coordinate system object out as Well Known Text (WKT).
 	/// </summary>
 	public class CoordinateSystemWktWriter
 	{

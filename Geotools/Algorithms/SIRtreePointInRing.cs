@@ -22,7 +22,7 @@
 
 using System;
 using System.Collections;
-using Geotools.SimpleFeatures;
+using Geotools.Geometries;
 using Geotools.Index.IntervalTree;
 using Geotools.Index.STRTree;
 
