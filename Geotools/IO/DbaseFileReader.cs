@@ -33,7 +33,7 @@ namespace Geotools.IO
 	public class DbaseFileReader  : IEnumerable
 	{
 
-		private class DbaseFileEnumerator : IEnumerator
+		private class DbaseFileEnumerator : IEnumerator, IDisposable
 		{
 			DbaseFileReader _parent;
 			ArrayList _arrayList;
@@ -50,6 +50,14 @@ namespace Geotools.IO
 				_dbfStream = new BinaryReader(stream);
 				ReadHeader();
 			}
+
+			public void Dispose()
+			{
+				if (_dbfStream!=null)
+				{
+					_dbfStream.Close();
+				}
+			}
 			#region Implementation of IEnumerator
 			public void Reset()
 			{
@@ -58,24 +66,6 @@ namespace Geotools.IO
 
 			public bool MoveNext()
 			{
-				/*bool finished = true;
-				if (_iCurrentRecord <_header.NumRecords)
-				{
-					_arrayList = this.Read();
-					if (_arrayList!=null)
-					{
-						finished=false;
-					}
-					
-				}
-				else
-				{
-					this._dbfStream.Close();
-				}
-				_iCurrentRecord++;
-				bool end = _arrayList == null;
-				//return !end;
-				return finished;*/
 				_iCurrentRecord++;
 				if (_iCurrentRecord <=_header.NumRecords)
 				{
