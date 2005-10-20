@@ -31,8 +31,8 @@
 using System;
 using System.IO;
 using System.Xml;
-using NUnit.Framework;
 using Microsoft.XmlDiffPatch;
+using NUnit.Framework;
 using Geotools.CoordinateReferenceSystems;
 using Geotools.IO;
 #endregion
@@ -48,9 +48,7 @@ namespace Geotools.UnitTests.IO
 		/* tests the reader and the writer by round-tripping an xml file
 		 * 
 		 * */
-
-
-		XmlDiff _xmlDiff=null;
+		XmlDiff _xmlDiff=null; 
 
 		public CoordinateSystemXmlReaderTest() 
 		{
