@@ -20,9 +20,6 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Data;
-using System.Diagnostics;
-using System.Globalization;
 using com.vividsolutions.jts.geom;
 
 namespace Geotools.IO
@@ -35,6 +32,8 @@ namespace Geotools.IO
 		private ShapefileWriter _shpWriter;
 		private DbaseFileWriter _dbfWriter;
 		private bool _disposed = false;
+
+		private string _filename;
 		
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ShapefileDataWriter">ShapefileDataWriter</see> class.
@@ -44,19 +43,41 @@ namespace Geotools.IO
 		/// <param name="fields">An <see cref="DbaseFieldDescriptor">DbaseFieldDescriptor[]</see> containing the data column definitions.</param>
 		/// <remarks>
 		/// The <see cref="ShapefileDataWriter.Close">Close</see> method must be called in order to update 
-		/// the underlying file headers.  If see cref="ShapefileDataWriter.Close">Close</see> is not called 
+		/// the underlying file headers.  If <see cref="ShapefileDataWriter.Close">Close</see> is not called 
 		/// the underlying files may be in an invalid state.
 		/// </remarks>
 		public ShapefileDataWriter(string filename, GeometryFactory factory, DbaseFieldDescriptor[] fields)
 		{
+			_filename = filename;
 			// This may need to have more logic to it to ensure we end up with the proper paths....
-			_shpWriter = new ShapefileWriter(filename, factory);
-			_dbfWriter = new DbaseFileWriter(Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename) + ".dbf"));
+			_shpWriter = new ShapefileWriter(_filename, factory);
+			_dbfWriter = new DbaseFileWriter(GetDbasefilename(_filename));
 
 			for (int i = 0; i < fields.Length; i++)
 			{
 				_dbfWriter.AddColumn(fields[i]);
 			}
+		}
+
+		private static string GetDbasefilename(string filename)
+		{
+			string dbaseFilename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename) + ".dbf");
+			return dbaseFilename;
+		}
+		
+		
+		/// <summary>
+		/// Creates a <see cref="ShapefileDataWriter"/> that appends to a shapefile instead of creating a new one.
+		/// </summary>
+		/// <param name="filename">The filename to append to.</param>
+		/// <param name="factory">The Geometry factory to use.</param>
+		public ShapefileDataWriter(string filename, GeometryFactory factory)
+		{		
+			// appends
+			_filename = filename;
+			_shpWriter = new ShapefileWriter(filename, factory,true);
+			_dbfWriter = new DbaseFileWriter(GetDbasefilename(_filename),true);
+
 		}
 
 		/// <summary>

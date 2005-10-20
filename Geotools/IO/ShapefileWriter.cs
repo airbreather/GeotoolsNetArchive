@@ -51,9 +51,9 @@ namespace Geotools.IO
 		/// <param name="filename">The name of the file to write.</param>
 		/// <param name="factory">The <b>GeometryFactory</b> to use.</param>
 		/// <exception cref="ArgumentNullException">The factory is a null reference (Nothing in Visual Basic).</exception>
-		public ShapefileWriter(string filename, GeometryFactory factory)
+		public ShapefileWriter(string filename, GeometryFactory factory): this(filename,factory, false )
 		{
-			if (factory == null)
+			/*if (factory == null)
 			{
 				throw new ArgumentNullException("factory");
 			}
@@ -64,9 +64,78 @@ namespace Geotools.IO
 
 			// Write dummy headers as place holders
 			this.WriteHeader(_shpWriter,0);
-			this.WriteHeader(_shxWriter,0);
+			this.WriteHeader(_shxWriter,0);*/
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ShapefileWriter">ShapefileWriter</see> class with the specified filename and factory .
+		/// </summary>
+		/// <param name="filename">The name of the file to write.</param>
+		/// <param name="factory">The <b>GeometryFactory</b> to use.</param>
+		/// <param name="append"></param>
+		/// <exception cref="ArgumentNullException">The factory is a null reference (Nothing in Visual Basic).</exception>
+		public ShapefileWriter(string filename, GeometryFactory factory, bool append)
+		{
+			if (factory == null)
+			{
+				throw new ArgumentNullException("factory");
+			}
+
+			_factory = factory;
+			string shxFilename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename) + ".shx");
+
+
+			if (append)
+			{
+				if (File.Exists(filename)==false || File.Exists(shxFilename)==false)
+				{
+					throw new ArgumentException("Cannot append to a file that does not exist.");
+				}
+				
+				ShapefileHeader shpHeader = null;
+				ShapefileHeader shxHeader = null;
+				using (Stream stream = File.Open(filename, FileMode.Open))
+				{
+					using (BigEndianBinaryReader beBinaryReader = new BigEndianBinaryReader(stream))
+					{
+						shpHeader = new ShapefileHeader(beBinaryReader);
+					}
+				}
+				using (Stream stream = File.Open(shxFilename, FileMode.Open))
+				{
+					using (BigEndianBinaryReader beBinaryReader = new BigEndianBinaryReader(stream))
+					{
+						shxHeader = new ShapefileHeader(beBinaryReader);
+					}
+				}
+				this._type = shpHeader.ShapeType;
+				this._shpLength = shpHeader.FileLength;
+				this._bounds = shpHeader.Bounds;
+				this._count = (shxHeader.FileLength-50)/4;
+			
+
+				_shpWriter = new BigEndianBinaryWriter(File.Open(filename, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite));
+				_shxWriter = new BigEndianBinaryWriter(File.Open(shxFilename, FileMode.Open,FileAccess.ReadWrite, FileShare.ReadWrite));
+				
+				// Write dummy headers as place holders
+				this.WriteHeader(_shpWriter,0);
+				this.WriteHeader(_shxWriter,0);
+				_shpWriter.BaseStream.Position = _shpWriter.BaseStream.Length;
+				_shxWriter.BaseStream.Position = _shxWriter.BaseStream.Length;
+
+			}
+			else
+			{
+				_shpWriter = new BigEndianBinaryWriter(File.Open(filename, FileMode.CreateNew));
+				_shxWriter = new BigEndianBinaryWriter(File.Open(shxFilename, FileMode.CreateNew));
+				
+				// Write dummy headers as place holders
+				this.WriteHeader(_shpWriter,0);
+				this.WriteHeader(_shxWriter,0);
+			}
+		}
+
+		
 		/// <summary>
 		/// Writes a <b>Geometry</b> to the file.
 		/// </summary>
@@ -170,7 +239,11 @@ namespace Geotools.IO
 			_shxWriter.Flush();
 		}
 
-		private void WriteHeader(BigEndianBinaryWriter writer, int length)
+		public static void Test()
+		{
+			
+		}
+		public void WriteHeader(BigEndianBinaryWriter writer, int length)
 		{
 			ShapefileHeader header = new ShapefileHeader();
 

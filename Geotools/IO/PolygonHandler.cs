@@ -25,6 +25,7 @@ using System.Diagnostics;
 //using Geotools.Geometries;
 using com.vividsolutions.jts.geom;
 using com.vividsolutions.jts.algorithm;
+using com.vividsolutions.jts.geom.impl;
 
 namespace Geotools.IO
 {
@@ -56,7 +57,7 @@ namespace Geotools.IO
 		/// <summary>
 		/// Reads a stream and converts the shapefile record to an equilivent geometry object.
 		/// </summary>
-		/// <param name="file">The stream to read.</param>
+		/// <param name="reader">The stream to read.</param>
 		/// <param name="factory">The geometry factory to use when making the object.</param>
 		/// <returns>The Geometry object that represents the shape file record.</returns>
 
@@ -112,7 +113,7 @@ namespace Geotools.IO
 					coords[i] = coord;
 				}
 
-				LinearRing ring = factory.createLinearRing(coords);
+				LinearRing ring = factory.createLinearRing(new PackedCoordinateSequence.Float(coords, 2));
 
 				if (com.vividsolutions.jts.algorithm.RobustCGAlgorithms.isCCW(coords))
 				{
@@ -196,9 +197,8 @@ namespace Geotools.IO
 		/// Writes a <b>Geometry</b> to the given binary wirter.
 		/// </summary>
 		/// <param name="geometry">The geometry to write.</param>
-		/// <param name="file">The file stream to write to.</param>
-		/// <param name="geometryFactory">The geometry factory to use.</param>
-
+		/// <param name="writer">The file stream to write to.</param>
+		/// <param name="factory">The geometry factory to use.</param>
 		public override void Write(Geometry geometry, BinaryWriter writer, GeometryFactory factory)
 		{
 			/* This makes exporting really slow for complex polygons
@@ -241,12 +241,13 @@ namespace Geotools.IO
 				// offset to the shell points
 				Polygon polygon = (Polygon)multi.getGeometryN(part);
 				writer.Write(offset);
-				offset = offset + polygon.shell.getNumPoints();
+				offset = offset + polygon.getExteriorRing().getNumPoints();
 				// offstes to the holes
-				foreach (LinearRing ring in polygon.holes)
+
+				for (int i = 0; i < polygon.getNumInteriorRing(); i++)
 				{
 					writer.Write(offset);
-					offset = offset + ring.getNumPoints();
+					offset = offset + polygon.getInteriorRingN(i).getNumPoints();
 				}	
 			}
 
@@ -255,16 +256,17 @@ namespace Geotools.IO
 			for (int part = 0; part < multi.getNumGeometries(); part++)
 			{
 				Polygon poly = (Polygon)multi.getGeometryN(part);
-				Coordinate[] coords = poly.shell.getCoordinates();
+				Coordinate[] coords = poly.getExteriorRing().getCoordinates();
 				if (com.vividsolutions.jts.algorithm.RobustCGAlgorithms.isCCW(coords)==true)
 				{
 					Array.Reverse(coords);
 					//coords = coords.ReverseCoordinateOrder();
 				}
 				WriteCoords(coords, writer, factory);
-				foreach(LinearRing ring in poly.holes)
+
+				for (int i = 0; i < poly.getNumInteriorRing(); i++)
 				{
-					Coordinate[] coords2 = ring.getCoordinates();
+					Coordinate[] coords2 = poly.getInteriorRingN(i).getCoordinates();
 					if (com.vividsolutions.jts.algorithm.RobustCGAlgorithms.isCCW(coords2)==false)
 					{
 						Array.Reverse(coords2);
@@ -309,7 +311,7 @@ namespace Geotools.IO
 			}
 			else if (geometry is Polygon)
 			{
-				numParts = ((Polygon)geometry).holes.Length + 1;
+				numParts = ((Polygon)geometry).getNumInteriorRing() + 1;
 			}
 			else
 			{

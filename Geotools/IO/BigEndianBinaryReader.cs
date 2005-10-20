@@ -59,20 +59,12 @@ namespace Geotools.IO
 		/// <returns></returns>
 		public int ReadIntBE()
 		{
-			// big endian
-			byte[] byteArray = new byte[4];
-			int iBytesRead = this.Read(byteArray, 0, 4);
-			Debug.Assert(iBytesRead == 4);
-			
-			int i = byteArray[0 + 0];
-			i = i << 8;
-			i = i | byteArray[0 + 1];
-			i = i << 8;
-			i = i | byteArray[0 + 2]; 
-			i = i << 8;
-			i = i | byteArray[0 + 3];
-			
-			return i;
+			uint value = this.ReadUInt32();
+
+			return (int)(((value & 0x000000ff) << 24) +
+				((value & 0x0000ff00) << 8) +
+				((value & 0x00ff0000) >> 8) +
+				((value & 0xff000000) >> 24)); 
 		}
 	}
 }

@@ -132,7 +132,7 @@ namespace Geotools.IO
     
 		#endregion
 
-		#region Methods
+			#region Methods
 		/// <summary>
 		///  Add a column to this DbaseFileHeader.
 		/// </summary>
@@ -422,13 +422,13 @@ namespace Geotools.IO
 			writer.Write((byte)0x0D);
 		}
 
-		public void UpdateRecordCount(BinaryWriter writer, int recordCount)
+		/*public void UpdateRecordCount(BinaryWriter writer, int recordCount)
 		{
 			writer.Seek(5, SeekOrigin.Begin);
 
 			_numRecords = recordCount;
 			writer.Write(_numRecords);
-		}
+		}*/
 
 		/// <summary>
 		/// Returns the fields in the dbase file.

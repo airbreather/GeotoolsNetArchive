@@ -71,7 +71,7 @@ namespace Geotools.IO
 		public static DbaseFieldDescriptor ShapeField()
 		{
 			DbaseFieldDescriptor shpfield = new DbaseFieldDescriptor();
-			shpfield.Name="WkbGeometry";
+			shpfield.Name="Geometry";
 			shpfield._type='B';
 			return shpfield;
 		}

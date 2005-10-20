@@ -47,10 +47,9 @@ namespace Geotools.IO
 		/// <summary>
 		/// Reads a stream and converts the shapefile record to an equilivent geometry object.
 		/// </summary>
-		/// <param name="file">The stream to read.</param>
-		/// <param name="geometryFactory">The geometry factory to use when making the object.</param>
+		/// <param name="reader">The stream to read.</param>
+		/// <param name="factory">The geometry factory to use when making the object.</param>
 		/// <returns>The Geometry object that represents the shape file record.</returns>
-
 		public override Geometry Read(BigEndianBinaryReader reader, GeometryFactory factory)
 		{	
 			if (this.GetShapeType(reader) != ShapeType.Point)
@@ -69,9 +68,8 @@ namespace Geotools.IO
 		/// Writes to the given stream the equilivent shape file record given a Geometry object.
 		/// </summary>
 		/// <param name="geometry">The geometry object to write.</param>
-		/// <param name="file">The stream to write to.</param>
-		/// <param name="geometryFactory">The geometry factory to use.</param>
-
+		/// <param name="writer">The stream to write to.</param>
+		/// <param name="factory">The geometry factory to use.</param>
 		public override void Write(Geometry geometry, BinaryWriter writer, GeometryFactory factory)
 		{
 			writer.Write((int)this.ShapeType);

@@ -22,6 +22,7 @@ using System.IO;
 using System.Collections;
 using System.Diagnostics;
 using com.vividsolutions.jts.geom;
+using com.vividsolutions.jts.geom.impl;
 
 namespace Geotools.IO
 {
@@ -141,12 +142,13 @@ namespace Geotools.IO
 
 		private LineString CreateWKBLineString(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			return _factory.createLineString(this.ReadCoordinates(reader, byteOrder));
+			
+			return _factory.createLineString(new PackedCoordinateSequence.Float(this.ReadCoordinates(reader, byteOrder), 2));
 		}
 
 		private LinearRing CreateWKBLinearRing(BinaryReader reader, WKBByteOrder byteOrder)
 		{
-			return _factory.createLinearRing(this.ReadCoordinates(reader, byteOrder));
+			return _factory.createLinearRing(new PackedCoordinateSequence.Float(this.ReadCoordinates(reader, byteOrder), 2));
 		}
 
 		private Polygon CreateWKBPolygon(BinaryReader reader, WKBByteOrder byteOrder)

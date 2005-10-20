@@ -200,8 +200,8 @@ namespace Geotools.CoordinateTransformations
 		/// <summary>
 		/// Converts coordinates in decimal degrees to projected meters.
 		/// </summary>
-		/// <param name="dLongitude">The longitude in decimal degrees.</param>
-		/// <param name="dLatitude">The latitude in decimal degrees.</param>
+		/// <param name="x">The longitude in decimal degrees.</param>
+		/// <param name="y">The latitude in decimal degrees.</param>
 		/// <param name="metersX">The resulting x coordinate in projected meters.</param>
 		/// <param name="metersY">The resutting y coordinate in projected meters.</param>
 		public override void DegreesToMeters(double x, double y,out double metersX, out double metersY)
@@ -256,8 +256,8 @@ namespace Geotools.CoordinateTransformations
 		/// <summary>
 		/// Converts coordinates in projected meters to decimal degrees.
 		/// </summary>
-		/// <param name="dX">The x coordinate in projected meters.</param>
-		/// <param name="dY">The y coordinate in projected meters.</param>
+		/// <param name="x">The x coordinate in projected meters.</param>
+		/// <param name="y">The y coordinate in projected meters.</param>
 		/// <param name="dLongitude">The resulting longitude in decimal degrees.</param>
 		/// <param name="dLatitude">The resulitng latitude in decimal degrees.</param>
 		public override void MetersToDegrees(double x, double y,out double dLongitude, out double dLatitude) 

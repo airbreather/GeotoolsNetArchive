@@ -1,5 +1,6 @@
 /*
- *  Copyright (C) 2002 Urban Science Applications, Inc.
+ *  Copyright (C) 2002 Urban Science Applications, Inc. (translated from Java Topology Suite, 
+ *  Copyright 2001 Vivid Solutions)
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -17,27 +18,33 @@
  *
  */
 
-
 #region Using
 using System;
 #endregion
 
-namespace Geotools.Utilities
+namespace Geotools.Graph
 {
 	/// <summary>
-	/// Converts radians to degress.
+	/// Summary description for Position.
 	/// </summary>
-	public class Radians
+	internal class Position
 	{
-		
+		public static int On      = 0;
+		public static int Left    = 1;
+		public static int Right   = 2;
+
+		#region Static methods
 		/// <summary>
-		/// Converts radians to degress.
+		/// Returns the opposite of the supplied position.
 		/// </summary>
-		/// <param name="radians">Angle in radians.</param>
-		/// <returns>The angle in degrees.</returns>
-		public static double ToDegrees(double radians)
+		/// <param name="position">The position from which the opposite will be computed.</param>
+		/// <returns>Returns the opposite position of supplied position.</returns>
+		public static int Opposite(int position)
 		{
-			return radians * 57.29577951308232;;
+			if (position == Left) return Right;
+			if (position == Right) return Left;
+			return position;
 		}
+		#endregion
 	}
 }

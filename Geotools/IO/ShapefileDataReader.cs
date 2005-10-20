@@ -89,7 +89,7 @@ namespace Geotools.IO
 		DbaseFileHeader _dbfHeader;
 		bool _moreRecords = false;
 		int _recordCount=0;
-		byte[] _wkb;
+		//byte[] _wkb;
 //		GeometryWKBWriter _wkbWriter;
 
 		#region Constructors
@@ -174,36 +174,22 @@ namespace Geotools.IO
 			bool moreDbfRecords = _dbfEnumerator.MoveNext();
 			bool moreShpRecords = _shpEnumerator.MoveNext();
 
-			if (moreDbfRecords==false)
-			{
-				int a=0;
-				a++;
-			}
-			if (moreShpRecords==false)
-			{
-				int b=0;
-				b++;
-			}
+			
 			_moreRecords = moreDbfRecords && moreShpRecords;
 		
-			//bool moreRecords = _currentRecord < _dbfReader.GetHeader().NumRecords;
+			// could be an empty shapefile
+			if (_moreRecords)
+			{
+				
+				_shpRecord = (Geometry)_shpEnumerator.Current;
+
+				// get current dbase record
+				_columnValues = (ArrayList)_dbfEnumerator.Current;
+
+				// insert wkb as first record
+				_columnValues.Insert(0, _shpRecord);
+			}
 			
-
-			//Debug.Assert(moreDbfRecords==moreShpRecords==moreRecords,"Differing number of records in shape and .dbf file");
-
-			// get current shape 
-			_shpRecord = (Geometry)_shpEnumerator.Current;
-
-			// convert to wkb
-			_wkb = GeometryWKBWriter.GetBytes(_shpRecord, _geometryFactory, WKBByteOrder.Ndr);
-
-			// get current dbase record
-			_columnValues = (ArrayList)_dbfEnumerator.Current;
-
-			// insert wkb as first record
-			_columnValues.Insert(0,_wkb );
-			
-			//Debug.Assert(moreDbfRecords!=moreShpRecords,"Number of records in .dbf and .shp do not match.");
 			return _moreRecords;
 		}
 
@@ -460,7 +446,14 @@ namespace Geotools.IO
 		}
 		#endregion
 
-		
+		/// <summary>
+		/// Gets an <see cref="ArrayList"/> of values. The first item in the array is the geometry.
+		/// </summary>
+		/// <returns>An <see cref="ArrayList"/> of values</returns>
+		public ArrayList GetValues()
+		{
+			return new ArrayList(_columnValues);
+		}
 		/// <summary>
 		/// Gets the header for the Shapefile.
 		/// </summary>

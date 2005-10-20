@@ -41,6 +41,7 @@ namespace Geotools.IO
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GeometryWKBWriter">GeometryWKBWriter</see> class.
 		/// </summary>
+		/// <param name="writer">The <b>GeometryFactory</b> used when writing geometries.</param>
 		/// <param name="factory">The <b>GeometryFactory</b> used when writing geometries.</param>
 		public GeometryWKBWriter(BinaryWriter writer, GeometryFactory factory)
 		{

@@ -1,5 +1,6 @@
 /*
- *  Copyright (C) 2002 Urban Science Applications, Inc.
+ *  Copyright (C) 2002 Urban Science Applications, Inc. (translated from Java Topology Suite, 
+ *  Copyright 2001 Vivid Solutions)
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -17,27 +18,41 @@
  *
  */
 
-
 #region Using
 using System;
+using Geotools.Geometries;
 #endregion
 
-namespace Geotools.Utilities
+namespace Geotools.Graph
 {
 	/// <summary>
-	/// Converts radians to degress.
+	/// Summary description for NodeFactory.
 	/// </summary>
-	public class Radians
+	internal class NodeFactory
 	{
-		
+		#region Constructors
 		/// <summary>
-		/// Converts radians to degress.
+		/// Initializes a new instance of the NodeFactory class.
 		/// </summary>
-		/// <param name="radians">Angle in radians.</param>
-		/// <returns>The angle in degrees.</returns>
-		public static double ToDegrees(double radians)
+		public NodeFactory()
 		{
-			return radians * 57.29577951308232;;
 		}
+		#endregion
+
+		
+
+		#region Methods
+		/// <summary>
+		/// Returns the newly created coord object.
+		/// </summary>
+		/// <param name="coord"></param>
+		/// <returns></returns>
+		public virtual Node CreateNode( Coordinate coord )		//TODO: should this be a static method??
+		{
+			return new Node( coord, null );
+		}
+
+		#endregion
+
 	}
 }
