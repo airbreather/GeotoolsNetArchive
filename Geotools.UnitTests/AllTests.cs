@@ -20,9 +20,10 @@ namespace Geotools.UnitTests
 		{
 			// gets the filename of the dll (as it was originally compiled).
 			// we can then determine the root.
-			string dll = Assembly.GetExecutingAssembly().CodeBase.ToLower();
+			/*string dll = Assembly.GetExecutingAssembly().CodeBase.ToLower();
 			string dir = dll.Replace("/bin/debug/geotools.unittests.dll","");
-			dir = dir.Replace("file:///","");
+			dir = dir.Replace("file:///","");*/
+			string dir = @"d:\Projects\Geotools\Geotools.UnitTests";
 			return dir;
 		}
 	}

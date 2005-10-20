@@ -59,7 +59,7 @@
                     OutputPath = "bin\Release\"
                     RegisterForComInterop = "false"
                     RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
+                    TreatWarningsAsErrors = "true"
                     WarningLevel = "4"
                 />
             </Settings>
@@ -87,7 +87,7 @@
                 <Reference
                     Name = "vjslib"
                     AssemblyName = "vjslib"
-                    HintPath = "c:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\vjslib.dll"
+                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\vjslib.dll"
                 />
                 <Reference
                     Name = "JTS"
@@ -364,6 +364,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CoordinateSystems\LinearUnits\Feet.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CoordinateSystems\LinearUnits\Kilometers.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -375,6 +380,11 @@
                 />
                 <File
                     RelPath = "CoordinateSystems\LinearUnits\Miles.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CoordinateSystems\LinearUnits\Yards.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -439,10 +449,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CoordinateTransformations\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "CoordinateTransformations\MathTransformations\AbridgedMolodenski.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -492,13 +498,29 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CoordinateTransformations\Projections\TransverseMercatorProjection.cs"
+                    RelPath = "CoordinateTransformations\Projections\ProjectionFilter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "CoordinateTransformations\Projections\vssver.scc"
-                    BuildAction = "None"
+                    RelPath = "CoordinateTransformations\Projections\ProjectionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CoordinateTransformations\Projections\Projections.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CoordinateTransformations\Projections\ReverseProjectionFilter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "CoordinateTransformations\Projections\TransverseMercatorProjection.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
                 />
                 <File
                     RelPath = "IO\BigEndianBinaryReader.cs"
@@ -671,10 +693,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "IO\vssver.scc"
-                    BuildAction = "None"
-                />
-                <File
                     RelPath = "IO\WKBByteOrder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
@@ -726,6 +744,11 @@
                 />
                 <File
                     RelPath = "Utilities\Degrees.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utilities\GeometryHelper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

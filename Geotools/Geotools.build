@@ -74,22 +74,22 @@
 		 
 		<!-- compile UrbanScience.dll -->
         <csc target="library" output="${bin.dir}\${project.name}.dll"  doc="${bin.dir}\${project.name}.xml" debug="${Debug}">
-            <sources basedir=".">
-				<includes name="**.cs"/>
-           </sources>
-			<references basedir="bin\Debug">
-            <includes name="System.dll"/>
-		<includes name="DevelopmentStatus.dll"/>
-		    </references>
+        	<sources basedir=".">
+			<includes name="**.cs"/>
+          	 </sources>
+		<references basedir="bin\Debug">
+            		<includes name="System.dll"/>
+			<includes name="JTS.dll"/>
+			
+		</references>
 <!--
             <arg value="/warnaserror"/>
 -->
-            <arg value="/nologo"/>
-            <arg value="/nowarn:1591"/>
+            	<arg value="/nologo"/>
+           	<arg value="/nowarn:1591"/>
         </csc>
         
 
         
     </target> 
 </project>
-

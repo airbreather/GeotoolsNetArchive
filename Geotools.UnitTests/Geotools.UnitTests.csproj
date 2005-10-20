@@ -80,24 +80,19 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
-                    Name = "XmlDiffPatch"
-                    AssemblyName = "XmlDiffPatch"
-                    HintPath = "bin\Debug\XmlDiffPatch.dll"
-                />
-                <Reference
-                    Name = "vjslib"
-                    AssemblyName = "vjslib"
-                    HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\vjslib.dll"
-                />
-                <Reference
                     Name = "System.Drawing"
                     AssemblyName = "System.Drawing"
                     HintPath = "..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Drawing.dll"
                 />
                 <Reference
-                    Name = "Geotools"
-                    Project = "{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                    Name = "vjslib"
+                    AssemblyName = "vjslib"
+                    HintPath = "..\..\..\..\..\..\WINDOWS\Microsoft.NET\Framework\v1.1.4322\vjslib.dll"
+                />
+                <Reference
+                    Name = "nunit.framework"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "..\bin\nunit.framework.dll"
                 />
                 <Reference
                     Name = "JTS"
@@ -105,9 +100,9 @@
                     HintPath = "..\bin\JTS.dll"
                 />
                 <Reference
-                    Name = "nunit.framework"
-                    AssemblyName = "nunit.framework"
-                    HintPath = "..\bin\nunit.framework.dll"
+                    Name = "Geotools"
+                    Project = "{E5D68F1B-8AF2-49E2-AD93-457FCC548E77}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
         </Build>
@@ -162,10 +157,6 @@
                     RelPath = "CoordinateSystems\HorizontalDatumTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "CoordinateSystems\Improvements.htm"
-                    BuildAction = "Content"
                 />
                 <File
                     RelPath = "CoordinateSystems\LinearUnitTest.cs"
@@ -254,11 +245,6 @@
                 />
                 <File
                     RelPath = "IO\CoordinateSystemWktWriterTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "IO\CoordinateSystemXmlReaderTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -479,6 +465,10 @@
                     RelPath = "Utilities\TestAirDistance.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Utilities\vssver.scc"
+                    BuildAction = "None"
                 />
             </Include>
         </Files>
